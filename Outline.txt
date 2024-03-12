@@ -1,0 +1,32 @@
+﻿Outline
+
+
+1. Problem statement.
+2. Motivation.
+2.1 Why we need generalization.
+2.2 Motivation for Graph Neural networks.     
+3. Related Work.
+4. Preliminaries and Background
+   1. Brief overview of essential concepts.
+   2. Definitions of key terms and technologies used.
+5. Model Architecture
+5.1 Graph Convolution network.(GCN)
+5.2 Graph Attention Network.(GAT)
+5.1 Relational GNN with LSTM or GRU.
+5.2 Graph Transformer Networks + GCN.
+6. Methodology
+6.1 Graph representation of games.
+6.2 Apply the neural network architecture.
+7. CNN based model.
+8. Experiments and Evaluation Criteria for GNNs.
+8.1 GCN with PPO for optimisation
+8.2 GAT with PPO for optimisation
+8.3 Relational GNN with LSTM with PPO for optimisation.
+
+
+8.4 Relational GNN with transformer with PPO for optimisation.
+
+
+8.5 Evaluation criteria. 
+9. Conclusion.
+10. References.
