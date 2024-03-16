@@ -1,28 +1,47 @@
 ﻿Outline
 
 
-1. Problem statement.
-2. Motivation.
-2.1 Why we need generalization.
-2.2 Motivation for Graph Neural networks.     
-3. Related Work.
-4. Preliminaries and Background
-   1. Brief overview of essential concepts.
-   2. Definitions of key terms and technologies used.
-5. Model Architecture
-   5.1 Graph Convolution network.(GCN)
-   5.2 Graph Attention Network.(GAT)
-   5.3 Relational GNN with LSTM or GRU.
-   5.4 Graph Transformer Networks + GCN.
-6. Methodology
-   6.1 Graph representation of games.
-   6.2 Apply the neural network architecture.
-7. CNN based model.
-8. Experiments and Evaluation Criteria for GNNs.
-   8.1 GCN with PPO for optimisation
-   8.2 GAT with PPO for optimisation
-   8.3 Relational GNN with LSTM with PPO for optimisation.
-   8.4 Relational GNN with transformer with PPO for optimisation.
-   8.5 Evaluation criteria. 
-9. Conclusion.
-10. References.
+
+1. Motivation.
+2.1 Why we need generalization. Sclability, Robustness, humanlike intelligence, 
+2.2 Motivation for Graph Neural networks. Rich representation, Relational reasoning, transferability, 
+2. Problem Statement
+   - MDP formulation.
+   - Objective- maximum reward and optimal policy.
+3. Background. 
+   - Graphs
+   - GNNs, GCN, GAT, GNN-RNN.
+   - PPO.
+4. Related Work.
+5. Approach
+5.1 Graph topology
+   -Full Mesh: Every node is connected to every other node, ideal for dense interaction environments.
+   -Proximity-based Graph: Nodes are connected based on spatial or conceptual proximity, useful for local interaction scenarios.
+   -Predicate-based Graph: Connections are formed based on specific conditions or predicates, fitting for rule-based interactions.
+
+5.2 Suitability of Graph Topology for Different Games
+1. Pong - Full mesh or proximity based, Why?.
+2. Freeway - Proximity based, Why?.
+3. Pacman - Predicate based, Why?.
+4. Breakout - Predicate based, Why?.
+   
+
+5.3Suitability of GNN Architecture for Different Games
+1. Pong - GCN, Why?
+2. Freeway - GCN or GAT, Why?.
+3. Pacman - GCN+RNN, Why?.
+4. Breakout - GCN+RNN, Why?.
+
+5.4 Edge Encoding for Different Games
+
+5.5 Training procedure
+1. COnvert to graph for the state. 
+2. Pass to gnn or gnn-rnn.
+3. optimise using ppo.
+5.5 Evaluation Procedure
+Testing the model in a variety of game scenarios, possibly unseen during training, to gauge its adaptability and performance.
+Evaluation Metrics
+Win Rate: The percentage of games won by the AI agent.
+Score: Numerical score achieved, reflecting the agent's efficiency or skill.
+8. Conclusion.
+9. References.
