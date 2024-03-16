@@ -38,9 +38,9 @@
 1. COnvert to graph for the state. 
 2. Pass to gnn or gnn-rnn.
 3. optimise using ppo.
-5.5 Evaluation Procedure
+5.6 Evaluation Procedure
 Testing the model in a variety of game scenarios, possibly unseen during training, to gauge its adaptability and performance.
-Evaluation Metrics
+5.7 Evaluation Metrics
 Win Rate: The percentage of games won by the AI agent.
 Score: Numerical score achieved, reflecting the agent's efficiency or skill.
 8. Conclusion.
