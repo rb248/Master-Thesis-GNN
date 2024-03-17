@@ -20,17 +20,17 @@
    -Predicate-based Graph: Connections are formed based on specific conditions or predicates, fitting for rule-based interactions.
 
 5.2 Suitability of Graph Topology for Different Games
-1. Pong - Full mesh or proximity based, Why?.
-2. Freeway - Proximity based, Why?.
-3. Pacman - Predicate based, Why?.
-4. Breakout - Predicate based, Why?.
+1. Pong - Full mesh or proximity based, Why? because of constant interactions between all the objects.
+2. Freeway - Proximity based, only necessary to know nearby objects like cars to make an action
+3. Pacman - Predicate based, because position of ghost ,pellets wall etc interactions are useful.
+4. Breakout - Predicate based, capture dynamic interactions
    
 
 5.3Suitability of GNN Architecture for Different Games
-1. Pong - GCN, Why?
-2. Freeway - GCN or GAT, Why?.
-3. Pacman - GCN+RNN, Why?.
-4. Breakout - GCN+RNN, Why?.
+1. Pong - GCN or GAT, they can capture relational dependencies in the game.
+2. Freeway - GCN or GAT, they can capture relational dependencies in the game.
+3. Pacman - GCN+RNN, temporal nature and strategy making for timing of using powerups and evading the ghosts.
+4. Breakout - GCN+RNN, temporal nature and strategy for maximising bricks broken will help rnn.
 
 5.4 Edge Encoding for Different Games
 
