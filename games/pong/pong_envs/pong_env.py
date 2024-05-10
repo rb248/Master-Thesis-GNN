@@ -313,12 +313,17 @@ class PongEnvRel(gym.Env):
         # Calculate edges based on iscloseTo predicate
         objects = [(self.ball.x, self.ball.y), (self.left_paddle.x, self.left_paddle.y), (self.right_paddle.x, self.right_paddle.y), (0, self.height), (0, 0)]
         edge_index = []
+        edge_attr = []
         for i in range(len(objects)):
             for j in range(i + 1, len(objects)):
                 dist = np.linalg.norm(np.array(objects[i]) - np.array(objects[j]))
                 if dist < self.proximity_threshold:
                     edge_index.append([i, j])
                     edge_index.append([j, i])
+                    edge_attr.append([1.0 / (dist + 1)])  # Example attribute: inverse distance
+
+        edge_index = torch.tensor(edge_index, dtype=torch.long)
+        edge_attr = torch.tensor(edge_attr, dtype=torch.float)
 
         edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
 
