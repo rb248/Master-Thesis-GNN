@@ -1,44 +1,44 @@
-from turtle import Turtle
+import pygame
 
-try:
-	score = int(open('highestScore.txt', 'r').read())
-except FileNotFoundError:
-	score = open('highestScore.txt', 'w').write(str(0))
-except ValueError:
-	score = 0
-FONT = ('arial', 18, 'normal')
+class Scoreboard:
+    def __init__(self, screen, lives, font=('arial', 18), color=(255, 255, 255)):
+        self.screen = screen
+        self.font = pygame.font.SysFont(*font)
+        self.color = color
+        self.lives = lives
+        self.score = 0
+        self.highScore = self.load_high_score()
+        self.rect = pygame.Rect(10, 10, 300, 40)  # Adjust size as needed
+        self.update_score()
 
+    def load_high_score(self):
+        try:
+            with open('highestScore.txt', 'r') as file:
+                return int(file.read())
+        except (FileNotFoundError, ValueError):
+            with open('highestScore.txt', 'w') as file:
+                file.write('0')
+            return 0
 
-class Scoreboard(Turtle):
-	def __init__(self, lives):
-		super().__init__()
-		self.color('white')
-		self.penup()
-		self.hideturtle()
-		self.highScore = score
-		self.goto(x=-580, y=260)
-		self.lives = lives
-		self.score = 0
-		self.update_score()
+    def update_score(self):
+        self.text = f"Score: {self.score} | Highest Score: {self.highScore} | Lives: {self.lives}"
+        self.text_surface = self.font.render(self.text, True, self.color)
 
-	def update_score(self):
-		self.clear()
-		self.write(f"Score: {self.score} | Highest Score: \
-		{self.highScore} | Lives: {self.lives}", align='left', 
-				font=FONT)
+    def increase_score(self):
+        self.score += 1
+        if self.score > self.highScore:
+            self.highScore = self.score
+        self.update_score()
 
-	def increase_score(self):
-		self.score += 1
-		if self.score > self.highScore:
-			self.highScore += 1
-		self.update_score()
+    def decrease_lives(self):
+        self.lives -= 1
+        self.update_score()
 
-	def decrease_lives(self):
-		self.lives -= 1
-		self.update_score()
+    def reset(self):
+        self.score = 0
+        self.update_score()
+        with open('highestScore.txt', 'w') as file:
+            file.write(str(self.highScore))
 
-	def reset(self):
-		self.clear()
-		self.score = 0
-		self.update_score()
-		open('highestScore.txt', 'w').write(str(self.highScore))
+    def draw(self):
+        self.screen.blit(self.text_surface, (self.rect.x, self.rect.y))

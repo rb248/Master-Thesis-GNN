@@ -594,7 +594,8 @@ class Game:
 
             self.clock.tick(10)
 
-    def do_next(self, message, left, block_list, ghost_list, self.pacman_collide, wall_list, gate):
+    def do_next(self, message, left, block_list, ghost_list, pacman_collide, wall_list, gate):
+        
         """
         Go to next configuration in the game
         :param message:
@@ -612,6 +613,7 @@ class Game:
         :param gate:
         :type gate:
         """
+       
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

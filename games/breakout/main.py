@@ -7,171 +7,164 @@ from bricks import Bricks
 import time
 
 
-screen = tr.Screen()
-screen.setup(width=1200, height=600)
-screen.bgcolor('black')
-screen.title('Breakout')
-screen.tracer(0)
+import pygame
+import sys
 
-ui = UI()
+# Initialize Pygame
+pygame.init()
+
+# Set up the display
+screen_width = 1200
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Breakout')
+
+# Initialize Pygame
+
+
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Breakout')
+pygame.init()
+
+# Clock to manage game speed
+clock = pygame.time.Clock()
+
+# Initialize game components
+ui = UI(screen)
 ui.header()
 
-score = Scoreboard(lives=5)
-paddle = Paddle()
-bricks = Bricks()
+scoreboard = Scoreboard(screen, lives=5)
+paddle = Paddle(screen)
+bricks = Bricks(screen)
+ball = Ball(screen)
+# Clock to manage game speed
+clock = pygame.time.Clock()
 
-
-ball = Ball()
 
 game_paused = False
 playing_game = True
 
 
 def pause_game():
-	global game_paused
-	if game_paused:
-		game_paused = False
-	else:
-		game_paused = True
+    global game_paused
+    if game_paused:
+        game_paused = False
+    else:
+        game_paused = True
 
 
-screen.listen()
-screen.onkey(key='Left', fun=paddle.move_left)
-screen.onkey(key='Right', fun=paddle.move_right)
-screen.onkey(key='space', fun=pause_game)
+def check_collision_with_walls(ball, score, ui, playing_game):
+    # detect collision with left and right walls:
+    if ball.rect.left <= 0 or ball.rect.right >= screen_width:
+        ball.bounce(x_bounce=True, y_bounce=False)
+
+    # detect collision with upper wall
+    if ball.rect.top <= 0:
+        ball.bounce(x_bounce=False, y_bounce=True)
+
+    # detect collision with bottom wall
+    if ball.rect.bottom >= screen_height:
+        ball.reset()
+        score.decrease_lives()
+        if score.lives == 0:
+            score.reset()
+            playing_game = False
+            ui.game_over(win=False)
+        else:
+            ui.change_color()
 
 
-def check_collision_with_walls():
+def check_collision_with_paddle(ball, paddle):
+    if ball.rect.colliderect(paddle.rect):
+        # Determine the collision side and bounce accordingly
+        center_ball = ball.rect.centerx
+        center_paddle = paddle.rect.centerx
 
-	global ball, score, playing_game, ui
-
-	# detect collision with left and right walls:
-	if ball.xcor() < -580 or ball.xcor() > 570:
-		ball.bounce(x_bounce=True, y_bounce=False)
-		return
-
-	# detect collision with upper wall
-	if ball.ycor() > 270:
-		ball.bounce(x_bounce=False, y_bounce=True)
-		return
-
-	# detect collision with bottom wall
-	# In this case, user failed to hit the ball 
-	# thus he loses. The game resets.
-	if ball.ycor() < -280:
-		ball.reset()
-		score.decrease_lives()
-		if score.lives == 0:
-			score.reset()
-			playing_game = False
-			ui.game_over(win=False)
-			return
-		ui.change_color()
-		return
+        if center_ball < center_paddle:  # Ball hits the left side of the paddle
+            ball.bounce(x_bounce=True, y_bounce=True)
+        elif center_ball > center_paddle:  # Ball hits the right side of the paddle
+            ball.bounce(x_bounce=True, y_bounce=True)
+        else:
+            # Ball hits the middle of the paddle
+            ball.bounce(x_bounce=False, y_bounce=True)
 
 
-def check_collision_with_paddle():
-
-	global ball, paddle
-	# record x-axis coordinates of ball and paddle
-	paddle_x = paddle.xcor()
-	ball_x = ball.xcor()
-
-	# check if ball's distance(from its middle) 
-	# from paddle(from its middle) is less than
-	# width of paddle and ball is below a certain 
-	#coordinate to detect their collision
-	if ball.distance(paddle) < 110 and ball.ycor() < -250:
-
-		# If Paddle is on Right of Screen
-		if paddle_x > 0:
-			if ball_x > paddle_x:
-				# If ball hits paddles left side it
-				# should go back to left
-				ball.bounce(x_bounce=True, y_bounce=True)
-				return
-			else:
-				ball.bounce(x_bounce=False, y_bounce=True)
-				return
-
-		# If Paddle is left of Screen
-		elif paddle_x < 0:
-			if ball_x < paddle_x:
-				# If ball hits paddles left side it 
-				# should go back to left
-				ball.bounce(x_bounce=True, y_bounce=True)
-				return
-			else:
-				ball.bounce(x_bounce=False, y_bounce=True)
-				return
-
-		# Else Paddle is in the Middle horizontally
-		else:
-			if ball_x > paddle_x:
-				ball.bounce(x_bounce=True, y_bounce=True)
-				return
-			elif ball_x < paddle_x:
-				ball.bounce(x_bounce=True, y_bounce=True)
-				return
-			else:
-				ball.bounce(x_bounce=False, y_bounce=True)
-				return
+def check_collision_with_bricks(ball, score, bricks):
+    for brick in bricks.bricks:
+        if ball.rect.colliderect(brick.rect):
+            score.increase_score()
+            brick.quantity -= 1
+            if brick.quantity == 0:
+                bricks.bricks.remove(brick)
+            # Determine collision direction
+            # Note: Simple version without precise side detection
+            ball.bounce(x_bounce=False, y_bounce=True)
+            break
 
 
-def check_collision_with_bricks():
-	global ball, score, bricks
-
-	for brick in bricks.bricks:
-		if ball.distance(brick) < 40:
-			score.increase_score()
-			brick.quantity -= 1
-			if brick.quantity == 0:
-				brick.clear()
-				brick.goto(3000, 3000)
-				bricks.bricks.remove(brick)
-
-			# detect collision from left
-			if ball.xcor() < brick.left_wall:
-				ball.bounce(x_bounce=True, y_bounce=False)
-
-			# detect collision from right
-			elif ball.xcor() > brick.right_wall:
-				ball.bounce(x_bounce=True, y_bounce=False)
-
-			# detect collision from bottom
-			elif ball.ycor() < brick.bottom_wall:
-				ball.bounce(x_bounce=False, y_bounce=True)
-
-			# detect collision from top
-			elif ball.ycor() > brick.upper_wall:
-				ball.bounce(x_bounce=False, y_bounce=True)
+# Game state variables
+game_paused = False
+playing_game = True
 
 
+def pause_game():
+    global game_paused
+    game_paused = not game_paused
+    if game_paused:
+        ui.paused_status()
+    else:
+        ui.header()
+
+
+# Main game loop
 while playing_game:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            playing_game = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                pause_game()
 
-	if not game_paused:
+    # Continuous key checks for paddle movement
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        paddle.move_left()
+    if keys[pygame.K_RIGHT]:
+        paddle.move_right()
 
-		# UPDATE SCREEN WITH ALL THE MOTION THAT HAS HAPPENED
-		screen.update()
-		time.sleep(0.01)
-		ball.move()
+    if not game_paused:
+        screen.fill((0, 0, 0))  # Clear the screen
 
-		# DETECTING COLLISION WITH WALLS
-		check_collision_with_walls()
+        # Move and draw game elements
+        
+        paddle.draw()
+        bricks.draw()
+        scoreboard.draw()
+        
+        ball.draw()
+        ball.move()
+        # Collision detection
+        # Assuming this method also handles the bounce
+        check_collision_with_walls(ball, scoreboard, ui, playing_game)
 
-		# DETECTING COLLISION WITH THE PADDLE
-		check_collision_with_paddle()
+        if scoreboard.lives == 0:
+            scoreboard.reset()
+            ui.game_over(False)
+            playing_game = False
 
-		# DETECTING COLLISION WITH A BRICK
-		check_collision_with_bricks()
-		
-		# DETECTING USER'S VICTORY
-		if len(bricks.bricks) == 0:
-			ui.game_over(win=True)
-			break
+        # Method to handle ball-paddle collision
+        check_collision_with_paddle(ball, paddle)
 
-	else:
-		ui.paused_status()
+        # Method handling ball-brick collisions
+        check_collision_with_bricks(ball, scoreboard, bricks)
 
+        # Check game win condition
+        if len(bricks.bricks) == 0:
+            ui.game_over(True)
+            playing_game = False
 
-tr.mainloop()
+        pygame.display.flip()  # Update the screen
+    clock.tick(60)  # Limit the frame rate to 60 frames per second
+
+pygame.quit()
+sys.exit()

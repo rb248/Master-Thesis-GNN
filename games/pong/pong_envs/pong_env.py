@@ -26,6 +26,7 @@ class PongEnv(gym.Env):
         self.clock = pygame.time.Clock() 
         self.ai_reaction_time = 2  # milliseconds
         self.np_random = None
+        self.frame_buffer = np.zeros((self.height, self.width, 4), dtype=np.uint8)
     
     def seed(self, seed=None):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
@@ -62,11 +63,14 @@ class PongEnv(gym.Env):
         if self.render_mode == "rgb_array":
             frame = pygame.surfarray.array3d(pygame.display.get_surface())
             # Convert to grayscale
-            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140])
-            return grayscale.astype(np.uint8) 
+            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)
+            # Update frame buffer, pushing back older frames
+            self.frame_buffer = np.roll(self.frame_buffer, shift=-1, axis=2)
+            self.frame_buffer[:, :, 3] = grayscale
+            return self.frame_buffer
         else:
             # Return a dummy observation if not in rgb_array mode
-            return np.zeros((self.height, self.width), dtype=np.uint8)
+            return self.frame_buffer
         return None
     
     def _apply_action(self, action):

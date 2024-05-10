@@ -4,17 +4,29 @@ from turtle import Turtle
 MOVE_DIST = 70
 
 
-class Paddle(Turtle):
-	def __init__(self):
-		super().__init__()
-		self.color('steel blue')
-		self.shape('square')
-		self.penup()
-		self.shapesize(stretch_wid=1, stretch_len=10)
-		self.goto(x=0, y=-280)
+import pygame
 
-	def move_left(self):
-		self.backward(MOVE_DIST)
+class Paddle:
+    def __init__(self, screen, width=200, height=20, move_dist=70):
+        self.screen = screen
+        self.width = width
+        self.height = height
+        self.move_dist = move_dist
+        self.color = (70, 130, 180)  # Steel blue
+        self.rect = pygame.Rect((screen.get_width() / 2 - width / 2, 
+                                 screen.get_height() - 40, 
+                                 width, 
+                                 height))
 
-	def move_right(self):
-		self.forward(MOVE_DIST)
+    def draw(self):
+        pygame.draw.rect(self.screen, self.color, self.rect)
+
+    def move_left(self):
+        # Check if the paddle is not going beyond the left screen edge
+        if self.rect.x > 0:
+            self.rect.x -= self.move_dist
+
+    def move_right(self):
+        # Check if the paddle is not going beyond the right screen edge
+        if self.rect.x + self.width < self.screen.get_width():
+            self.rect.x += self.move_dist
