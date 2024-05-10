@@ -298,43 +298,54 @@ class PongEnvRel(gym.Env):
         return observation, reward, done, False, {}
 
     
+    
+
     def get_graph_data(self):
-        # Feature vectors setup
-        ball_features = [self.ball.x, self.ball.y, self.ball_speed_x, self.ball_speed_y, 1, 0, 0, 0, 0]
-        left_paddle_features = [self.left_paddle.x,self.left_paddle.y , 0, 0, 0, 1, 0, 0, 0, 0]
-        right_paddle_features = [self.right_paddle.x, self.right_paddle.y, 0, 0, 0, 0, 1, 0, 0]
-        top_wall_features = [0, self.height, 0, 0, 0, 0, 0, 1, 0]
-        # Existing code
-        bottom_wall_features = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+        # Define object features
+        ball_features = [self.ball['x'], self.ball['y'], self.ball['speed_x'], self.ball['speed_y'], 1, 0, 0]
+        left_paddle_features = [self.left_paddle['x'], self.left_paddle['y'], 0, 0, 0, 1, 0]
+        right_paddle_features = [self.right_paddle['x'], self.right_paddle['y'], 0, 0, 0, 1, 0]
+        top_wall_features = [0, self.top_wall['y'], 0, 0, 0, 0, 1]
+        bottom_wall_features = [0, self.bottom_wall['y'], 0, 0, 0, 0, 1]
 
-        # Combine all features into a single tensor
-        features = torch.tensor([ball_features, left_paddle_features, right_paddle_features, top_wall_features, bottom_wall_features], dtype=torch.float)
-
-        # Calculate edges based on iscloseTo predicate
-        objects = [(self.ball.x, self.ball.y), (self.left_paddle.x, self.left_paddle.y), (self.right_paddle.x, self.right_paddle.y), (0, self.height), (0, 0)]
+        # Combine object features
+        object_features = [ball_features, left_paddle_features, right_paddle_features, top_wall_features, bottom_wall_features]
+        
+        # Initialize tensors for PyG
+        x = torch.tensor(object_features, dtype=torch.float)
         edge_index = []
         edge_attr = []
-        for i in range(len(objects)):
-            for j in range(i + 1, len(objects)):
-                dist = np.linalg.norm(np.array(objects[i]) - np.array(objects[j]))
+
+        num_objects = len(object_features)
+        positions = [(feat[0], feat[1]) for feat in object_features]  # Position is first two features
+
+        # Calculate proximity and create atoms based on it
+        atom_features = []
+        atom_index = num_objects  # Start indexing atoms after all objects
+
+        for i in range(num_objects):
+            for j in range(i + 1, num_objects):
+                dist = np.linalg.norm(np.array(positions[i]) - np.array(positions[j]))
                 if dist < self.proximity_threshold:
-                    edge_index.append([i, j])
-                    edge_index.append([j, i])
-                    edge_attr.append([1.0 / (dist + 1)])  # Example attribute: inverse distance
+                    # Create an atom for this proximity
+                    proximity_atom_features = [0]*2*len(ball_features) # Example atom features
+                    atom_features.append(proximity_atom_features)
+                    # Add edges between the atom and involved objects
+                    edge_index.extend([[atom_index, i], [atom_index, j]]) 
 
-        edge_index = torch.tensor(edge_index, dtype=torch.long)
-        edge_attr = torch.tensor(edge_attr, dtype=torch.float)
+                    # edge_attr.extend([[1], [1], [1], [1]])  # Example edge attributes
+                    
+                    atom_index += 1  # Move to next atom index
 
+        # Concatenate object and atom features
+        all_features = torch.cat([x, torch.tensor(atom_features, dtype=torch.float)], dim=0)
+
+        # Convert lists to tensors
         edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-
-        # Feature vector for each edge
-        edge_features = [1.0] * edge_index.size(1)
-        edge_attr = torch.tensor(edge_features, dtype=torch.float).view(-1, 1)
+        #edge_attr = torch.tensor(edge_attr, dtype=torch.float)
 
         # Create the PyTorch Geometric Data object
-        data = Data(x=features, edge_index=edge_index, edge_attr=edge_attr)
-
-        # Create the PyTorch Geometric Data object
+        data = Data(x=all_features, edge_index=edge_index)
         return data
 
 

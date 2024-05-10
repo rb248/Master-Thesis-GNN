@@ -3,6 +3,9 @@ import pygame
 import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
+import torch
+import torch_geometric
+from torch_geometric.data import Data
 
 
 class FreewayEnv(gym.Env):
@@ -16,7 +19,9 @@ class FreewayEnv(gym.Env):
         self.player_width = 30
         self.player_height = 30
         self.car_width = 50
-        self.car_height = 50
+        self.car_height = 50 
+
+        self.lanes = [100, 200, 300, 400, 500, 600, 700]
 
         # Define action and observation space
         # Actions: 0 - Stay, 1 - Move Up, 2 - Move Down
@@ -38,12 +43,12 @@ class FreewayEnv(gym.Env):
 
     def reset(self):
         self.player_rect = pygame.Rect(self.window_width // 2 - self.player_width // 2,
-                                       self.window_height - self.player_height - 10,
-                                       self.player_width, self.player_height)
+                                    self.window_height - self.player_height - 10,
+                                    self.player_width, self.player_height)
         self.score = 0
         self.cars = [{'x': random.randint(0, self.window_width - self.car_width),
-                      'lane': random.choice([100, 200, 300, 400, 500, 600, 700]),
-                      'speed': random.randint(2, 5)} for _ in range(20)]
+                    'lane': random.choice([100, 200, 300, 400, 500, 600, 700]),
+                    'speed': random.randint(2, 5)} for _ in range(20)]
         self.done = False
         self.episode_start_time = pygame.time.get_ticks()
         return self.get_observation()
@@ -74,8 +79,55 @@ class FreewayEnv(gym.Env):
         if self.player_rect.y <= 0:  # Reached top
             self.score += 1
             self.player_rect.y = self.window_height - self.player_height - 10
+        graph_data = self.get_graph_data()
 
         return self.get_observation(), self.score, self.done, {}
+    
+    def get_graph_data(self):
+        # Create node features
+        # Chicken node
+        chicken_node = [self.player_rect.x, self.player_rect.y, 1, 0, 0]
+        # Lane nodes
+        lane_nodes = [[0, lane, 0, 1, 0] for lane in self.lanes]
+        # Car nodes
+        car_nodes = [[car['x'], car['lane'], 0, 0, 1] for car in self.cars]
+
+        # Combine all nodes into a single feature matrix
+        features = torch.tensor([chicken_node] + lane_nodes + car_nodes, dtype=torch.float)
+
+        # Create edges and edge features
+        edge_index = []
+        edge_features = []
+
+        # Add ChickenOnLane edges
+        for i, lane in enumerate(self.lanes):
+            if self.player_rect.y == lane:
+                edge_index.append([0, i + 1])
+                edge_index.append([i + 1, 0])
+                edge_features.append([1, 0, 0])  # ChickenOnLane edge
+                edge_features.append([1, 0, 0])
+
+        # Add CarOnLane edges
+        for j, car in enumerate(self.cars, start=len(self.lanes) + 1):
+            for i, lane in enumerate(self.lanes):
+                if car['lane'] == lane:
+                    edge_index.append([j, i + 1])
+                    edge_index.append([i + 1, j])
+                    edge_features.append([0, 1, 0])  # CarOnLane edge
+                    edge_features.append([0, 1, 0])
+
+        # Add LaneNextToLane edges
+        for i in range(len(self.lanes) - 1):
+            edge_index.append([i + 1, i + 2])
+            edge_index.append([i + 2, i + 1])
+            edge_features.append([0, 0, 1])  # LaneNextToLane edge
+            edge_features.append([0, 0, 1])
+
+        edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+        edge_attr = torch.tensor(edge_features, dtype=torch.float)
+
+        return Data(x=features, edge_index=edge_index, edge_attr=edge_attr)
+            
 
     def render(self, mode='human'):
         self.window.blit(self.background_image, (0, 0))
@@ -107,4 +159,3 @@ if __name__ == "__main__":
     finally:
         print(done)
         env.close() 
-
