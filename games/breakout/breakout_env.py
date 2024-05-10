@@ -27,6 +27,7 @@ class BreakoutEnv(gym.Env):
         pygame.display.set_caption('Breakout')
         pygame.init()
         self.clock = pygame.time.Clock()
+        
 
     def reset(self):
         self.paddle = Paddle(self.screen)

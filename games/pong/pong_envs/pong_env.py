@@ -181,6 +181,7 @@ class PongEnvRel(gym.Env):
         self.ai_reaction_time = 2  # milliseconds
         self.np_random = None
         self.frame_buffer = np.zeros((self.height, self.width, 4), dtype=np.uint8)
+        self.proximity_threshold = 50
     
     def seed(self, seed=None):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
@@ -295,7 +296,7 @@ class PongEnvRel(gym.Env):
         reward += score  # Reward or penalty for scoring/losing a point
         done = self._check_done()
         graph_data = self.get_graph_data()
-        return observation, reward, done, False, {}
+        return observation, reward, done, False, graph_data
 
     
     
@@ -345,7 +346,7 @@ class PongEnvRel(gym.Env):
         #edge_attr = torch.tensor(edge_attr, dtype=torch.float)
 
         # Create the PyTorch Geometric Data object
-        data = Data(x=all_features, edge_index=edge_index)
+        data = Data(x=all_features, edge_index=edge_index) 
         return data
 
 

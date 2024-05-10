@@ -84,49 +84,53 @@ class FreewayEnv(gym.Env):
         return self.get_observation(), self.score, self.done, {}
     
     def get_graph_data(self):
-        # Create node features
-        # Chicken node
-        chicken_node = [self.player_rect.x, self.player_rect.y, 1, 0, 0]
-        # Lane nodes
-        lane_nodes = [[0, lane, 0, 1, 0] for lane in self.lanes]
-        # Car nodes
-        car_nodes = [[car['x'], car['lane'], 0, 0, 1] for car in self.cars]
+        # Node features for chicken, lanes, and cars
+        chicken_node = [self.player_rect['x'], self.player_rect['y'],5, 1, 0, 0]
+        lane_nodes = [[0, lane, 0, 0, 0, 1, 0] for lane in self.lanes]
+        car_nodes = [[car['x'], car['lane'], car['speed'], 0, 0, 1] for car in self.cars]
 
         # Combine all nodes into a single feature matrix
         features = torch.tensor([chicken_node] + lane_nodes + car_nodes, dtype=torch.float)
 
-        # Create edges and edge features
+        # Create edges and edge attributes
         edge_index = []
         edge_features = []
 
-        # Add ChickenOnLane edges
+        # Atom nodes: one for each predicate that might hold true
+        atom_features = []
+        atom_index = len(features)  # Start indexing atoms after all objects
+
+        # Add ChickenOnLane atoms and edges
         for i, lane in enumerate(self.lanes):
-            if self.player_rect.y == lane:
-                edge_index.append([0, i + 1])
-                edge_index.append([i + 1, 0])
-                edge_features.append([1, 0, 0])  # ChickenOnLane edge
-                edge_features.append([1, 0, 0])
+            if self.player_rect['y'] == lane:
+                atom_features.append([0, 0, 0, 0, 1])  # Feature vector for the ChickenOnLane atom
+                edge_index.extend([[0, atom_index], [atom_index, i+1]])
+                edge_features.extend([[1, 0, 0], [1, 0, 0]])
+                atom_index += 1
 
-        # Add CarOnLane edges
-        for j, car in enumerate(self.cars, start=len(self.lanes) + 1):
-            for i, lane in enumerate(self.lanes):
-                if car['lane'] == lane:
-                    edge_index.append([j, i + 1])
-                    edge_index.append([i + 1, j])
-                    edge_features.append([0, 1, 0])  # CarOnLane edge
-                    edge_features.append([0, 1, 0])
+        # Add CarOnLane atoms and edges
+        num_lanes = len(self.lanes)
+        for i, car in enumerate(self.cars, start=num_lanes + 1):
+            car_lane_index = self.lanes.index(car['lane']) + 1
+            atom_features.append([0, 0, 0, 0, 1])  # Feature vector for the CarOnLane atom
+            edge_index.extend([[i, atom_index], [atom_index, car_lane_index]])
+            atom_index += 1
 
-        # Add LaneNextToLane edges
-        for i in range(len(self.lanes) - 1):
-            edge_index.append([i + 1, i + 2])
-            edge_index.append([i + 2, i + 1])
-            edge_features.append([0, 0, 1])  # LaneNextToLane edge
-            edge_features.append([0, 0, 1])
+        # Add LaneNextToLane atoms and edges
+        for i in range(num_lanes - 1):
+            atom_features.append([0]*2*len(chicken_node))  # Feature vector for the LaneNextToLane atom
+            edge_index.extend([[i + 1, atom_index], [atom_index, i + 2]])
+            edge_features.extend([[0, 0, 1], [0, 0, 1]])
+            atom_index += 1
 
+        # Concatenate all features and convert to tensors
+        all_features = torch.cat([features, torch.tensor(atom_features, dtype=torch.float)], dim=0)
         edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
         edge_attr = torch.tensor(edge_features, dtype=torch.float)
 
-        return Data(x=features, edge_index=edge_index, edge_attr=edge_attr)
+        # Create the PyTorch Geometric Data object
+        data = Data(x=all_features, edge_index=edge_index, edge_attr=edge_attr)
+        return data
             
 
     def render(self, mode='human'):
