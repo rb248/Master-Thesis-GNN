@@ -1,0 +1,237 @@
+2024-06-03 12:13:14,679 INFO    StreamThr :48539 [internal.py:wandb_internal():85] W&B internal server running at pid: 48539, started at: 2024-06-03 12:13:14.675578
+2024-06-03 12:13:14,680 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: status
+2024-06-03 12:13:14,682 INFO    WriterThread:48539 [datastore.py:open_for_write():87] open: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/run-ktsc5gvr.wandb
+2024-06-03 12:13:14,684 DEBUG   SenderThread:48539 [sender.py:send():378] send: header
+2024-06-03 12:13:14,754 DEBUG   SenderThread:48539 [sender.py:send():378] send: run
+2024-06-03 12:13:16,308 INFO    SenderThread:48539 [dir_watcher.py:__init__():211] watching files in: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files
+2024-06-03 12:13:16,309 INFO    SenderThread:48539 [sender.py:_start_run_threads():1123] run started: ktsc5gvr with start time 1717409594.677644
+2024-06-03 12:13:16,319 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: check_version
+2024-06-03 12:13:16,319 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: check_version
+2024-06-03 12:13:16,529 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: run_start
+2024-06-03 12:13:16,543 DEBUG   HandlerThread:48539 [system_info.py:__init__():26] System info init
+2024-06-03 12:13:16,543 DEBUG   HandlerThread:48539 [system_info.py:__init__():41] System info init done
+2024-06-03 12:13:16,543 INFO    HandlerThread:48539 [system_monitor.py:start():194] Starting system monitor
+2024-06-03 12:13:16,543 INFO    SystemMonitor:48539 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-03 12:13:16,543 INFO    HandlerThread:48539 [system_monitor.py:probe():214] Collecting system info
+2024-06-03 12:13:16,546 INFO    SystemMonitor:48539 [interfaces.py:start():188] Started cpu monitoring
+2024-06-03 12:13:16,546 INFO    SystemMonitor:48539 [interfaces.py:start():188] Started disk monitoring
+2024-06-03 12:13:16,551 INFO    SystemMonitor:48539 [interfaces.py:start():188] Started gpuapple monitoring
+2024-06-03 12:13:16,555 INFO    SystemMonitor:48539 [interfaces.py:start():188] Started memory monitoring
+2024-06-03 12:13:16,556 INFO    SystemMonitor:48539 [interfaces.py:start():188] Started network monitoring
+2024-06-03 12:13:16,694 ERROR   HandlerThread:48539 [gpu_apple.py:probe():176] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 164, in probe
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-03 12:13:16,698 DEBUG   HandlerThread:48539 [system_info.py:probe():150] Probing system
+2024-06-03 12:13:16,707 DEBUG   HandlerThread:48539 [system_info.py:_probe_git():135] Probing git
+2024-06-03 12:13:16,761 DEBUG   HandlerThread:48539 [system_info.py:_probe_git():143] Probing git done
+2024-06-03 12:13:16,761 DEBUG   HandlerThread:48539 [system_info.py:probe():198] Probing system done
+2024-06-03 12:13:16,762 DEBUG   HandlerThread:48539 [system_monitor.py:probe():223] {'os': 'macOS-14.0-arm64-arm-64bit', 'python': '3.10.14', 'heartbeatAt': '2024-06-03T10:13:16.698532', 'startedAt': '2024-06-03T10:13:14.659756', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '-m games.pong.test', 'codePathLocal': None, 'git': {'remote': 'https://github.com/rb248/Master-Thesis-GNN.git', 'commit': '414fbfbf520713ae3605334f0933526d743a4076'}, 'email': 'rishabhbhatia315@gmail.com', 'root': '/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN', 'host': 'rishubs-MacBook-Pro.local', 'username': 'rishubbhatia', 'executable': '/Users/rishubbhatia/miniforge3/envs/games/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'cpu_freq': {'current': 3204, 'min': 600, 'max': 3204}, 'cpu_freq_per_core': [{'current': 3204, 'min': 600, 'max': 3204}], 'disk': {'/': {'total': 228.27386474609375, 'used': 9.143505096435547}}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 8.0}}
+2024-06-03 12:13:16,762 INFO    HandlerThread:48539 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-03 12:13:16,762 INFO    HandlerThread:48539 [system_monitor.py:probe():227] Publishing system info
+2024-06-03 12:13:16,762 DEBUG   HandlerThread:48539 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-03 12:13:16,771 ERROR   gpuapple  :48539 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-03 12:13:17,309 INFO    Thread-12 :48539 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/conda-environment.yaml
+2024-06-03 12:13:18,908 ERROR   gpuapple  :48539 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-03 12:13:20,460 DEBUG   HandlerThread:48539 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-03 12:13:20,462 INFO    HandlerThread:48539 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-03 12:13:20,486 DEBUG   SenderThread:48539 [sender.py:send():378] send: files
+2024-06-03 12:13:20,486 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-metadata.json with policy now
+2024-06-03 12:13:20,486 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: status_report
+2024-06-03 12:13:20,636 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-03 12:13:20,637 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: python_packages
+2024-06-03 12:13:20,637 DEBUG   SenderThread:48539 [sender.py:send():378] send: telemetry
+2024-06-03 12:13:20,638 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-03 12:13:20,638 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: stop_status
+2024-06-03 12:13:20,640 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,640 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,641 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,641 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,641 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,641 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,641 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,642 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-03 12:13:20,971 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,972 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,975 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,976 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,976 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,980 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,981 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,981 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,982 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,982 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,982 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,987 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,987 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,987 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,988 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,988 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,988 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,992 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,993 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,993 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,994 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,994 DEBUG   SenderThread:48539 [sender.py:send():378] send: history
+2024-06-03 12:13:20,994 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: summary_record
+2024-06-03 12:13:20,999 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:20,999 DEBUG   SenderThread:48539 [sender.py:send():378] send: telemetry
+2024-06-03 12:13:20,999 DEBUG   SenderThread:48539 [sender.py:send():378] send: exit
+2024-06-03 12:13:20,999 INFO    SenderThread:48539 [sender.py:send_exit():585] handling exit code: 0
+2024-06-03 12:13:20,999 INFO    SenderThread:48539 [sender.py:send_exit():587] handling runtime: 4
+2024-06-03 12:13:21,000 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:21,001 INFO    SenderThread:48539 [sender.py:send_exit():593] send defer
+2024-06-03 12:13:21,001 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,001 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-03 12:13:21,001 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,001 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-03 12:13:21,001 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 1
+2024-06-03 12:13:21,001 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,001 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-03 12:13:21,001 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,001 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-03 12:13:21,001 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 2
+2024-06-03 12:13:21,001 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,001 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-03 12:13:21,001 INFO    HandlerThread:48539 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-03 12:13:21,001 DEBUG   SystemMonitor:48539 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-03 12:13:21,002 DEBUG   SystemMonitor:48539 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-03 12:13:21,002 INFO    HandlerThread:48539 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-03 12:13:21,002 DEBUG   SystemMonitor:48539 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-03 12:13:21,002 INFO    HandlerThread:48539 [interfaces.py:finish():200] Joined disk monitor
+2024-06-03 12:13:21,062 ERROR   gpuapple  :48539 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-03 12:13:21,062 INFO    HandlerThread:48539 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-03 12:13:21,062 INFO    HandlerThread:48539 [interfaces.py:finish():200] Joined memory monitor
+2024-06-03 12:13:21,062 INFO    HandlerThread:48539 [interfaces.py:finish():200] Joined network monitor
+2024-06-03 12:13:21,062 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,062 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-03 12:13:21,062 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 3
+2024-06-03 12:13:21,062 DEBUG   SenderThread:48539 [sender.py:send():378] send: telemetry
+2024-06-03 12:13:21,063 DEBUG   SenderThread:48539 [sender.py:send():378] send: stats
+2024-06-03 12:13:21,063 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,063 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-03 12:13:21,063 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,063 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-03 12:13:21,063 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 4
+2024-06-03 12:13:21,063 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,063 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-03 12:13:21,063 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,063 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-03 12:13:21,063 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 5
+2024-06-03 12:13:21,063 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,063 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-03 12:13:21,063 DEBUG   SenderThread:48539 [sender.py:send():378] send: summary
+2024-06-03 12:13:21,068 INFO    SenderThread:48539 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-03 12:13:21,068 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,068 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-03 12:13:21,068 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 6
+2024-06-03 12:13:21,068 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:21,068 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-03 12:13:21,068 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:21,068 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-03 12:13:21,070 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: status_report
+2024-06-03 12:13:21,330 INFO    Thread-12 :48539 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/conda-environment.yaml
+2024-06-03 12:13:21,330 INFO    Thread-12 :48539 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/wandb-metadata.json
+2024-06-03 12:13:21,330 INFO    Thread-12 :48539 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/requirements.txt
+2024-06-03 12:13:21,331 INFO    Thread-12 :48539 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/wandb-summary.json
+2024-06-03 12:13:21,641 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:22,617 INFO    wandb-upload_0:48539 [upload_job.py:push():130] Uploaded file /var/folders/my/7z0rbf091qj03p882sd10h_00000gn/T/tmpenijojdwwandb/1tgcp7ll-wandb-metadata.json
+2024-06-03 12:13:23,625 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 7
+2024-06-03 12:13:23,625 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:23,625 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:23,626 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-03 12:13:23,626 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:23,626 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-03 12:13:23,626 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 8
+2024-06-03 12:13:23,626 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:23,627 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-03 12:13:23,627 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:23,627 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-03 12:13:23,627 INFO    SenderThread:48539 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-03 12:13:23,632 INFO    SenderThread:48539 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-03 12:13:23,632 WARNING SenderThread:48539 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-03 12:13:23,632 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 9
+2024-06-03 12:13:23,632 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:23,632 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-03 12:13:23,633 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:23,633 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-03 12:13:23,633 INFO    SenderThread:48539 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-03 12:13:23,645 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:24,345 INFO    SenderThread:48539 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/config.yaml
+2024-06-03 12:13:24,346 INFO    SenderThread:48539 [dir_watcher.py:finish():388] scan: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files
+2024-06-03 12:13:24,347 INFO    SenderThread:48539 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/requirements.txt requirements.txt
+2024-06-03 12:13:24,347 INFO    SenderThread:48539 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/config.yaml config.yaml
+2024-06-03 12:13:24,352 INFO    SenderThread:48539 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/wandb-summary.json wandb-summary.json
+2024-06-03 12:13:24,355 INFO    SenderThread:48539 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/conda-environment.yaml conda-environment.yaml
+2024-06-03 12:13:24,357 INFO    SenderThread:48539 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/wandb-metadata.json wandb-metadata.json
+2024-06-03 12:13:24,357 INFO    SenderThread:48539 [sender.py:transition_state():613] send defer: 10
+2024-06-03 12:13:24,360 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:24,362 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: defer
+2024-06-03 12:13:24,363 INFO    HandlerThread:48539 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-03 12:13:24,363 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: defer
+2024-06-03 12:13:24,363 INFO    SenderThread:48539 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-03 12:13:24,363 INFO    SenderThread:48539 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-03 12:13:24,658 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:24,660 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:24,957 INFO    wandb-upload_2:48539 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/wandb-summary.json
+2024-06-03 12:13:25,166 INFO    wandb-upload_0:48539 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/requirements.txt
+2024-06-03 12:13:25,664 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:25,665 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:26,670 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:26,671 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:27,676 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:27,678 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:28,681 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:28,682 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:29,686 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:29,687 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:30,690 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:30,691 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: status_report
+2024-06-03 12:13:30,692 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:31,692 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:31,692 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:32,696 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-03 12:13:32,696 DEBUG   SenderThread:48539 [sender.py:send_request():405] send_request: poll_exit
+2024-06-03 12:13:35,711 DEBUG   HandlerThread:48539 [handler.py:handle_request():158] handle_request: status_report
+2024-06-03 12:13:39,777 WARNING StreamThr :48539 [internal.py:is_dead():413] Internal process exiting, parent pid 48529 disappeared
+2024-06-03 12:13:39,778 ERROR   StreamThr :48539 [internal.py:wandb_internal():151] Internal process shutdown.
+2024-06-03 12:13:40,734 INFO    WriterThread:48539 [datastore.py:close():296] close: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/run-ktsc5gvr.wandb
+2024-06-03 12:13:40,735 INFO    HandlerThread:48539 [handler.py:finish():882] shutting down handler
+2024-06-03 12:13:40,735 INFO    SenderThread:48539 [sender.py:finish():1545] shutting down sender
+2024-06-03 12:13:40,735 INFO    SenderThread:48539 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-03 12:13:40,735 INFO    SenderThread:48539 [file_pusher.py:join():175] waiting for file pusher
+2024-06-03 12:13:42,580 ERROR   wandb-upload_1:48539 [internal_api.py:upload_file():2738] upload_file exception https://storage.googleapis.com/wandb-production.appspot.com/rwth-ml/my-awesome-project/ktsc5gvr/config.yaml?Expires=1717496004&GoogleAccessId=gorilla-files-url-signer-man%40wandb-production.iam.gserviceaccount.com&Signature=bbXhAn%2BBhvf4vnI33yeNT%2B9Th%2F68qAXC%2BgMaDRf0n4mfUWkDxOCMjp03bChHnQNurfg4tN5XAUZ2iZBoB5vFgPrcAtA%2Blw81cTnp78UJHBgml5fEZcPHPtRYgKRbwJMaAmY8sqM0vtgEeGsDHzKkRMYWK97CaS6XKit24EZepbiO2lfY38gRJ4QhIbrQb%2B6sXtKuAU5cBYCyZm%2Bm1AfqB3Ab0Q94LsQC%2FqVplYBYDdbUPYqeYg1oFIqRxAxXmMW5IdDJRbjyx6Kv2gn5wqquu6uiBBQkEAxXZfjv%2BUuFknVdvHJGLNNeL7W6dfD9zm6SWE9bjkkwDtdN28h%2Fm2wkRA%3D%3D: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2024-06-03 12:13:42,581 ERROR   wandb-upload_1:48539 [internal_api.py:upload_file():2740] upload_file request headers: {'User-Agent': 'python-requests/2.32.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '510'}
+2024-06-03 12:13:42,581 ERROR   wandb-upload_1:48539 [internal_api.py:upload_file():2742] upload_file response body: 
+2024-06-03 12:13:44,076 INFO    wandb-upload_1:48539 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/config.yaml
+2024-06-03 12:13:45,121 INFO    wandb-upload_3:48539 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240603_121314-ktsc5gvr/files/conda-environment.yaml
+2024-06-03 12:13:45,121 INFO    MainThread:48539 [internal.py:handle_exit():75] Internal process exited

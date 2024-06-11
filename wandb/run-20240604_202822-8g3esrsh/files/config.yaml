@@ -1,0 +1,203 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.10.14
+    cli_version: 0.17.0
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1717525702
+    t:
+      1:
+      - 1
+      - 55
+      - 77
+      2:
+      - 1
+      - 55
+      - 77
+      3:
+      - 22
+      - 23
+      - 35
+      4: 3.10.14
+      5: 0.17.0
+      8:
+      - 4
+      - 5
+      13: darwin-arm64
+algo:
+  desc: null
+  value: PPO
+policy_class:
+  desc: null
+  value: <class 'games.model.policy.CustomActorCriticPolicyCNN'>
+device:
+  desc: null
+  value: cpu
+verbose:
+  desc: null
+  value: 0
+policy_kwargs:
+  desc: null
+  value: '{}'
+num_timesteps:
+  desc: null
+  value: 0
+_total_timesteps:
+  desc: null
+  value: 1000000
+_num_timesteps_at_start:
+  desc: null
+  value: 0
+seed:
+  desc: null
+  value: None
+action_noise:
+  desc: null
+  value: None
+start_time:
+  desc: null
+  value: 1717525722759002000
+learning_rate:
+  desc: null
+  value: 0.0003
+tensorboard_log:
+  desc: null
+  value: ./ppo_tensorboard/
+_last_obs:
+  desc: null
+  value: "[[[[0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   ...\n\
+    \   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]]\n\n  [[0 0\
+    \ 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   ...\n   [0 0 0\
+    \ ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]]\n\n  [[0 0 0 ... 0 0\
+    \ 0]\n   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   ...\n   [0 0 0 ... 0 0 0]\n\
+    \   [0 0 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]]\n\n  [[0 0 0 ... 0 0 0]\n   [0 0\
+    \ 0 ... 0 0 0]\n   [0 0 0 ... 0 0 0]\n   ...\n   [0 0 0 ... 0 0 0]\n   [0 0 0\
+    \ ... 0 0 0]\n   [0 0 0 ... 0 0 0]]]]"
+_last_episode_starts:
+  desc: null
+  value: '[ True]'
+_last_original_obs:
+  desc: null
+  value: None
+_episode_num:
+  desc: null
+  value: 0
+use_sde:
+  desc: null
+  value: 'False'
+sde_sample_freq:
+  desc: null
+  value: -1
+_current_progress_remaining:
+  desc: null
+  value: 1.0
+_stats_window_size:
+  desc: null
+  value: 100
+ep_info_buffer:
+  desc: null
+  value: deque([], maxlen=100)
+ep_success_buffer:
+  desc: null
+  value: deque([], maxlen=100)
+_n_updates:
+  desc: null
+  value: 0
+_custom_logger:
+  desc: null
+  value: 'False'
+env:
+  desc: null
+  value: <stable_baselines3.common.vec_env.dummy_vec_env.DummyVecEnv object at 0x16b353ca0>
+_vec_normalize_env:
+  desc: null
+  value: None
+observation_space:
+  desc: null
+  value: Box(0, 255, (4, 600, 800), uint8)
+action_space:
+  desc: null
+  value: Discrete(3)
+n_envs:
+  desc: null
+  value: 1
+n_steps:
+  desc: null
+  value: 2048
+gamma:
+  desc: null
+  value: 0.99
+gae_lambda:
+  desc: null
+  value: 0.95
+ent_coef:
+  desc: null
+  value: 0.0
+vf_coef:
+  desc: null
+  value: 0.5
+max_grad_norm:
+  desc: null
+  value: 0.5
+rollout_buffer_class:
+  desc: null
+  value: <class 'stable_baselines3.common.buffers.RolloutBuffer'>
+rollout_buffer_kwargs:
+  desc: null
+  value: '{}'
+batch_size:
+  desc: null
+  value: 64
+n_epochs:
+  desc: null
+  value: 10
+clip_range:
+  desc: null
+  value: <function get_schedule_fn.<locals>.<lambda> at 0x16b34e8c0>
+clip_range_vf:
+  desc: null
+  value: None
+normalize_advantage:
+  desc: null
+  value: 'True'
+target_kl:
+  desc: null
+  value: None
+lr_schedule:
+  desc: null
+  value: <function get_schedule_fn.<locals>.<lambda> at 0x16b34e9e0>
+rollout_buffer:
+  desc: null
+  value: <stable_baselines3.common.buffers.RolloutBuffer object at 0x16b353f40>
+policy:
+  desc: null
+  value: "CustomActorCriticPolicyCNN(\n  (features_extractor): CustomCNN(\n    (cnn):\
+    \ Sequential(\n      (0): Conv2d(4, 32, kernel_size=(8, 8), stride=(4, 4))\n \
+    \     (1): ReLU()\n      (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1,\
+    \ ceil_mode=False)\n      (3): Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2))\n\
+    \      (4): ReLU()\n      (5): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1,\
+    \ ceil_mode=False)\n      (6): Conv2d(64, 128, kernel_size=(4, 4), stride=(2,\
+    \ 2))\n      (7): ReLU()\n      (8): MaxPool2d(kernel_size=2, stride=2, padding=0,\
+    \ dilation=1, ceil_mode=False)\n      (9): Flatten(start_dim=1, end_dim=-1)\n\
+    \    )\n    (adjust_to_features_dim): Linear(in_features=2560, out_features=64,\
+    \ bias=True)\n  )\n  (pi_features_extractor): FlattenExtractor(\n    (flatten):\
+    \ Flatten(start_dim=1, end_dim=-1)\n  )\n  (vf_features_extractor): FlattenExtractor(\n\
+    \    (flatten): Flatten(start_dim=1, end_dim=-1)\n  )\n  (mlp_extractor): MlpExtractor(\n\
+    \    (policy_net): Sequential(\n      (0): Linear(in_features=1920000, out_features=64,\
+    \ bias=True)\n      (1): Tanh()\n      (2): Linear(in_features=64, out_features=64,\
+    \ bias=True)\n      (3): Tanh()\n    )\n    (value_net): Sequential(\n      (0):\
+    \ Linear(in_features=1920000, out_features=64, bias=True)\n      (1): Tanh()\n\
+    \      (2): Linear(in_features=64, out_features=64, bias=True)\n      (3): Tanh()\n\
+    \    )\n  )\n  (action_net): Linear(in_features=64, out_features=3, bias=True)\n\
+    \  (value_net): Sequential(\n    (0): Linear(in_features=64, out_features=64,\
+    \ bias=True)\n    (1): ReLU()\n    (2): Linear(in_features=64, out_features=1,\
+    \ bias=True)\n  )\n  (policy_net): Sequential(\n    (0): Linear(in_features=64,\
+    \ out_features=64, bias=True)\n    (1): ReLU()\n    (2): Linear(in_features=64,\
+    \ out_features=3, bias=True)\n  )\n)"
+_logger:
+  desc: null
+  value: <stable_baselines3.common.logger.Logger object at 0x16b351570>

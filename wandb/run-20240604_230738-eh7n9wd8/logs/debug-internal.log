@@ -1,0 +1,404 @@
+2024-06-04 23:07:38,496 INFO    StreamThr :49767 [internal.py:wandb_internal():85] W&B internal server running at pid: 49767, started at: 2024-06-04 23:07:38.492579
+2024-06-04 23:07:38,500 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status
+2024-06-04 23:07:38,515 INFO    WriterThread:49767 [datastore.py:open_for_write():87] open: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/run-eh7n9wd8.wandb
+2024-06-04 23:07:38,516 DEBUG   SenderThread:49767 [sender.py:send():378] send: header
+2024-06-04 23:07:38,569 DEBUG   SenderThread:49767 [sender.py:send():378] send: run
+2024-06-04 23:07:39,006 INFO    SenderThread:49767 [dir_watcher.py:__init__():211] watching files in: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files
+2024-06-04 23:07:39,006 INFO    SenderThread:49767 [sender.py:_start_run_threads():1123] run started: eh7n9wd8 with start time 1717535258.499645
+2024-06-04 23:07:39,022 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: check_version
+2024-06-04 23:07:39,023 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: check_version
+2024-06-04 23:07:39,163 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: run_start
+2024-06-04 23:07:39,175 DEBUG   HandlerThread:49767 [system_info.py:__init__():26] System info init
+2024-06-04 23:07:39,175 DEBUG   HandlerThread:49767 [system_info.py:__init__():41] System info init done
+2024-06-04 23:07:39,175 INFO    HandlerThread:49767 [system_monitor.py:start():194] Starting system monitor
+2024-06-04 23:07:39,176 INFO    SystemMonitor:49767 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-04 23:07:39,177 INFO    HandlerThread:49767 [system_monitor.py:probe():214] Collecting system info
+2024-06-04 23:07:39,178 INFO    SystemMonitor:49767 [interfaces.py:start():188] Started cpu monitoring
+2024-06-04 23:07:39,182 INFO    SystemMonitor:49767 [interfaces.py:start():188] Started disk monitoring
+2024-06-04 23:07:39,182 INFO    SystemMonitor:49767 [interfaces.py:start():188] Started gpuapple monitoring
+2024-06-04 23:07:39,184 INFO    SystemMonitor:49767 [interfaces.py:start():188] Started memory monitoring
+2024-06-04 23:07:39,185 INFO    SystemMonitor:49767 [interfaces.py:start():188] Started network monitoring
+2024-06-04 23:07:39,296 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:39,372 ERROR   HandlerThread:49767 [gpu_apple.py:probe():176] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 164, in probe
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:39,373 DEBUG   HandlerThread:49767 [system_info.py:probe():150] Probing system
+2024-06-04 23:07:39,381 DEBUG   HandlerThread:49767 [system_info.py:_probe_git():135] Probing git
+2024-06-04 23:07:39,446 DEBUG   HandlerThread:49767 [system_info.py:_probe_git():143] Probing git done
+2024-06-04 23:07:39,446 DEBUG   HandlerThread:49767 [system_info.py:probe():198] Probing system done
+2024-06-04 23:07:39,446 DEBUG   HandlerThread:49767 [system_monitor.py:probe():223] {'os': 'macOS-14.0-arm64-arm-64bit', 'python': '3.10.14', 'heartbeatAt': '2024-06-04T21:07:39.373074', 'startedAt': '2024-06-04T21:07:38.474780', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '-m games.pong.run_supervised', 'codePathLocal': None, 'git': {'remote': 'https://github.com/rb248/Master-Thesis-GNN.git', 'commit': '414fbfbf520713ae3605334f0933526d743a4076'}, 'email': 'rishabhbhatia315@gmail.com', 'root': '/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN', 'host': 'rishubs-MBP.fritz.box', 'username': 'rishubbhatia', 'executable': '/Users/rishubbhatia/miniforge3/envs/games/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'cpu_freq': {'current': 3204, 'min': 600, 'max': 3204}, 'cpu_freq_per_core': [{'current': 3204, 'min': 600, 'max': 3204}], 'disk': {'/': {'total': 228.27386474609375, 'used': 9.14349365234375}}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 8.0}}
+2024-06-04 23:07:39,446 INFO    HandlerThread:49767 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-04 23:07:39,446 INFO    HandlerThread:49767 [system_monitor.py:probe():227] Publishing system info
+2024-06-04 23:07:39,446 DEBUG   HandlerThread:49767 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-04 23:07:40,010 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/conda-environment.yaml
+2024-06-04 23:07:41,437 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:43,010 DEBUG   HandlerThread:49767 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-04 23:07:43,010 DEBUG   HandlerThread:49767 [system_info.py:_save_code():44] Saving code
+2024-06-04 23:07:43,010 WARNING HandlerThread:49767 [system_info.py:_save_code():46] unable to save code -- program entry not found
+2024-06-04 23:07:43,010 DEBUG   HandlerThread:49767 [system_info.py:_save_patches():82] Saving git patches
+2024-06-04 23:07:43,021 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/conda-environment.yaml
+2024-06-04 23:07:43,302 DEBUG   HandlerThread:49767 [system_info.py:_save_patches():124] Saving git patches done
+2024-06-04 23:07:43,304 INFO    HandlerThread:49767 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-04 23:07:43,325 DEBUG   SenderThread:49767 [sender.py:send():378] send: files
+2024-06-04 23:07:43,325 INFO    SenderThread:49767 [sender.py:_save_file():1389] saving file wandb-metadata.json with policy now
+2024-06-04 23:07:43,325 INFO    SenderThread:49767 [sender.py:_save_file():1389] saving file diff.patch with policy now
+2024-06-04 23:07:43,509 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-04 23:07:43,510 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: python_packages
+2024-06-04 23:07:43,510 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-04 23:07:43,511 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: stop_status
+2024-06-04 23:07:43,552 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:43,827 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:07:43,828 DEBUG   SenderThread:49767 [sender.py:send():378] send: telemetry
+2024-06-04 23:07:44,024 INFO    wandb-upload_0:49767 [upload_job.py:push():130] Uploaded file /var/folders/my/7z0rbf091qj03p882sd10h_00000gn/T/tmp59v2b8qewandb/cbddl0vw-wandb-metadata.json
+2024-06-04 23:07:44,026 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/diff.patch
+2024-06-04 23:07:44,026 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/requirements.txt
+2024-06-04 23:07:44,026 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/wandb-metadata.json
+2024-06-04 23:07:44,347 INFO    wandb-upload_1:49767 [upload_job.py:push():130] Uploaded file /var/folders/my/7z0rbf091qj03p882sd10h_00000gn/T/tmp59v2b8qewandb/osatb6z9-diff.patch
+2024-06-04 23:07:44,751 DEBUG   SenderThread:49767 [sender.py:send():378] send: telemetry
+2024-06-04 23:07:44,839 DEBUG   SenderThread:49767 [sender.py:send():378] send: config
+2024-06-04 23:07:45,029 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:45,703 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:47,038 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:47,912 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:48,839 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:07:49,051 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:50,109 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:51,062 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:52,249 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:53,073 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:53,859 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:07:54,392 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:55,081 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:56,531 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:57,089 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:07:58,516 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-04 23:07:58,517 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: stop_status
+2024-06-04 23:07:58,674 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:07:58,900 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:07:59,097 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:00,822 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:01,104 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:02,990 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:03,115 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:03,915 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:08:05,115 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:05,126 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:07,134 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:07,267 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:08,921 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:08:09,144 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:09,144 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/config.yaml
+2024-06-04 23:08:09,497 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:11,156 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:11,631 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:13,164 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:13,528 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-04 23:08:13,536 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: stop_status
+2024-06-04 23:08:13,777 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:14,121 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:08:15,170 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:16,135 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:17,181 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:18,286 ERROR   gpuapple  :49767 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-04 23:08:19,126 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:08:19,192 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:19,275 DEBUG   SenderThread:49767 [sender.py:send():378] send: exit
+2024-06-04 23:08:19,275 INFO    SenderThread:49767 [sender.py:send_exit():585] handling exit code: 255
+2024-06-04 23:08:19,275 INFO    SenderThread:49767 [sender.py:send_exit():587] handling runtime: 40
+2024-06-04 23:08:19,276 INFO    SenderThread:49767 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-04 23:08:19,276 INFO    SenderThread:49767 [sender.py:send_exit():593] send defer
+2024-06-04 23:08:19,276 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,276 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-04 23:08:19,276 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,276 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-04 23:08:19,276 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 1
+2024-06-04 23:08:19,276 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,276 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-04 23:08:19,277 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,277 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-04 23:08:19,277 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 2
+2024-06-04 23:08:19,277 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,277 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-04 23:08:19,277 INFO    HandlerThread:49767 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-04 23:08:19,277 DEBUG   SystemMonitor:49767 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-04 23:08:19,277 INFO    HandlerThread:49767 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-04 23:08:19,277 DEBUG   SystemMonitor:49767 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-04 23:08:19,277 INFO    HandlerThread:49767 [interfaces.py:finish():200] Joined disk monitor
+2024-06-04 23:08:19,277 DEBUG   SystemMonitor:49767 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-04 23:08:19,277 INFO    HandlerThread:49767 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-04 23:08:19,278 INFO    HandlerThread:49767 [interfaces.py:finish():200] Joined memory monitor
+2024-06-04 23:08:19,278 INFO    HandlerThread:49767 [interfaces.py:finish():200] Joined network monitor
+2024-06-04 23:08:19,278 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,278 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-04 23:08:19,278 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 3
+2024-06-04 23:08:19,278 DEBUG   SenderThread:49767 [sender.py:send():378] send: telemetry
+2024-06-04 23:08:19,278 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,278 DEBUG   SenderThread:49767 [sender.py:send():378] send: stats
+2024-06-04 23:08:19,278 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-04 23:08:19,278 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,278 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-04 23:08:19,278 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 4
+2024-06-04 23:08:19,279 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,279 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-04 23:08:19,279 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,279 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-04 23:08:19,279 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 5
+2024-06-04 23:08:19,279 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,279 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-04 23:08:19,279 DEBUG   SenderThread:49767 [sender.py:send():378] send: summary
+2024-06-04 23:08:19,286 INFO    SenderThread:49767 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-04 23:08:19,286 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,286 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-04 23:08:19,286 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 6
+2024-06-04 23:08:19,287 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,287 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-04 23:08:19,287 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,287 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-04 23:08:19,290 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: status_report
+2024-06-04 23:08:19,496 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 7
+2024-06-04 23:08:19,496 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:19,496 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-04 23:08:19,496 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:19,496 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-04 23:08:20,198 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/config.yaml
+2024-06-04 23:08:20,198 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/wandb-summary.json
+2024-06-04 23:08:20,281 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-04 23:08:21,203 INFO    Thread-12 :49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:21,290 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 8
+2024-06-04 23:08:21,291 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: poll_exit
+2024-06-04 23:08:21,291 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:21,291 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-04 23:08:21,291 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:21,291 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-04 23:08:21,292 INFO    SenderThread:49767 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-04 23:08:21,293 INFO    SenderThread:49767 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-04 23:08:21,293 WARNING SenderThread:49767 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-04 23:08:21,293 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 9
+2024-06-04 23:08:21,294 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:21,294 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-04 23:08:21,294 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:21,294 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-04 23:08:21,294 INFO    SenderThread:49767 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-04 23:08:22,209 INFO    SenderThread:49767 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:22,210 INFO    SenderThread:49767 [dir_watcher.py:finish():388] scan: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files
+2024-06-04 23:08:22,210 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/diff.patch diff.patch
+2024-06-04 23:08:22,210 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/requirements.txt requirements.txt
+2024-06-04 23:08:22,211 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log output.log
+2024-06-04 23:08:22,215 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/config.yaml config.yaml
+2024-06-04 23:08:22,218 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/wandb-summary.json wandb-summary.json
+2024-06-04 23:08:22,222 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/conda-environment.yaml conda-environment.yaml
+2024-06-04 23:08:22,225 INFO    SenderThread:49767 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/wandb-metadata.json wandb-metadata.json
+2024-06-04 23:08:22,225 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 10
+2024-06-04 23:08:22,227 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:22,227 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-04 23:08:22,228 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:22,228 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-04 23:08:22,228 INFO    SenderThread:49767 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-04 23:08:22,296 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-04 23:08:22,297 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: poll_exit
+2024-06-04 23:08:22,628 INFO    wandb-upload_2:49767 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/config.yaml
+2024-06-04 23:08:22,686 INFO    wandb-upload_1:49767 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/output.log
+2024-06-04 23:08:22,694 INFO    wandb-upload_0:49767 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/requirements.txt
+2024-06-04 23:08:22,737 INFO    wandb-upload_3:49767 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/wandb-summary.json
+2024-06-04 23:08:22,813 INFO    wandb-upload_4:49767 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/files/conda-environment.yaml
+2024-06-04 23:08:23,014 INFO    Thread-11 (_thread_body):49767 [sender.py:transition_state():613] send defer: 11
+2024-06-04 23:08:23,015 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:23,015 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-04 23:08:23,015 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:23,015 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-04 23:08:23,015 INFO    SenderThread:49767 [file_pusher.py:join():175] waiting for file pusher
+2024-06-04 23:08:23,016 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 12
+2024-06-04 23:08:23,016 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:23,016 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-04 23:08:23,016 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:23,016 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-04 23:08:23,016 INFO    SenderThread:49767 [file_stream.py:finish():601] file stream finish called
+2024-06-04 23:08:23,248 INFO    SenderThread:49767 [file_stream.py:finish():605] file stream finish is done
+2024-06-04 23:08:23,249 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 13
+2024-06-04 23:08:23,249 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:23,249 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-04 23:08:23,249 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:23,249 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-04 23:08:23,249 INFO    SenderThread:49767 [sender.py:transition_state():613] send defer: 14
+2024-06-04 23:08:23,250 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: defer
+2024-06-04 23:08:23,250 DEBUG   SenderThread:49767 [sender.py:send():378] send: final
+2024-06-04 23:08:23,250 INFO    HandlerThread:49767 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-04 23:08:23,250 DEBUG   SenderThread:49767 [sender.py:send():378] send: footer
+2024-06-04 23:08:23,250 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: defer
+2024-06-04 23:08:23,251 INFO    SenderThread:49767 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-04 23:08:23,252 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-04 23:08:23,252 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-04 23:08:23,252 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: server_info
+2024-06-04 23:08:23,253 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: get_summary
+2024-06-04 23:08:23,253 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: sampled_history
+2024-06-04 23:08:23,253 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: poll_exit
+2024-06-04 23:08:23,253 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-04 23:08:23,253 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: poll_exit
+2024-06-04 23:08:23,254 DEBUG   SenderThread:49767 [sender.py:send_request():405] send_request: server_info
+2024-06-04 23:08:23,418 INFO    MainThread:49767 [wandb_run.py:_footer_history_summary_info():3994] rendering history
+2024-06-04 23:08:23,418 INFO    MainThread:49767 [wandb_run.py:_footer_history_summary_info():4026] rendering summary
+2024-06-04 23:08:23,418 INFO    MainThread:49767 [wandb_run.py:_footer_sync_info():3953] logging synced files
+2024-06-04 23:08:23,420 DEBUG   HandlerThread:49767 [handler.py:handle_request():158] handle_request: shutdown
+2024-06-04 23:08:23,420 INFO    HandlerThread:49767 [handler.py:finish():882] shutting down handler
+2024-06-04 23:08:24,256 INFO    WriterThread:49767 [datastore.py:close():296] close: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240604_230738-eh7n9wd8/run-eh7n9wd8.wandb
+2024-06-04 23:08:24,422 INFO    SenderThread:49767 [sender.py:finish():1545] shutting down sender
+2024-06-04 23:08:24,422 INFO    SenderThread:49767 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-04 23:08:24,422 INFO    SenderThread:49767 [file_pusher.py:join():175] waiting for file pusher

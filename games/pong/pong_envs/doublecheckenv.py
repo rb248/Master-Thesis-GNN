@@ -2,7 +2,7 @@ from pong_env import PongEnv
 
 
 env = PongEnv()
-episodes = 3
+episodes = 100
 
 for episode in range(episodes):
 	done = False

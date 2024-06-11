@@ -89,10 +89,7 @@ while running:
         ball.x, ball.y = screen_width // 2 - ball_size // 2, screen_height // 2 - ball_size // 2
         ball_speed_x, ball_speed_y = -4, 4 * random.choice((1, -1))
 
-    # Update the features
-    nodes = pong_features.update_node_features(nodes, ball, left_paddle, right_paddle, ball_speed_x, ball_speed_y,left_paddle_move, right_paddle_move, paddle_speed,node_width, node_height, grid_width, grid_height)
-    pong_features.update_node_features_graph(G, nodes, grid_width, grid_height)
-
+    
     # Game over check
     if left_player_lives == 0 or right_player_lives == 0:
         running = False  # Stop the game

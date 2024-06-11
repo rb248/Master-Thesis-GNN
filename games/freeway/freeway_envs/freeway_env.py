@@ -6,10 +6,11 @@ from gymnasium import spaces
 import torch
 import torch_geometric
 from torch_geometric.data import Data
-
+from ...encoder.GraphEncoder import GraphConverter
+import networkx as nx
 
 class FreewayEnv(gym.Env):
-    metadata = {'render.modes': ['human']}
+    metadata = {'render.modes': ['human', 'rgb_array']}
 
     def __init__(self):
         super(FreewayEnv, self).__init__()
@@ -27,15 +28,15 @@ class FreewayEnv(gym.Env):
         # Actions: 0 - Stay, 1 - Move Up, 2 - Move Down
         self.action_space = spaces.Discrete(3)
         self.observation_space = spaces.Box(low=0, high=255,
-                                            shape=(self.window_height, self.window_width, 3),
+                                            shape=(self.window_height, self.window_width, 3 * self.frame_stack),
                                             dtype=np.uint8)
-
         # Load images
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
 
-        self.background_image = pygame.transform.scale(pygame.image.load("../../images/Atari - background.png"), (self.window_width, self.window_height))
-        self.player_image = pygame.transform.scale(pygame.image.load("../../images/chicken.png").convert_alpha(), (self.player_width, self.player_height))
-        self.car_image = pygame.transform.scale(pygame.image.load("../../images/car2.png").convert_alpha(), (self.car_width, self.car_height))
+        self.background_image = pygame.transform.scale(pygame.image.load("games/images/Atari - background.png"), (self.window_width, self.window_height))
+        self.player_image = pygame.transform.scale(pygame.image.load("games/images/chicken.png").convert_alpha(), (self.player_width, self.player_height))
+        self.car_image = pygame.transform.scale(pygame.image.load("games/images/car2.png").convert_alpha(), (self.car_width, self.car_height))
+        self.frame_buffer = np.zeros((self.window_height, self.window_width, 3 * self.frame_stack), dtype=np.uint8)
 
         self.clock = pygame.time.Clock()
 
@@ -51,6 +52,7 @@ class FreewayEnv(gym.Env):
                     'speed': random.randint(2, 5)} for _ in range(20)]
         self.done = False
         self.episode_start_time = pygame.time.get_ticks()
+        self.frame_buffer = np.zeros((self.window_height, self.window_width, 3 * self.frame_stack), dtype=np.uint8)
         return self.get_observation()
 
     def step(self, action):
@@ -82,57 +84,73 @@ class FreewayEnv(gym.Env):
         graph_data = self.get_graph_data()
 
         return self.get_observation(), self.score, self.done, {}
-    
+            
     def get_graph_data(self):
-        # Node features for chicken, lanes, and cars
-        chicken_node = [self.player_rect['x'], self.player_rect['y'],5, 1, 0, 0]
-        lane_nodes = [[0, lane, 0, 0, 0, 1, 0] for lane in self.lanes]
-        car_nodes = [[car['x'], car['lane'], car['speed'], 0, 0, 1] for car in self.cars]
+        # Initialize a NetworkX graph
+        graph = nx.Graph()
 
-        # Combine all nodes into a single feature matrix
-        features = torch.tensor([chicken_node] + lane_nodes + car_nodes, dtype=torch.float)
+        # Define object features and add nodes
+        chicken_features = [self.player_rect.x, self.player_rect.y, 5, 1, 0, 0]
+        graph.add_node("chicken", type="object", features=chicken_features)
+        
+        lane_features = [[0, lane, 0, 0, 1, 0] for lane in self.lanes]
+        for i, features in enumerate(lane_features):
+            graph.add_node(f"lane_{i}", type="object", features=features)
 
-        # Create edges and edge attributes
-        edge_index = []
-        edge_features = []
+        car_features = [[car['x'], car['lane'], car['speed'], 0, 0, 1] for car in self.cars]
+        for i, features in enumerate(car_features):
+            graph.add_node(f"car_{i}", type="object", features=features)
 
-        # Atom nodes: one for each predicate that might hold true
-        atom_features = []
-        atom_index = len(features)  # Start indexing atoms after all objects
+        # Combine object positions
+        object_positions = {
+            "chicken": chicken_features[:2],
+        }
+        for i, lane in enumerate(self.lanes):
+            object_positions[f"lane_{i}"] = lane_features[i][:2]
+        for i, car in enumerate(self.cars):
+            object_positions[f"car_{i}"] = car_features[i][:2]
+
+
+        # Create atom nodes and edges based on proximity
+        atom_index = len(object_positions)  # Start indexing atoms after all objects
+        standard_feature_vector_size = len(chicken_features)
+        empty_feature_vector = [0] *(2* standard_feature_vector_size)
 
         # Add ChickenOnLane atoms and edges
         for i, lane in enumerate(self.lanes):
-            if self.player_rect['y'] == lane:
-                atom_features.append([0, 0, 0, 0, 1])  # Feature vector for the ChickenOnLane atom
-                edge_index.extend([[0, atom_index], [atom_index, i+1]])
-                edge_features.extend([[1, 0, 0], [1, 0, 0]])
-                atom_index += 1
+            # check if the chicken is in the range of the lane of +-50
+                if self.player_rect.y >= lane - 50 and self.player_rect.y <= lane + 50:
+                    atom_node = f"ChickenOnLane_{atom_index}"
+                    graph.add_node(atom_node, type="atom", features=empty_feature_vector, predicate="ChickenOnLane")
+                    graph.add_edge("chicken", atom_node, position=0)
+                    graph.add_edge(f"lane_{i}", atom_node, position=1)
+                    atom_index += 1
 
         # Add CarOnLane atoms and edges
         num_lanes = len(self.lanes)
         for i, car in enumerate(self.cars, start=num_lanes + 1):
-            car_lane_index = self.lanes.index(car['lane']) + 1
-            atom_features.append([0, 0, 0, 0, 1])  # Feature vector for the CarOnLane atom
-            edge_index.extend([[i, atom_index], [atom_index, car_lane_index]])
+            car_lane_index = self.lanes.index(car['lane'])
+            atom_node = f"CarOnLane_{atom_index}"
+            graph.add_node(atom_node, type="atom",features=empty_feature_vector, predicate="CarOnLane")
+            graph.add_edge(f"car_{i - num_lanes - 1}", atom_node, position=0)
+            graph.add_edge(f"lane_{car_lane_index}", atom_node, position=1)
             atom_index += 1
 
         # Add LaneNextToLane atoms and edges
         for i in range(num_lanes - 1):
-            atom_features.append([0]*2*len(chicken_node))  # Feature vector for the LaneNextToLane atom
-            edge_index.extend([[i + 1, atom_index], [atom_index, i + 2]])
-            edge_features.extend([[0, 0, 1], [0, 0, 1]])
+            atom_node = f"LaneNextToLane_{atom_index}"
+            graph.add_node(atom_node, type="atom",features=empty_feature_vector, predicate="LaneNextToLane")
+            graph.add_edge(f"lane_{i}", atom_node, position=0)
+            graph.add_edge(f"lane_{i + 1}", atom_node, position=1)
             atom_index += 1
 
-        # Concatenate all features and convert to tensors
-        all_features = torch.cat([features, torch.tensor(atom_features, dtype=torch.float)], dim=0)
-        edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-        edge_attr = torch.tensor(edge_features, dtype=torch.float)
+        # Create a GraphConverter object
+        converter = GraphConverter()
 
-        # Create the PyTorch Geometric Data object
-        data = Data(x=all_features, edge_index=edge_index, edge_attr=edge_attr)
+        # Convert the NetworkX graph to a PyG Data object
+        data = converter.to_pyg_data(graph)
         return data
-            
-
+    
     def render(self, mode='human'):
         self.window.blit(self.background_image, (0, 0))
         for car in self.cars:
@@ -141,9 +159,13 @@ class FreewayEnv(gym.Env):
         pygame.display.update()
 
     def get_observation(self):
-        # Optionally return a screenshot of the game as an observation
         # You can also choose to return other representations of the game state
-        return np.array(pygame.surfarray.array3d(pygame.display.get_surface()))
+        frame = pygame.surfarray.array3d(pygame.display.get_surface())
+        frame = frame.transpose((1, 0, 2))  # Correct the shape to (height, width, channels)
+        # Update frame buffer
+        self.frame_buffer = np.roll(self.frame_buffer, -3, axis=2)
+        self.frame_buffer[:, :, -3:] = frame
+        return self.frame_buffer
 
     def close(self):
         pygame.quit()

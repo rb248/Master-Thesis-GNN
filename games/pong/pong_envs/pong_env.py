@@ -1,88 +1,122 @@
 import gymnasium as gym
 from gymnasium import spaces
 import pygame
-import numpy as np 
+import numpy as np
 import random
 import torch
 from torch_geometric.data import Data
-import torch.nn.functional as F
+import stable_baselines3.common.env_checker
+from skimage.transform import resize
 
-class PongEnv(gym.Env):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
+class PongEnvNew(gym.Env):
+    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60, "observation_types": ["pixel", "graph"]}
 
-    def __init__(self, render_mode='human', paddle_width=10, paddle_height=40, ball_size=15, paddle_speed=5):
+    def __init__(self, render_mode='human', observation_type='pixel', paddle_width=5, paddle_height=20, ball_size=5, paddle_speed=5, frame_stack=4):
         pygame.init()
-        self.width = 800
-        self.height = 600
+        self.width = 210
+        self.height = 160
         self.render_mode = render_mode
+        self.observation_type = observation_type
         self.paddle_width = paddle_width
         self.paddle_height = paddle_height
         self.ball_size = ball_size
         self.paddle_speed = paddle_speed
+        self.frame_stack = frame_stack  # Number of frames to stack
         self.action_space = spaces.Discrete(3)  # [Stay, Up, Down]
-        self.observation_space = spaces.Box(low=0, high=255, shape=(self.height, self.width), dtype=np.uint8)
-        if self.render_mode == "human":
+
+        if observation_type == "pixel":
+            self.observation_space = gym.spaces.Box(low=0, high=255, shape=(self.frame_stack, 84, 84), dtype=np.uint8)
+        else:
+            # Define a generic observation space for graph data
+            self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(5, 7), dtype=np.float32)  # Number of objects and feature length
+
+        if self.render_mode == "human" or self.render_mode == "rgb_array":
             self.screen = pygame.display.set_mode((self.width, self.height))
             pygame.display.set_caption("Pong")
         else:
             self.screen = pygame.Surface((self.width, self.height))
-        self.clock = pygame.time.Clock() 
+        
+        self.clock = pygame.time.Clock()
         self.ai_reaction_time = 2  # milliseconds
         self.np_random = None
-        self.frame_buffer = np.zeros((self.height, self.width, 4), dtype=np.uint8)
+        self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
         self.proximity_threshold = 50
     
     def seed(self, seed=None):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
         return [seed]
     
-    def reset(self, seed = None, options = None):
-        super().reset(seed = seed, options = options) 
+    def reset(self, seed=None, options=None):
+        super().reset(seed=seed, options=options)
+        if not pygame.display.get_init():
+            pygame.display.init()
+            self.screen = pygame.display.set_mode((self.width, self.height))
         if seed is not None:
             self.seed(seed)  # Seed the RNG for the environment
         self.ball = pygame.Rect(self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2, self.ball_size, self.ball_size)
-        self.left_paddle = pygame.Rect(50, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
-        self.right_paddle = pygame.Rect(self.width - 50 - self.paddle_width, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
+        self.left_paddle = pygame.Rect(20, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
+        self.right_paddle = pygame.Rect(self.width - 20 - self.paddle_width, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
         self.ai_last_reaction_time = pygame.time.get_ticks()
         self.ball_speed_x, self.ball_speed_y = 4 * random.choice((1, -1)), 4 * random.choice((1, -1))
         self.left_player_score = 0
         self.right_player_score = 0
+        self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
+        
+        # Fill the frame buffer with the initial frame
+        if self.observation_type == "pixel":
+            for _ in range(self.frame_stack):
+                self._get_observation()
+        else:
+            return self.get_graph_data(), {}
+
         return self._get_observation(), {}
 
-
     def render(self):
-        if self.render_mode == "human":
+        if not self.render_mode in ['human', 'rgb_array']:
+            # If not in a mode that requires rendering, skip the rendering.
+            return None
+        if not pygame.display.get_init():
+            # Reinitialize display if needed
+            pygame.display.init()
+            self.screen = pygame.display.set_mode((self.width, self.height))
+        try:
             self.screen.fill((0, 0, 0))
             pygame.draw.rect(self.screen, (255, 255, 255), self.left_paddle)
             pygame.draw.rect(self.screen, (255, 255, 255), self.right_paddle)
             pygame.draw.ellipse(self.screen, (255, 255, 255), self.ball)
-            pygame.display.flip()
-            
-            self.clock.tick(self.metadata['render_fps'])
-        elif self.render_mode == "rgb_array":
-            return np.array(pygame.surfarray.pixels3d(self.screen))
+
+            if self.render_mode == "human":
+                pygame.display.flip()
+            elif self.render_mode == "rgb_array":
+                return np.array(pygame.surfarray.pixels3d(self.screen))
+        except pygame.error as e:
+            print("Pygame error:", e)
+            return None
 
     def _get_observation(self):
-        self.render()
-        if self.render_mode == "rgb_array":
+        if self.observation_type == "pixel":
+            self.render()
             frame = pygame.surfarray.array3d(pygame.display.get_surface())
-            # Convert to grayscale
-            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)
-            # Update frame buffer, pushing back older frames
+            frame = np.transpose(frame, (1, 0, 2))  # Transpose to match (height, width, channels)
+            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)  # Convert to grayscale
             self.frame_buffer = np.roll(self.frame_buffer, shift=-1, axis=2)
-            self.frame_buffer[:, :, 3] = grayscale
-            return self.frame_buffer
+            self.frame_buffer[:, :, -1] = grayscale  # Update the last frame
+
+            # Resize the frame buffer to 84x84 pixels
+            resized_frame_buffer = np.zeros((84, 84, self.frame_stack), dtype=np.uint8)
+            for i in range(self.frame_stack):
+                resized_frame_buffer[:, :, i] = resize(self.frame_buffer[:, :, i], (84, 84), anti_aliasing=True, preserve_range=True).astype(np.uint8)
+
+            # Convert to (batch_size, 4, 84, 84)
+            return resized_frame_buffer.transpose(2, 0, 1)
         else:
-            # Return a dummy observation if not in rgb_array mode
-            return self.frame_buffer
-        return None
-    
+            return self.get_graph_data()
+
     def _apply_action(self, action):
         if action == 1 and self.left_paddle.top > 0:
             self.left_paddle.y -= self.paddle_speed
         elif action == 2 and self.left_paddle.bottom < self.height:
             self.left_paddle.y += self.paddle_speed
-
 
     def ai_move(self):
         current_time = pygame.time.get_ticks()
@@ -93,7 +127,6 @@ class PongEnv(gym.Env):
             if self.ball.y > self.right_paddle.y + self.paddle_height / 2 and self.right_paddle.bottom < self.height:
                 self.right_paddle.y += self.paddle_speed
             self.ai_last_reaction_time = current_time
-
 
     def _update_game_state(self):
         # Existing game state update logic
@@ -123,237 +156,65 @@ class PongEnv(gym.Env):
             self.ball_reset()
         elif self.ball.right >= self.width:
             self.left_player_score += 1
-        
-            score = 1   # Positive reward for the agent
+            score = 1  # Positive reward for the agent
             self.ball_reset()
 
         return collision, score
-    
 
     def ball_reset(self):
         self.ball.x, self.ball.y = self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2
-        self.ball_speed_x, self.ball_speed_y = 4 * random.choice((1, -1)), 4 * random.choice((1, -1))
-
+        self.ball_speed_x, self.ball_speed_y = 5 * random.choice((1, -1)), 5 * random.choice((1, -1))
 
     def step(self, action):
-        self._apply_action(action)
-        collision, score = self._update_game_state()
-        observation = self._get_observation()
-        reward = 0
-        if collision:
-            reward += 0.1  # Reward for hitting the ball
-        reward += score  # Reward or penalty for scoring/losing a point
-        done = self._check_done()
-        return observation, reward, done, False, {}
-
-    
-
-    def _check_done(self):
-        # Define the conditions under which the game is considered done
-        if self.left_player_score >= 3 or self.right_player_score >= 3:
-            return True
-        return False
-
-    def close(self):
-        pygame.display.quit()
-        pygame.quit()
-
-class PongEnvRel(gym.Env):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
-
-    def __init__(self, render_mode='human', paddle_width=10, paddle_height=40, ball_size=15, paddle_speed=5):
-        pygame.init()
-        self.width = 800
-        self.height = 600
-        self.render_mode = render_mode
-        self.paddle_width = paddle_width
-        self.paddle_height = paddle_height
-        self.ball_size = ball_size
-        self.paddle_speed = paddle_speed
-        self.action_space = spaces.Discrete(3)  # [Stay, Up, Down]
-        self.observation_space = spaces.Box(low=0, high=255, shape=(self.height, self.width), dtype=np.uint8)
-        if self.render_mode == "human":
+        if not pygame.display.get_init():
+            pygame.display.init()
             self.screen = pygame.display.set_mode((self.width, self.height))
-            pygame.display.set_caption("Pong")
-        else:
-            self.screen = pygame.Surface((self.width, self.height))
-        self.clock = pygame.time.Clock() 
-        self.ai_reaction_time = 2  # milliseconds
-        self.np_random = None
-        self.frame_buffer = np.zeros((self.height, self.width, 4), dtype=np.uint8)
-        self.proximity_threshold = 50
-    
-    def seed(self, seed=None):
-        self.np_random, seed = gym.utils.seeding.np_random(seed)
-        return [seed]
-    
-    def reset(self, seed = None, options = None):
-        super().reset(seed = seed, options = options) 
-        if seed is not None:
-            self.seed(seed)  # Seed the RNG for the environment
-        self.ball = pygame.Rect(self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2, self.ball_size, self.ball_size)
-        self.left_paddle = pygame.Rect(50, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
-        self.right_paddle = pygame.Rect(self.width - 50 - self.paddle_width, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
-        self.ai_last_reaction_time = pygame.time.get_ticks()
-        self.ball_speed_x, self.ball_speed_y = 4 * random.choice((1, -1)), 4 * random.choice((1, -1))
-        self.left_player_score = 0
-        self.right_player_score = 0
-        return self._get_observation(), {}
-
-
-    def render(self):
-        if self.render_mode == "human":
-            self.screen.fill((0, 0, 0))
-            pygame.draw.rect(self.screen, (255, 255, 255), self.left_paddle)
-            pygame.draw.rect(self.screen, (255, 255, 255), self.right_paddle)
-            pygame.draw.ellipse(self.screen, (255, 255, 255), self.ball)
-            pygame.display.flip()
-            
-            self.clock.tick(self.metadata['render_fps'])
-        elif self.render_mode == "rgb_array":
-            return np.array(pygame.surfarray.pixels3d(self.screen))
-
-    def _get_observation(self):
-        self.render()
-        if self.render_mode == "rgb_array":
-            frame = pygame.surfarray.array3d(pygame.display.get_surface())
-            # Convert to grayscale
-            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)
-            # Update frame buffer, pushing back older frames
-            self.frame_buffer = np.roll(self.frame_buffer, shift=-1, axis=2)
-            self.frame_buffer[:, :, 3] = grayscale
-            return self.frame_buffer
-        else:
-            # Return a dummy observation if not in rgb_array mode
-            return self.frame_buffer
-        return None
-    
-    def _apply_action(self, action):
-        if action == 1 and self.left_paddle.top > 0:
-            self.left_paddle.y -= self.paddle_speed
-        elif action == 2 and self.left_paddle.bottom < self.height:
-            self.left_paddle.y += self.paddle_speed
-
-
-    def ai_move(self):
-        current_time = pygame.time.get_ticks()
-        # AI paddle movement
-        if current_time - self.ai_last_reaction_time > self.ai_reaction_time:
-            if self.ball.y < self.right_paddle.y + self.paddle_height / 2 and self.right_paddle.top > 0:
-                self.right_paddle.y -= self.paddle_speed
-            if self.ball.y > self.right_paddle.y + self.paddle_height / 2 and self.right_paddle.bottom < self.height:
-                self.right_paddle.y += self.paddle_speed
-            self.ai_last_reaction_time = current_time
-
-
-    def _update_game_state(self):
-        # Existing game state update logic
-        self.ball.x += self.ball_speed_x
-        self.ball.y += self.ball_speed_y
-        # Check for collisions with top and bottom of the screen
-        if self.ball.top <= 0 or self.ball.bottom >= self.height:
-            self.ball_speed_y *= -1
-        # AI paddle move
-        self.ai_move()
-        # Check for collisions with paddles
-        collision = False
-        if self.ball.colliderect(self.left_paddle) or self.ball.colliderect(self.right_paddle):
-            self.ball_speed_x *= -1
-            collision = True
-            # Adjust the ball's position to prevent sticking
-            if self.ball.colliderect(self.left_paddle):
-                self.ball.left = self.left_paddle.right  # Place the ball right outside the left paddle
-            elif self.ball.colliderect(self.right_paddle):
-                self.ball.right = self.right_paddle.left  # Place the ball right outside the right paddle
-
-        # Check for scoring
-        score = 0
-        if self.ball.left <= 0:
-            self.right_player_score += 1
-            score = -1  # Negative reward for the agent 
-            self.ball_reset()
-        elif self.ball.right >= self.width:
-            self.left_player_score += 1
-        
-            score = 1   # Positive reward for the agent
-            self.ball_reset()
-
-        return collision, score
-    
-
-    def ball_reset(self):
-        self.ball.x, self.ball.y = self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2
-        self.ball_speed_x, self.ball_speed_y = 4 * random.choice((1, -1)), 4 * random.choice((1, -1))
-
-
-    def step(self, action):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.display.quit()
+                pygame.quit()
+                raise SystemExit("Pygame QUIT event received.")
         self._apply_action(action)
         collision, score = self._update_game_state()
         observation = self._get_observation()
         reward = 0
         if collision:
             reward += 0.1  # Reward for hitting the ball
-        reward += score  # Reward or penalty for scoring/losing a point
+        reward += score  # Reward for scoring
+    
+        # Additional shaping rewards (optional)
+        if not collision and self.ball_speed_x > 0:  # Encourages the agent to stay in advantageous positions
+            reward += 0.01  # Small reward for keeping the ball in play
         done = self._check_done()
-        graph_data = self.get_graph_data()
-        return observation, reward, done, False, graph_data
-
-    
-    
+        if done:
+            if self.left_player_score >= 20:
+                reward = 1
+            elif self.right_player_score >= 20:
+                reward = -1
+        
+        info = {}
+        truncated = False
+        return observation, reward, done, truncated, info
 
     def get_graph_data(self):
-        # Define object features
-        ball_features = [self.ball['x'], self.ball['y'], self.ball['speed_x'], self.ball['speed_y'], 1, 0, 0]
-        left_paddle_features = [self.left_paddle['x'], self.left_paddle['y'], 0, 0, 0, 1, 0]
-        right_paddle_features = [self.right_paddle['x'], self.right_paddle['y'], 0, 0, 0, 1, 0]
-        top_wall_features = [0, self.top_wall['y'], 0, 0, 0, 0, 1]
-        bottom_wall_features = [0, self.bottom_wall['y'], 0, 0, 0, 0, 1]
+        # Define the features for each object in the environment
+        objects = {
+            "ball": [self.ball.x, self.ball.y, self.ball_speed_x, self.ball_speed_y, 1, 0, 0],
+            "left_paddle": [self.left_paddle.x, self.left_paddle.y, 0, 0, 0, 1, 0],
+            "right_paddle": [self.right_paddle.x, self.right_paddle.y, 0, 0, 0, 1, 0],
+            "top_wall": [0, 0, 0, 0, 0, 0, 1],
+            "bottom_wall": [0, self.height, 0, 0, 0, 0, 1]
+        }
 
-        # Combine object features
-        object_features = [ball_features, left_paddle_features, right_paddle_features, top_wall_features, bottom_wall_features]
-        
-        # Initialize tensors for PyG
-        x = torch.tensor(object_features, dtype=torch.float)
-        edge_index = []
-        edge_attr = []
+        # Convert the object features to a tensor
+        node_features = [features for features in objects.values()]
+        x = torch.tensor(node_features, dtype=torch.float32)
 
-        num_objects = len(object_features)
-        positions = [(feat[0], feat[1]) for feat in object_features]  # Position is first two features
-
-        # Calculate proximity and create atoms based on it
-        atom_features = []
-        atom_index = num_objects  # Start indexing atoms after all objects
-
-        for i in range(num_objects):
-            for j in range(i + 1, num_objects):
-                dist = np.linalg.norm(np.array(positions[i]) - np.array(positions[j]))
-                if dist < self.proximity_threshold:
-                    # Create an atom for this proximity
-                    proximity_atom_features = [0]*2*len(ball_features) # Example atom features
-                    atom_features.append(proximity_atom_features)
-                    # Add edges between the atom and involved objects
-                    edge_index.extend([[atom_index, i], [atom_index, j]]) 
-
-                    # edge_attr.extend([[1], [1], [1], [1]])  # Example edge attributes
-                    
-                    atom_index += 1  # Move to next atom index
-
-        # Concatenate object and atom features
-        all_features = torch.cat([x, torch.tensor(atom_features, dtype=torch.float)], dim=0)
-
-        # Convert lists to tensors
-        edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-        #edge_attr = torch.tensor(edge_attr, dtype=torch.float)
-
-        # Create the PyTorch Geometric Data object
-        data = Data(x=all_features, edge_index=edge_index) 
-        return data
-
-
+        return x 
 
     def _check_done(self):
         # Define the conditions under which the game is considered done
-        if self.left_player_score >= 3 or self.right_player_score >= 3:
+        if self.left_player_score >= 20 or self.right_player_score >= 20:
             return True
         return False
 
@@ -361,18 +222,19 @@ class PongEnvRel(gym.Env):
         pygame.display.quit()
         pygame.quit()
 
-
 if __name__ == "__main__":
-    env = PongEnv(render_mode='human')
+    env = PongEnvNew(render_mode='human', observation_type='graph')
+    
     env.reset()
 
-    done = False
-    try:
-        while not done:
-            action = env.action_space.sample()
-            _, _, done, _, _ = env.step(action)
-            env.render()
-            pygame.time.wait(10)
-    finally:
-        print(done)
-        env.close() 
+    num_episodes = 100
+    for i_episode in range(num_episodes):
+        done = False
+        try:
+            while not done:
+                action = env.action_space.sample()
+                _, _, done, _, _ = env.step(action)
+                env.render()
+                pygame.time.wait(10)
+        finally:
+            env.close()

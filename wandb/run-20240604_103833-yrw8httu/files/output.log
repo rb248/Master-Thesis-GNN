@@ -1,0 +1,133 @@
+Using cpu device
+Wrapping the env with a `Monitor` wrapper
+Wrapping the env in a DummyVecEnv.
+Logging to ./ppo_tensorboard/PPO_11
+torch.Size([1, 4, 600, 800])
+input tensor([[0.0055, 0.0000, 0.0000,  ..., 0.0262, 0.0262, 0.0186]])
+input tensor([[2.8689e-02, 1.2799e-02, 1.2069e-02, 2.6092e-03, 0.0000e+00, 1.3241e-02,
+         0.0000e+00, 0.0000e+00, 2.4564e-03, 1.8707e-03, 0.0000e+00, 0.0000e+00,
+         7.0115e-03, 0.0000e+00, 1.1718e-02, 2.7229e-02, 0.0000e+00, 2.2963e-02,
+         3.2096e-03, 0.0000e+00, 9.2234e-03, 2.8035e-02, 0.0000e+00, 0.0000e+00,
+         3.0210e-02, 1.6661e-02, 2.1864e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         4.1401e-03, 0.0000e+00, 0.0000e+00, 1.4333e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 3.7481e-02, 1.6719e-02, 0.0000e+00,
+         0.0000e+00, 2.2643e-02, 8.5845e-03, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.0634e-03, 3.6289e-03, 0.0000e+00, 0.0000e+00, 3.5635e-03, 1.6363e-02,
+         9.1679e-03, 0.0000e+00, 0.0000e+00, 1.5966e-02, 6.4337e-03, 1.1560e-04,
+         0.0000e+00, 1.8836e-02, 1.7457e-02, 7.4615e-03, 1.0833e-02, 0.0000e+00,
+         2.4448e-02, 1.4315e-02, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.2604e-03,
+         9.8601e-03, 1.7499e-02, 0.0000e+00, 8.1857e-03, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 3.8282e-03, 1.4013e-02, 2.1458e-03, 1.9527e-02,
+         1.6646e-02, 2.0883e-03, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.3824e-02, 1.1824e-02, 1.2777e-02, 1.1162e-02, 1.8937e-02, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.2915e-02,
+         6.7080e-03, 0.0000e+00, 0.0000e+00, 5.4581e-03, 0.0000e+00, 0.0000e+00,
+         3.9660e-03, 0.0000e+00, 6.7005e-03, 8.3481e-04, 0.0000e+00, 7.7918e-03,
+         5.6897e-04, 0.0000e+00, 0.0000e+00, 5.0053e-03, 1.6657e-02, 5.1048e-04,
+         6.8272e-03, 0.0000e+00, 0.0000e+00, 1.9839e-02, 9.5311e-03, 0.0000e+00,
+         3.6415e-02, 0.0000e+00, 1.7499e-02, 0.0000e+00, 0.0000e+00, 1.2402e-02,
+         1.4304e-02, 1.2516e-02, 1.0892e-02, 0.0000e+00, 0.0000e+00, 1.6017e-02,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.4957e-02, 1.5272e-02, 4.2399e-03, 1.1682e-02, 4.2323e-03, 0.0000e+00,
+         1.4766e-03, 9.2162e-03, 0.0000e+00, 0.0000e+00, 3.9571e-03, 2.8547e-04,
+         4.1607e-03, 2.0098e-02, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.6148e-02, 0.0000e+00, 0.0000e+00, 3.1324e-03, 3.1680e-03, 4.6881e-03,
+         0.0000e+00, 1.0775e-02, 2.7479e-02, 2.0623e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 2.1037e-04, 1.1381e-02, 6.8998e-04, 6.3007e-03, 0.0000e+00,
+         8.5432e-03, 2.1784e-02, 0.0000e+00, 0.0000e+00, 1.7894e-03, 2.4086e-02,
+         9.9500e-03, 0.0000e+00, 1.5431e-02, 3.8945e-03, 0.0000e+00, 0.0000e+00,
+         1.7682e-02, 4.3970e-03, 0.0000e+00, 0.0000e+00, 1.8864e-02, 0.0000e+00,
+         0.0000e+00, 1.9949e-02, 0.0000e+00, 0.0000e+00, 2.4953e-02, 0.0000e+00,
+         1.9764e-02, 0.0000e+00, 5.5834e-03, 5.2127e-03, 0.0000e+00, 0.0000e+00,
+         2.6767e-02, 0.0000e+00, 0.0000e+00, 2.0100e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 1.9192e-03, 7.4562e-03, 1.2026e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 1.8110e-02, 2.1667e-03, 0.0000e+00,
+         1.8292e-02, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.4260e-02,
+         8.7446e-03, 0.0000e+00, 0.0000e+00, 3.3431e-03, 2.9074e-02, 1.4636e-02,
+         4.8027e-02, 7.5940e-04, 1.3372e-03, 0.0000e+00, 1.4909e-02, 9.3180e-03,
+         2.5555e-02, 7.0139e-03, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 1.6209e-02, 1.3474e-04]])
+input tensor([[2.8689e-02, 1.2799e-02, 1.2069e-02, 2.6092e-03, 0.0000e+00, 1.3241e-02,
+         0.0000e+00, 0.0000e+00, 2.4564e-03, 1.8707e-03, 0.0000e+00, 0.0000e+00,
+         7.0115e-03, 0.0000e+00, 1.1718e-02, 2.7229e-02, 0.0000e+00, 2.2963e-02,
+         3.2096e-03, 0.0000e+00, 9.2234e-03, 2.8035e-02, 0.0000e+00, 0.0000e+00,
+         3.0210e-02, 1.6661e-02, 2.1864e-05, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         4.1401e-03, 0.0000e+00, 0.0000e+00, 1.4333e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 3.7481e-02, 1.6719e-02, 0.0000e+00,
+         0.0000e+00, 2.2643e-02, 8.5845e-03, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.0634e-03, 3.6289e-03, 0.0000e+00, 0.0000e+00, 3.5635e-03, 1.6363e-02,
+         9.1679e-03, 0.0000e+00, 0.0000e+00, 1.5966e-02, 6.4337e-03, 1.1560e-04,
+         0.0000e+00, 1.8836e-02, 1.7457e-02, 7.4615e-03, 1.0833e-02, 0.0000e+00,
+         2.4448e-02, 1.4315e-02, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.2604e-03,
+         9.8601e-03, 1.7499e-02, 0.0000e+00, 8.1857e-03, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 3.8282e-03, 1.4013e-02, 2.1458e-03, 1.9527e-02,
+         1.6646e-02, 2.0883e-03, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.3824e-02, 1.1824e-02, 1.2777e-02, 1.1162e-02, 1.8937e-02, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.2915e-02,
+         6.7080e-03, 0.0000e+00, 0.0000e+00, 5.4581e-03, 0.0000e+00, 0.0000e+00,
+         3.9660e-03, 0.0000e+00, 6.7005e-03, 8.3481e-04, 0.0000e+00, 7.7918e-03,
+         5.6897e-04, 0.0000e+00, 0.0000e+00, 5.0053e-03, 1.6657e-02, 5.1048e-04,
+         6.8272e-03, 0.0000e+00, 0.0000e+00, 1.9839e-02, 9.5311e-03, 0.0000e+00,
+         3.6415e-02, 0.0000e+00, 1.7499e-02, 0.0000e+00, 0.0000e+00, 1.2402e-02,
+         1.4304e-02, 1.2516e-02, 1.0892e-02, 0.0000e+00, 0.0000e+00, 1.6017e-02,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.4957e-02, 1.5272e-02, 4.2399e-03, 1.1682e-02, 4.2323e-03, 0.0000e+00,
+         1.4766e-03, 9.2162e-03, 0.0000e+00, 0.0000e+00, 3.9571e-03, 2.8547e-04,
+         4.1607e-03, 2.0098e-02, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         1.6148e-02, 0.0000e+00, 0.0000e+00, 3.1324e-03, 3.1680e-03, 4.6881e-03,
+         0.0000e+00, 1.0775e-02, 2.7479e-02, 2.0623e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 2.1037e-04, 1.1381e-02, 6.8998e-04, 6.3007e-03, 0.0000e+00,
+         8.5432e-03, 2.1784e-02, 0.0000e+00, 0.0000e+00, 1.7894e-03, 2.4086e-02,
+         9.9500e-03, 0.0000e+00, 1.5431e-02, 3.8945e-03, 0.0000e+00, 0.0000e+00,
+         1.7682e-02, 4.3970e-03, 0.0000e+00, 0.0000e+00, 1.8864e-02, 0.0000e+00,
+         0.0000e+00, 1.9949e-02, 0.0000e+00, 0.0000e+00, 2.4953e-02, 0.0000e+00,
+         1.9764e-02, 0.0000e+00, 5.5834e-03, 5.2127e-03, 0.0000e+00, 0.0000e+00,
+         2.6767e-02, 0.0000e+00, 0.0000e+00, 2.0100e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 1.9192e-03, 7.4562e-03, 1.2026e-02, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 0.0000e+00, 1.8110e-02, 2.1667e-03, 0.0000e+00,
+         1.8292e-02, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00, 1.4260e-02,
+         8.7446e-03, 0.0000e+00, 0.0000e+00, 3.3431e-03, 2.9074e-02, 1.4636e-02,
+         4.8027e-02, 7.5940e-04, 1.3372e-03, 0.0000e+00, 1.4909e-02, 9.3180e-03,
+         2.5555e-02, 7.0139e-03, 0.0000e+00, 0.0000e+00, 0.0000e+00, 0.0000e+00,
+         0.0000e+00, 0.0000e+00, 1.6209e-02, 1.3474e-04]])
+input (tensor([0.3331, 0.3189, 0.3480]), tensor([0.0355]))
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/games/pong/run_supervised.py", line 30, in <module>
+    model.learn(total_timesteps=1000000, callback=WandbCallback())
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 315, in learn
+    return super().learn(
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 300, in learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 179, in collect_rollouts
+    actions, values, log_probs = self.policy(obs_tensor)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/common/policies.py", line 647, in forward
+    latent_pi, latent_vf = self.mlp_extractor(features)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/common/torch_layers.py", line 222, in forward
+    return self.forward_actor(features), self.forward_critic(features)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/common/torch_layers.py", line 225, in forward_actor
+    return self.policy_net(features)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 117, in forward
+    return F.linear(input, self.weight, self.bias)
+TypeError: linear(): argument 'input' (position 1) must be Tensor, not tuple

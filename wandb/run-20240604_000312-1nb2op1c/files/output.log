@@ -1,0 +1,25 @@
+Using cpu device
+Wrapping the env with a `Monitor` wrapper
+Wrapping the env in a DummyVecEnv.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/games/pong/run_supervised.py", line 27, in <module>
+    model = PPO(CustomActorCriticPolicyCNN, env, verbose=1, tensorboard_log="./ppo_tensorboard/")
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 171, in __init__
+    self._setup_model()
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 174, in _setup_model
+    super()._setup_model()
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 134, in _setup_model
+    self.policy = self.policy_class(  # type: ignore[assignment]
+  File "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/games/model/policy.py", line 80, in __init__
+    self.features_extractor = CustomCNN(self.observation_space, self.features_extractor.features_dim)
+  File "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/games/model/policy.py", line 70, in __init__
+    self.cnn = CNNgame()
+  File "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/games/model/cnn_model.py", line 15, in __init__
+    self._to_linear = self.calculate_conv_output((4, 600, 800))
+  File "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/games/model/cnn_model.py", line 29, in calculate_conv_output
+    return int(np.prod(dummy_output.size()))
+NameError: name 'np' is not defined

@@ -1,0 +1,264 @@
+2024-06-05 16:24:48,259 INFO    StreamThr :73940 [internal.py:wandb_internal():85] W&B internal server running at pid: 73940, started at: 2024-06-05 16:24:48.257255
+2024-06-05 16:24:48,260 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: status
+2024-06-05 16:24:48,266 INFO    WriterThread:73940 [datastore.py:open_for_write():87] open: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/run-at8aja8x.wandb
+2024-06-05 16:24:48,267 DEBUG   SenderThread:73940 [sender.py:send():378] send: header
+2024-06-05 16:24:48,316 DEBUG   SenderThread:73940 [sender.py:send():378] send: run
+2024-06-05 16:24:48,683 INFO    SenderThread:73940 [dir_watcher.py:__init__():211] watching files in: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files
+2024-06-05 16:24:48,683 INFO    SenderThread:73940 [sender.py:_start_run_threads():1123] run started: at8aja8x with start time 1717597488.259471
+2024-06-05 16:24:48,700 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: check_version
+2024-06-05 16:24:48,700 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: check_version
+2024-06-05 16:24:48,787 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: run_start
+2024-06-05 16:24:48,797 DEBUG   HandlerThread:73940 [system_info.py:__init__():26] System info init
+2024-06-05 16:24:48,797 DEBUG   HandlerThread:73940 [system_info.py:__init__():41] System info init done
+2024-06-05 16:24:48,797 INFO    HandlerThread:73940 [system_monitor.py:start():194] Starting system monitor
+2024-06-05 16:24:48,797 INFO    SystemMonitor:73940 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-05 16:24:48,797 INFO    HandlerThread:73940 [system_monitor.py:probe():214] Collecting system info
+2024-06-05 16:24:48,798 INFO    SystemMonitor:73940 [interfaces.py:start():188] Started cpu monitoring
+2024-06-05 16:24:48,801 INFO    SystemMonitor:73940 [interfaces.py:start():188] Started disk monitoring
+2024-06-05 16:24:48,803 INFO    SystemMonitor:73940 [interfaces.py:start():188] Started gpuapple monitoring
+2024-06-05 16:24:48,804 INFO    SystemMonitor:73940 [interfaces.py:start():188] Started memory monitoring
+2024-06-05 16:24:48,805 INFO    SystemMonitor:73940 [interfaces.py:start():188] Started network monitoring
+2024-06-05 16:24:49,098 ERROR   HandlerThread:73940 [gpu_apple.py:probe():176] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 164, in probe
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-05 16:24:49,102 DEBUG   HandlerThread:73940 [system_info.py:probe():150] Probing system
+2024-06-05 16:24:49,114 DEBUG   HandlerThread:73940 [system_info.py:_probe_git():135] Probing git
+2024-06-05 16:24:49,164 DEBUG   HandlerThread:73940 [system_info.py:_probe_git():143] Probing git done
+2024-06-05 16:24:49,165 DEBUG   HandlerThread:73940 [system_info.py:probe():198] Probing system done
+2024-06-05 16:24:49,165 DEBUG   HandlerThread:73940 [system_monitor.py:probe():223] {'os': 'macOS-14.0-arm64-arm-64bit', 'python': '3.10.14', 'heartbeatAt': '2024-06-05T14:24:49.102761', 'startedAt': '2024-06-05T14:24:48.238030', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '-m games.pong.run_supervised', 'codePathLocal': None, 'git': {'remote': 'https://github.com/rb248/Master-Thesis-GNN.git', 'commit': '414fbfbf520713ae3605334f0933526d743a4076'}, 'email': 'rishabhbhatia315@gmail.com', 'root': '/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN', 'host': 'rishubs-MacBook-Pro.local', 'username': 'rishubbhatia', 'executable': '/Users/rishubbhatia/miniforge3/envs/games/bin/python', 'cpu_count': 8, 'cpu_count_logical': 8, 'cpu_freq': {'current': 3204, 'min': 600, 'max': 3204}, 'cpu_freq_per_core': [{'current': 3204, 'min': 600, 'max': 3204}], 'disk': {'/': {'total': 228.27386474609375, 'used': 9.14349365234375}}, 'gpuapple': {'type': 'arm', 'vendor': 'Apple'}, 'memory': {'total': 8.0}}
+2024-06-05 16:24:49,165 INFO    HandlerThread:73940 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-05 16:24:49,165 INFO    HandlerThread:73940 [system_monitor.py:probe():227] Publishing system info
+2024-06-05 16:24:49,165 DEBUG   HandlerThread:73940 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-05 16:24:49,182 ERROR   gpuapple  :73940 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-05 16:24:49,690 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/conda-environment.yaml
+2024-06-05 16:24:51,301 ERROR   gpuapple  :73940 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-05 16:24:53,408 ERROR   gpuapple  :73940 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-05 16:24:53,978 DEBUG   HandlerThread:73940 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-05 16:24:53,978 DEBUG   HandlerThread:73940 [system_info.py:_save_code():44] Saving code
+2024-06-05 16:24:53,978 WARNING HandlerThread:73940 [system_info.py:_save_code():46] unable to save code -- program entry not found
+2024-06-05 16:24:53,979 DEBUG   HandlerThread:73940 [system_info.py:_save_patches():82] Saving git patches
+2024-06-05 16:24:54,289 DEBUG   HandlerThread:73940 [system_info.py:_save_patches():124] Saving git patches done
+2024-06-05 16:24:54,290 INFO    HandlerThread:73940 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-05 16:24:54,301 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 16:24:54,301 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: keepalive
+2024-06-05 16:24:54,301 DEBUG   SenderThread:73940 [sender.py:send():378] send: files
+2024-06-05 16:24:54,301 INFO    SenderThread:73940 [sender.py:_save_file():1389] saving file wandb-metadata.json with policy now
+2024-06-05 16:24:54,302 INFO    SenderThread:73940 [sender.py:_save_file():1389] saving file diff.patch with policy now
+2024-06-05 16:24:54,402 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-05 16:24:54,402 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 16:24:54,402 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: python_packages
+2024-06-05 16:24:54,403 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 16:24:54,637 DEBUG   SenderThread:73940 [sender.py:send():378] send: telemetry
+2024-06-05 16:24:54,709 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/conda-environment.yaml
+2024-06-05 16:24:54,709 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/diff.patch
+2024-06-05 16:24:54,709 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/requirements.txt
+2024-06-05 16:24:54,709 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/wandb-metadata.json
+2024-06-05 16:24:54,845 INFO    wandb-upload_0:73940 [upload_job.py:push():130] Uploaded file /var/folders/my/7z0rbf091qj03p882sd10h_00000gn/T/tmp508n49ohwandb/32sbc6j5-wandb-metadata.json
+2024-06-05 16:24:54,969 INFO    wandb-upload_1:73940 [upload_job.py:push():130] Uploaded file /var/folders/my/7z0rbf091qj03p882sd10h_00000gn/T/tmp508n49ohwandb/drqkck03-diff.patch
+2024-06-05 16:24:55,554 ERROR   gpuapple  :73940 [gpu_apple.py:sample():110] GPU stats error: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+Traceback (most recent call last):
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/sdk/internal/system/assets/gpu_apple.py", line 64, in sample
+    subprocess.check_output(command, universal_newlines=True)
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/rishubbhatia/miniforge3/envs/games/lib/python3.10/site-packages/wandb/bin/apple_gpu_stats', '--json']' died with <Signals.SIGTRAP: 5>.
+2024-06-05 16:24:55,594 DEBUG   SenderThread:73940 [sender.py:send():378] send: telemetry
+2024-06-05 16:24:55,596 INFO    HandlerThread:73940 [handler.py:handle_tbrecord():783] handling tbrecord: tbrecord {
+  log_dir: "./ppo_tensorboard/PPO_37"
+  save: true
+}
+control {
+  relay_id: "d4a4db5a3982439ab7aaab03a6bbdf61"
+}
+_info {
+  stream_id: "at8aja8x"
+}
+
+2024-06-05 16:24:55,596 DEBUG   HandlerThread:73940 [config_util.py:dict_from_config_file():70] no default config file found in config-defaults.yaml
+2024-06-05 16:24:55,711 DEBUG   SenderThread:73940 [sender.py:send():378] send: tbrecord
+2024-06-05 16:24:55,711 DEBUG   SenderThread:73940 [sender.py:send():378] send: config
+2024-06-05 16:24:55,712 DEBUG   SenderThread:73940 [sender.py:send():378] send: exit
+2024-06-05 16:24:55,712 INFO    SenderThread:73940 [sender.py:send_exit():585] handling exit code: 1
+2024-06-05 16:24:55,712 INFO    SenderThread:73940 [sender.py:send_exit():587] handling runtime: 6
+2024-06-05 16:24:55,713 INFO    SenderThread:73940 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 16:24:55,714 INFO    SenderThread:73940 [sender.py:send_exit():593] send defer
+2024-06-05 16:24:55,714 DEBUG   SenderThread:73940 [sender.py:send():378] send: files
+2024-06-05 16:24:55,714 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:24:55,714 INFO    SenderThread:73940 [sender.py:_save_file():1389] saving file events.out.tfevents.1717597495.rishubs-MacBook-Pro.local.73883.0 with policy live
+2024-06-05 16:24:55,714 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-05 16:24:55,714 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/output.log
+2024-06-05 16:24:55,714 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:24:55,715 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-05 16:24:55,715 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/wandb-summary.json
+2024-06-05 16:24:55,715 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 1
+2024-06-05 16:24:55,715 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/events.out.tfevents.1717597495.rishubs-MacBook-Pro.local.73883.0
+2024-06-05 16:24:55,715 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:24:55,715 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-05 16:24:55,715 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:24:55,715 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-05 16:24:55,715 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 2
+2024-06-05 16:24:55,715 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:24:55,715 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-05 16:24:55,715 INFO    HandlerThread:73940 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-05 16:24:55,716 INFO    HandlerThread:73940 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-05 16:24:55,716 DEBUG   SystemMonitor:73940 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-05 16:24:55,716 INFO    HandlerThread:73940 [interfaces.py:finish():200] Joined disk monitor
+2024-06-05 16:24:55,716 DEBUG   SystemMonitor:73940 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-05 16:24:55,716 INFO    HandlerThread:73940 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-05 16:24:55,716 DEBUG   SystemMonitor:73940 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-05 16:24:55,716 INFO    HandlerThread:73940 [interfaces.py:finish():200] Joined memory monitor
+2024-06-05 16:24:55,716 INFO    HandlerThread:73940 [interfaces.py:finish():200] Joined network monitor
+2024-06-05 16:24:55,716 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:24:55,716 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-05 16:24:55,716 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 3
+2024-06-05 16:24:55,716 DEBUG   SenderThread:73940 [sender.py:send():378] send: telemetry
+2024-06-05 16:24:55,716 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:24:55,717 DEBUG   SenderThread:73940 [sender.py:send():378] send: stats
+2024-06-05 16:24:55,717 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-05 16:24:55,717 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:24:55,717 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-05 16:24:55,717 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 4
+2024-06-05 16:24:55,717 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:24:55,717 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-05 16:24:56,095 INFO    wandb-upload_0:73940 [upload_job.py:push():130] Uploaded file /var/folders/my/7z0rbf091qj03p882sd10h_00000gn/T/tmp508n49ohwandb/mtrdp5d7-events.out.tfevents.1717597495.rishubs-MacBook-Pro.local.73883.0
+2024-06-05 16:24:57,726 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/output.log
+2024-06-05 16:25:02,633 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 16:25:02,634 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:02,634 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 16:25:02,634 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-05 16:25:02,634 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: keepalive
+2024-06-05 16:25:02,635 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 5
+2024-06-05 16:25:02,635 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 16:25:02,635 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:02,636 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-05 16:25:02,636 DEBUG   SenderThread:73940 [sender.py:send():378] send: summary
+2024-06-05 16:25:02,639 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 16:25:02,640 INFO    SenderThread:73940 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 16:25:02,641 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:02,642 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-05 16:25:02,642 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 6
+2024-06-05 16:25:02,642 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 16:25:02,642 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:02,642 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-05 16:25:02,643 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:02,643 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-05 16:25:02,648 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 16:25:02,749 INFO    Thread-12 :73940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/wandb-summary.json
+2024-06-05 16:25:02,827 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 7
+2024-06-05 16:25:02,827 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:02,827 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-05 16:25:02,827 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:02,827 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-05 16:25:03,645 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 16:25:03,743 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 8
+2024-06-05 16:25:03,743 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 16:25:03,744 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:03,744 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-05 16:25:03,745 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:03,745 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-05 16:25:03,745 INFO    SenderThread:73940 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-05 16:25:03,747 INFO    SenderThread:73940 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-05 16:25:03,748 WARNING SenderThread:73940 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-05 16:25:03,748 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 9
+2024-06-05 16:25:03,748 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:03,748 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-05 16:25:03,748 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:03,748 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-05 16:25:03,748 INFO    SenderThread:73940 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-05 16:25:03,755 INFO    SenderThread:73940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/output.log
+2024-06-05 16:25:03,756 INFO    SenderThread:73940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/config.yaml
+2024-06-05 16:25:03,756 INFO    SenderThread:73940 [dir_watcher.py:finish():388] scan: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files
+2024-06-05 16:25:03,757 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/diff.patch diff.patch
+2024-06-05 16:25:03,757 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/requirements.txt requirements.txt
+2024-06-05 16:25:03,757 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/output.log output.log
+2024-06-05 16:25:03,760 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/config.yaml config.yaml
+2024-06-05 16:25:03,762 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/wandb-summary.json wandb-summary.json
+2024-06-05 16:25:03,765 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/events.out.tfevents.1717597495.rishubs-MacBook-Pro.local.73883.0 events.out.tfevents.1717597495.rishubs-MacBook-Pro.local.73883.0
+2024-06-05 16:25:03,768 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/conda-environment.yaml conda-environment.yaml
+2024-06-05 16:25:03,769 INFO    SenderThread:73940 [dir_watcher.py:finish():402] scan save: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/wandb-metadata.json wandb-metadata.json
+2024-06-05 16:25:03,769 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 10
+2024-06-05 16:25:03,771 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:03,771 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-05 16:25:03,771 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:03,771 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-05 16:25:03,771 INFO    SenderThread:73940 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 16:25:04,123 INFO    wandb-upload_0:73940 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/output.log
+2024-06-05 16:25:04,140 INFO    wandb-upload_2:73940 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/config.yaml
+2024-06-05 16:25:04,163 INFO    wandb-upload_1:73940 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/requirements.txt
+2024-06-05 16:25:04,189 INFO    wandb-upload_3:73940 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/wandb-summary.json
+2024-06-05 16:25:04,220 INFO    wandb-upload_4:73940 [upload_job.py:push():130] Uploaded file /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/files/conda-environment.yaml
+2024-06-05 16:25:04,426 INFO    Thread-11 (_thread_body):73940 [sender.py:transition_state():613] send defer: 11
+2024-06-05 16:25:04,426 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:04,427 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-05 16:25:04,427 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:04,428 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-05 16:25:04,428 INFO    SenderThread:73940 [file_pusher.py:join():175] waiting for file pusher
+2024-06-05 16:25:04,429 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 12
+2024-06-05 16:25:04,429 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:04,429 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-05 16:25:04,430 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:04,430 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-05 16:25:04,430 INFO    SenderThread:73940 [file_stream.py:finish():601] file stream finish called
+2024-06-05 16:25:04,609 INFO    SenderThread:73940 [file_stream.py:finish():605] file stream finish is done
+2024-06-05 16:25:04,609 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 13
+2024-06-05 16:25:04,610 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:04,610 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-05 16:25:04,610 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:04,610 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-05 16:25:04,610 INFO    SenderThread:73940 [sender.py:transition_state():613] send defer: 14
+2024-06-05 16:25:04,611 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 16:25:04,611 DEBUG   SenderThread:73940 [sender.py:send():378] send: final
+2024-06-05 16:25:04,611 INFO    HandlerThread:73940 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-05 16:25:04,611 DEBUG   SenderThread:73940 [sender.py:send():378] send: footer
+2024-06-05 16:25:04,611 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: defer
+2024-06-05 16:25:04,611 INFO    SenderThread:73940 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-05 16:25:04,612 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 16:25:04,612 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 16:25:04,613 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 16:25:04,614 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 16:25:04,614 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: server_info
+2024-06-05 16:25:04,615 DEBUG   SenderThread:73940 [sender.py:send_request():405] send_request: server_info
+2024-06-05 16:25:04,617 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: get_summary
+2024-06-05 16:25:04,617 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: sampled_history
+2024-06-05 16:25:04,618 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-05 16:25:04,744 INFO    MainThread:73940 [wandb_run.py:_footer_history_summary_info():3994] rendering history
+2024-06-05 16:25:04,745 INFO    MainThread:73940 [wandb_run.py:_footer_history_summary_info():4026] rendering summary
+2024-06-05 16:25:04,745 INFO    MainThread:73940 [wandb_run.py:_footer_sync_info():3953] logging synced files
+2024-06-05 16:25:04,747 DEBUG   HandlerThread:73940 [handler.py:handle_request():158] handle_request: shutdown
+2024-06-05 16:25:04,747 INFO    HandlerThread:73940 [handler.py:finish():882] shutting down handler
+2024-06-05 16:25:05,620 INFO    WriterThread:73940 [datastore.py:close():296] close: /Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN/wandb/run-20240605_162448-at8aja8x/run-at8aja8x.wandb
+2024-06-05 16:25:05,749 INFO    SenderThread:73940 [sender.py:finish():1545] shutting down sender
+2024-06-05 16:25:05,749 INFO    SenderThread:73940 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 16:25:05,749 INFO    SenderThread:73940 [file_pusher.py:join():175] waiting for file pusher
