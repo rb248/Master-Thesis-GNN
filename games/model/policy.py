@@ -5,12 +5,12 @@ from stable_baselines3.common.policies import ActorCriticPolicy
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from games.model.hetero_gnn import HeteroGNN
 from typing import Dict
-from games.encoder.GraphEncoder import HeteroGNNEncoder
+from games.encoder.GraphEncoder import HeteroGNNEncoderPong
 from gymnasium import spaces
 import torch
 import torch.nn as nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
-from games.encoder.GraphEncoder import HeteroGNNEncoder
+from games.encoder.GraphEncoder import HeteroGNNEncoderPong
 from games.model.hetero_gnn import HeteroGNN
 import torch_geometric as pyg
 from games.model.cnn_model import CNNgame
@@ -18,7 +18,7 @@ from games.model.cnn_model import CNNgame
 class CustomHeteroGNN(BaseFeaturesExtractor):
     def __init__(self, observation_space, features_dim=64, hidden_size=64, num_layer=2, obj_type_id='obj', arity_dict={'atom': 2}):
         super().__init__(observation_space, features_dim=hidden_size)
-        self.encoder = HeteroGNNEncoder()
+        self.encoder = HeteroGNNEncoderPong()
         self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict)
 
     def forward(self, observations):

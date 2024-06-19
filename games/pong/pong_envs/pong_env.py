@@ -28,7 +28,7 @@ class PongEnvNew(gym.Env):
             self.observation_space = gym.spaces.Box(low=0, high=255, shape=(self.frame_stack, 84, 84), dtype=np.uint8)
         else:
             # Define a generic observation space for graph data
-            self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(5, 7), dtype=np.float32)  # Number of objects and feature length
+            self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(3, 7), dtype=np.float32)  # Number of objects and feature length
 
         if self.render_mode == "human" or self.render_mode == "rgb_array":
             self.screen = pygame.display.set_mode((self.width, self.height))
@@ -37,7 +37,7 @@ class PongEnvNew(gym.Env):
             self.screen = pygame.Surface((self.width, self.height))
         
         self.clock = pygame.time.Clock()
-        self.ai_reaction_time = 2  # milliseconds
+        self.ai_reaction_time = 10  # milliseconds
         self.np_random = None
         self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
         self.proximity_threshold = 50
@@ -57,7 +57,7 @@ class PongEnvNew(gym.Env):
         self.left_paddle = pygame.Rect(20, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
         self.right_paddle = pygame.Rect(self.width - 20 - self.paddle_width, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
         self.ai_last_reaction_time = pygame.time.get_ticks()
-        self.ball_speed_x, self.ball_speed_y = 4 * random.choice((1, -1)), 4 * random.choice((1, -1))
+        self.ball_speed_x, self.ball_speed_y = 2 * random.choice((1, -1)), 2 * random.choice((1, -1))
         self.left_player_score = 0
         self.right_player_score = 0
         self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
@@ -132,20 +132,45 @@ class PongEnvNew(gym.Env):
         # Existing game state update logic
         self.ball.x += self.ball_speed_x
         self.ball.y += self.ball_speed_y
+        
         # Check for collisions with top and bottom of the screen
-        if self.ball.top <= 0 or self.ball.bottom >= self.height:
+        if self.ball.top <= 0:
+            self.ball.top = 1  # Prevent sticking to the top wall
             self.ball_speed_y *= -1
+        elif self.ball.bottom >= self.height:
+            self.ball.bottom = self.height - 1  # Prevent sticking to the bottom wall
+            self.ball_speed_y *= -1
+        
         # AI paddle move
         self.ai_move()
+        
         # Check for collisions with paddles
         collision = False
         if self.ball.colliderect(self.left_paddle) or self.ball.colliderect(self.right_paddle):
-            self.ball_speed_x *= -1
             collision = True
+            paddle = self.left_paddle if self.ball.colliderect(self.left_paddle) else self.right_paddle
+            
+            # Calculate the difference between the center of the paddle and the ball's y position
+            paddle_center_y = paddle.y + paddle.height / 2
+            difference = self.ball.centery - paddle_center_y
+            
+            # Normalize the difference to a reasonable range, e.g., between -1 and 1
+            normalized_difference = difference / (paddle.height / 2)
+            
+            # Reflect the ball's horizontal speed
+            self.ball_speed_x *= -1
+            
+            # Adjust the ball's vertical speed based on the difference
+            self.ball_speed_y += normalized_difference * 5  # Adjust the multiplier as needed
+            
+            # Ensure the ball's speed is within a reasonable range
+            max_speed = 10
+            self.ball_speed_y = max(-max_speed, min(max_speed, self.ball_speed_y))
+            
             # Adjust the ball's position to prevent sticking
-            if self.ball.colliderect(self.left_paddle):
+            if paddle == self.left_paddle:
                 self.ball.left = self.left_paddle.right  # Place the ball right outside the left paddle
-            elif self.ball.colliderect(self.right_paddle):
+            else:
                 self.ball.right = self.right_paddle.left  # Place the ball right outside the right paddle
 
         # Check for scoring
@@ -163,7 +188,7 @@ class PongEnvNew(gym.Env):
 
     def ball_reset(self):
         self.ball.x, self.ball.y = self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2
-        self.ball_speed_x, self.ball_speed_y = 5 * random.choice((1, -1)), 5 * random.choice((1, -1))
+        self.ball_speed_x, self.ball_speed_y = 2 * random.choice((1, -1)), 2 * random.choice((1, -1))
 
     def step(self, action):
         if not pygame.display.get_init():
@@ -202,8 +227,8 @@ class PongEnvNew(gym.Env):
             "ball": [self.ball.x, self.ball.y, self.ball_speed_x, self.ball_speed_y, 1, 0, 0],
             "left_paddle": [self.left_paddle.x, self.left_paddle.y, 0, 0, 0, 1, 0],
             "right_paddle": [self.right_paddle.x, self.right_paddle.y, 0, 0, 0, 1, 0],
-            "top_wall": [0, 0, 0, 0, 0, 0, 1],
-            "bottom_wall": [0, self.height, 0, 0, 0, 0, 1]
+            # "top_wall": [0, 0, 0, 0, 0, 0, 1],
+            # "bottom_wall": [0, self.height, 0, 0, 0, 0, 1]
         }
 
         # Convert the object features to a tensor
@@ -222,19 +247,43 @@ class PongEnvNew(gym.Env):
         pygame.display.quit()
         pygame.quit()
 
-if __name__ == "__main__":
-    env = PongEnvNew(render_mode='human', observation_type='graph')
+# if __name__ == "__main__":
+#     env = PongEnvNew(render_mode='human', observation_type='pixel')
     
-    env.reset()
+#     env.reset()
 
+#     num_episodes = 100
+#     for i_episode in range(num_episodes):
+#         done = False
+#         try:
+#             while not done:
+#                 action = env.action_space.sample()
+#                 _, _, done, _, _ = env.step(action)
+#                 env.render()
+#                 pygame.time.wait(10)
+#         finally:
+#             env.close()
+
+from stable_baselines3 import PPO
+
+if __name__ == "__main__":
+    #env = PongEnvNew(render_mode='human', observation_type='pixel')
+    env = PongEnvNew(render_mode='human', observation_type='graph')
+    #model = PPO.load("ppo_pong_custom_cnn")
+    model = PPO.load("ppo_custom_heterognn")
     num_episodes = 100
+
     for i_episode in range(num_episodes):
         done = False
+        obs, _ = env.reset()  # Reset the environment at the start of each episode
         try:
             while not done:
-                action = env.action_space.sample()
-                _, _, done, _, _ = env.step(action)
+                action, _ = model.predict(obs)
+                obs, _, done, _, _ = env.step(action)
                 env.render()
                 pygame.time.wait(10)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            break
         finally:
             env.close()

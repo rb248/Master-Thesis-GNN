@@ -45,6 +45,7 @@ class Bricks:
         brick_height = 30
         row_spacing = 10  # Space between rows
         num_rows = 5  # Total number of rows
+        # total number of bricks
         
         for i in range(num_rows):
             y_cor = start_y + i * (brick_height + row_spacing)

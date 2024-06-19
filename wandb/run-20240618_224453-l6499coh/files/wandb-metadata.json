@@ -1,0 +1,48 @@
+{
+    "os": "macOS-14.0-arm64-arm-64bit",
+    "python": "3.10.14",
+    "heartbeatAt": "2024-06-18T20:44:54.310796",
+    "startedAt": "2024-06-18T20:44:53.480332",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "-m games.pong.run_supervised_gnn",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/rb248/Master-Thesis-GNN.git",
+        "commit": "e21baa39f118d9a9651ac2e1b0b267b3619b1760"
+    },
+    "email": "rishabhbhatia315@gmail.com",
+    "root": "/Users/rishubbhatia/Documents/master thesis/Master-Thesis-GNN",
+    "host": "rishubs-MBP.fritz.box",
+    "username": "rishubbhatia",
+    "executable": "/Users/rishubbhatia/miniforge3/envs/games/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 3204,
+        "min": 600,
+        "max": 3204
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3204,
+            "min": 600,
+            "max": 3204
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 228.27386474609375,
+            "used": 9.143505096435547
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 8.0
+    }
+}
