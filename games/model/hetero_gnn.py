@@ -20,6 +20,7 @@ class HeteroGNN(torch.nn.Module):
         obj_type_id: str,
         arity_dict: Dict[str, int],
         aggr: Optional[str | pyg.nn.aggr.Aggregation] = "sum",
+        input_size: int = 7,
     ):
         """
         :param hidden_size: The size of object embeddings.
@@ -37,10 +38,10 @@ class HeteroGNN(torch.nn.Module):
 
         # Initialize encoding MLPs
         self.encoding_mlps = torch.nn.ModuleDict()
-        self.encoding_mlps[obj_type_id] = self.mlp(7, hidden_size, hidden_size)  # Assuming initial input size is 7
+        self.encoding_mlps[obj_type_id] = self.mlp(input_size, hidden_size, hidden_size)  # Assuming initial input size is 7
         for pred, arity in arity_dict.items():
             if arity > 0:
-                self.encoding_mlps[pred] = self.mlp(7*arity, hidden_size * arity, hidden_size * arity)  # Adjust initial input size as needed
+                self.encoding_mlps[pred] = self.mlp(input_size*arity, hidden_size * arity, hidden_size * arity)  # Adjust initial input size as needed
 
         mlp_dict = {
             # One MLP per predicate (goal-predicates included)

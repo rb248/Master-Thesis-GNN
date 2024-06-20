@@ -6,7 +6,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 import torch_geometric as pyg
 from stable_baselines3.common.policies import ActorCriticPolicy
-from games.pong.pong_envs.pong_env import PongEnvNew
+from games.freeway.freeway_envs.freeway_env import FreewayEnv
 import pygame
 
 class CustomCNN(BaseFeaturesExtractor):
@@ -51,7 +51,7 @@ class CustomCNN(BaseFeaturesExtractor):
 
 
 #env = PongEnvNew(render_mode='human', observation_type='pixel')
-env = PongEnvNew(render_mode='human', observation_type='pixel')
+env = FreewayEnv(render_mode='human', observation_type='pixel')
 
 policy_kwargs = dict(
     features_extractor_class=CustomCNN,

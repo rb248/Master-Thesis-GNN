@@ -26,7 +26,7 @@ class FreewayEnv(gym.Env):
         self.frame_stack = frame_stack
 
         self.lanes = [100, 200, 300, 400, 500, 600, 700]
-
+        self.max_cars = 20
         # Define action and observation space
         # Actions: 0 - Stay, 1 - Move Up, 2 - Move Down
         self.action_space = spaces.Discrete(3)
@@ -34,7 +34,7 @@ class FreewayEnv(gym.Env):
         if observation_type == "pixel":
             self.observation_space = spaces.Box(low=0, high=255, shape=(self.frame_stack, 84, 84), dtype=np.uint8)
         else:
-            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(self.max_cars + 3, 7), dtype=np.float32)
+            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(20 + 3, 7), dtype=np.float32)
 
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         self.background_image = pygame.image.load("games/images/Atari - background.png")
@@ -47,8 +47,16 @@ class FreewayEnv(gym.Env):
 
         self.clock = pygame.time.Clock()
         self.reset()
+    def seed(self, seed=None):
+        self.np_random, seed = gym.utils.seeding.np_random(seed)
+        random.seed(seed)
+        np.random.seed(seed)
+        return [seed]
 
-    def reset(self):
+    def reset(self, seed=None, options=None):
+        super().reset(seed=seed, options=options)
+        if seed is not None:
+            self.seed(seed)
         self.player_rect = pygame.Rect(self.window_width // 2 - self.player_width // 2,
                                        self.window_height - self.player_height - 10,
                                        self.player_width, self.player_height)
@@ -81,7 +89,7 @@ class FreewayEnv(gym.Env):
         # Collision detection
         hit = any(self.player_rect.colliderect(pygame.Rect(car['x'], car['lane'], self.car_width, self.car_height)) for car in self.cars)
         if hit:
-            self.score = 0
+            self.score = -1
             self.player_rect.y = self.window_height - self.player_height - 10
 
         current_time = pygame.time.get_ticks()
@@ -89,7 +97,7 @@ class FreewayEnv(gym.Env):
             self.done = True
             
         if self.player_rect.y <= 0:  # Reached top
-            self.score += 1
+            self.score = 10
             self.player_rect.y = self.window_height - self.player_height - 10
 
         if self.observation_type == "pixel":
@@ -122,8 +130,8 @@ class FreewayEnv(gym.Env):
     def get_object_data(self):
         objects = [
             [self.player_rect.x, self.player_rect.y, 0, 0, 1, 0, 0],  # Player
-            [0, 0, 0, 0, 0, 1, 0],  # Top wall
-            [0, self.window_height, 0, 0, 0, 1, 0]  # Bottom wall
+            [self.window_width/2, 0, 0, 0, 0, 1, 0],  # Top wall
+            [self.window_width/2, self.window_height, 0, 0, 0, 1, 0]  # Bottom wall
         ]
 
         for i, car in enumerate(self.cars):

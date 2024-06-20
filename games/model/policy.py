@@ -10,16 +10,22 @@ from gymnasium import spaces
 import torch
 import torch.nn as nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
-from games.encoder.GraphEncoder import HeteroGNNEncoderPong
+from games.encoder.GraphEncoder import HeteroGNNEncoderPong, GraphEncoderFreeway, GraphEncoderPacman
 from games.model.hetero_gnn import HeteroGNN
 import torch_geometric as pyg
 from games.model.cnn_model import CNNgame
 
 class CustomHeteroGNN(BaseFeaturesExtractor):
-    def __init__(self, observation_space, features_dim=64, hidden_size=64, num_layer=2, obj_type_id='obj', arity_dict={'atom': 2}):
+    def __init__(self, observation_space, features_dim=64, hidden_size=64, num_layer=2, obj_type_id='obj', arity_dict={'atom': 2}, game = 'pong'):
         super().__init__(observation_space, features_dim=hidden_size)
-        self.encoder = HeteroGNNEncoderPong()
-        self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict)
+        if game == 'pong':
+            self.encoder = HeteroGNNEncoderPong()
+        elif game == 'freeway':
+            self.encoder = GraphEncoderFreeway() 
+        elif game == 'pacman':
+            self.encoder = GraphEncoderPacman()
+            self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=8)
+        self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=7)
 
     def forward(self, observations):
         # Encode observations to a graph using the encoder

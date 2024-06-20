@@ -1,1 +1,0 @@
-{"_wandb": {"runtime": 89}, "global_step": 2048, "_timestamp": 1717525394.763638, "rollout/ep_len_mean": 631.0, "rollout/ep_rew_mean": -2.799999952316284, "time/fps": 28.0, "_runtime": 89.18832993507385, "_step": 0}

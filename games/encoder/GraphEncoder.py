@@ -3,6 +3,7 @@ import networkx as nx
 from torch_geometric.data import HeteroData, Batch
 from collections import defaultdict
 from itertools import combinations
+import os
 
 class HeteroGNNEncoderPong:
     def __init__(self, obj_type_id: str = "obj", atom_type_id: str = "atom"):
@@ -285,6 +286,8 @@ class GraphEncoderPacman:
 
         for b in range(batch_size):
             object_features = batch_object_features[b]
+            # remove the values from batch_object_features that have all zeros in the vector
+            object_features = object_features[~torch.all(object_features == 0, dim=1)]
             graph = nx.Graph()
 
             # Add nodes for non-wall cells
@@ -292,7 +295,7 @@ class GraphEncoderPacman:
                 cell_features = torch.zeros(cell_feature_dim).tolist()
                 cell_features[0] = i
                 cell_features[1] = j
-                graph.add_node((i, j), type="cell", features=cell_features)
+                graph.add_node((i, j), type=self.obj_type_id, features=cell_features)
 
             atom_index = 0  # Atom index counter
 
@@ -300,31 +303,30 @@ class GraphEncoderPacman:
             for (i, j) in non_wall_cells:
                 if (i, j + 1) in non_wall_cells:
                     atom_features = torch.zeros((2, cell_feature_dim)).tolist()
-                    graph.add_node(atom_index, type="to_right_of", features=atom_features)
+                    graph.add_node(atom_index, type="RightOf", features=atom_features)
                     graph.add_edge((i, j), atom_index, position=0)
                     graph.add_edge((i, j + 1), atom_index, position=1)
                     atom_index += 1
 
-                # Add "above" relation and atom nodes
+            # Add "above" relation and atom nodes
+            for (i, j) in non_wall_cells:
                 if (i + 1, j) in non_wall_cells:
                     atom_features = torch.zeros((2, cell_feature_dim)).tolist()
-                    graph.add_node(atom_index, type="above", features=atom_features)
+                    graph.add_node(atom_index, type="Above", features=atom_features)
                     graph.add_edge((i, j), atom_index, position=0)
                     graph.add_edge((i + 1, j), atom_index, position=1)
                     atom_index += 1
 
             # Add nodes and edges for objects
             for obj_idx, (obj_x, obj_y) in enumerate(object_features[:, :2]):
-                obj_cell_x = int((obj_x + 8) / 16)
-                obj_cell_y = int((obj_y + 8) / 16)
-                obj_node = (obj_x, obj_y, "obj")
-                cell_node = (obj_cell_x, obj_cell_y)
+                obj_node = (obj_x.item(), obj_y.item(), "obj")
+                cell_node = (obj_x.item(), obj_y.item())
 
                 graph.add_node(obj_node, type=self.obj_type_id, features=object_features[obj_idx].tolist())
                 
                 # Create an atom node for the "at" relation
                 atom_features = torch.zeros((2, cell_feature_dim)).tolist()
-                graph.add_node(atom_index, type="at", features=atom_features)
+                graph.add_node(atom_index, type="At", features=atom_features)
                 graph.add_edge(obj_node, atom_index, position=0)
                 graph.add_edge(cell_node, atom_index, position=1)
                 atom_index += 1
@@ -338,13 +340,13 @@ class GraphEncoderPacman:
 
         for graph in batch_graphs:
             data = HeteroData()
-            node_index_mapping = {self.obj_type_id: {}, self.atom_type_id: {}}
+            node_index_mapping = defaultdict(dict)
             obj_features = []
-            atom_features = []
+            atom_features_dict = defaultdict(list)
             edge_dict = defaultdict(list)
 
             current_obj_features = []
-            current_atom_features = []
+            current_atom_features_dict = defaultdict(list)
 
             for node, attrs in graph.nodes(data=True):
                 node_type = attrs['type']
@@ -352,20 +354,22 @@ class GraphEncoderPacman:
                 if node_type == self.obj_type_id:
                     node_index_mapping[node_type][node] = len(current_obj_features)
                     current_obj_features.append(features)
-                elif node_type == self.atom_type_id:
-                    node_index_mapping[node_type][node] = len(current_atom_features)
-                    current_atom_features.append(features)
+                else:
+                    node_index_mapping[node_type][node] = len(current_atom_features_dict[node_type])
+                    current_atom_features_dict[node_type].append(features)
 
             if current_obj_features:
                 obj_features.append(torch.stack(current_obj_features))
-            if current_atom_features:
-                flattened_atom_features = [f.view(-1) for f in current_atom_features]
-                atom_features.append(torch.stack(flattened_atom_features))
+            for node_type, features_list in current_atom_features_dict.items():
+                if features_list:
+                    flattened_features = [f.view(-1) for f in features_list]
+                    atom_features_dict[node_type].append(torch.stack(flattened_features))
 
             if obj_features:
                 data[self.obj_type_id].x = torch.cat(obj_features)
-            if atom_features:
-                data[self.atom_type_id].x = torch.cat(atom_features)
+            for node_type, features_list in atom_features_dict.items():
+                if features_list:
+                    data[node_type].x = torch.cat(features_list)
 
             for src, dst, attr in graph.edges(data=True):
                 src_type = graph.nodes[src]['type']
@@ -376,6 +380,7 @@ class GraphEncoderPacman:
                 src_idx = node_index_mapping[src_type][src]
                 dst_idx = node_index_mapping[dst_type][dst]
                 edge_dict[edge_type].append((src_idx, dst_idx))
+                # Add reverse edges for bidirectionality
                 reverse_edge_type = (dst_type, pos, src_type)
                 edge_dict[reverse_edge_type].append((dst_idx, src_idx))
 
