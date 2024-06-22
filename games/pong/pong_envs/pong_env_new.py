@@ -134,8 +134,6 @@ class PongEnvNew(gym.Env):
         self.ball.y += self.ball_speed_y
 
         # Debugging statements to track ball position and speed
-        print(f"Ball position: ({self.ball.x}, {self.ball.y})")
-        print(f"Ball speed: ({self.ball_speed_x}, {self.ball_speed_y})")
 
         # Check for collisions with the top and bottom of the screen
         if self.ball.top <= 0:
@@ -160,12 +158,10 @@ class PongEnvNew(gym.Env):
             self.ball_speed_y *= 1.1
             # Adjust the ball's position to prevent sticking
             self.ball.left = self.left_paddle.right
-            print("Collision with left paddle")
         elif self.ball.left <= 0:
             self.right_player_score += 1
             score = -1  # Negative reward for the agent
             self.ball_reset()
-            print("Score for right player")
             return collision, score  # Early return to avoid further processing
         
         if (self.ball.right >= self.right_paddle.left and 
@@ -175,12 +171,10 @@ class PongEnvNew(gym.Env):
             self.ball_speed_y *= 1.1
             # Adjust the ball's position to prevent sticking
             self.ball.right = self.right_paddle.left
-            print("Collision with right paddle")
         elif self.ball.right >= self.width:
             self.left_player_score += 1
             score = 1  # Positive reward for the agent
             self.ball_reset()
-            print("Score for left player")
             return collision, score  # Early return to avoid further processing
 
         return collision, score
@@ -192,8 +186,6 @@ class PongEnvNew(gym.Env):
         self.ball_speed_x = 2 * random.choice((1, -1))
         self.ball_speed_y = 2 * random.choice((1, -1))
         # Debugging statement to confirm ball reset
-        print("Ball reset to center")
-        print(f"New ball speed: ({self.ball_speed_x}, {self.ball_speed_y})")
 
     def step(self, action):
         if not pygame.display.get_init():
@@ -256,7 +248,7 @@ from stable_baselines3 import PPO
 
 if __name__ == "__main__":
     env = PongEnvNew(render_mode='human', observation_type='graph')
-    # model = PPO.load("ppo_custom_heterognn")
+    model = PPO.load("ppo_custom_heterognn_new")
     num_episodes = 100
 
     for i_episode in range(num_episodes):
@@ -264,7 +256,7 @@ if __name__ == "__main__":
         obs, _ = env.reset()  # Reset the environment at the start of each episode
         try:
             while not done:
-                action = env.action_space.sample()
+                action,_ = model.predict(obs)
                 obs, _, done, _, _ = env.step(action)
                 env.render()
                 pygame.time.wait(10)

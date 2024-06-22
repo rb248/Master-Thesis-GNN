@@ -10,11 +10,11 @@ from gymnasium import spaces
 import torch
 import torch.nn as nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
-from games.encoder.GraphEncoder import HeteroGNNEncoderPong, GraphEncoderFreeway, GraphEncoderPacman
+from games.encoder.GraphEncoder import HeteroGNNEncoderPong, GraphEncoderFreeway, GraphEncoderPacman, GraphEncoderBreakout
 from games.model.hetero_gnn import HeteroGNN
 import torch_geometric as pyg
 from games.model.cnn_model import CNNgame
-
+import time
 class CustomHeteroGNN(BaseFeaturesExtractor):
     def __init__(self, observation_space, features_dim=64, hidden_size=64, num_layer=2, obj_type_id='obj', arity_dict={'atom': 2}, game = 'pong'):
         super().__init__(observation_space, features_dim=hidden_size)
@@ -25,11 +25,21 @@ class CustomHeteroGNN(BaseFeaturesExtractor):
         elif game == 'pacman':
             self.encoder = GraphEncoderPacman()
             self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=8)
-        self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=7)
+        elif game == 'breakout':
+            self.encoder = GraphEncoderBreakout()
+        
+        # set device to mps if available
+        #self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=7).to(self.device)
+
 
     def forward(self, observations):
         # Encode observations to a graph using the encoder
-        pyg_data = self.encoder.encode(observations) 
+        start = time.time()
+        pyg_data = self.encoder.encode(observations)
+        print(f"Time to encode: {time.time() - start}")
+        pyg_data = pyg_data.to(self.device) 
         obj_emb = self.model(pyg_data.x_dict, pyg_data.edge_index_dict, pyg_data.batch_dict)
         # Flatten or pool the embeddings if necessary to match the expected features_dim
         return obj_emb
@@ -71,7 +81,6 @@ class CustomCNN(BaseFeaturesExtractor):
         with torch.no_grad():
             dummy_input = torch.as_tensor(observation_space.sample()[None]).float()
             n_flatten = self.cnn(dummy_input).shape[1]
-            print(f"Calculated flat features size: {n_flatten}")  # Debugging line
 
         self.adjust_to_features_dim = nn.Linear(2560, features_dim)
 
@@ -80,6 +89,7 @@ class CustomCNN(BaseFeaturesExtractor):
         # if observations.shape[0] >=1:
         #     # take the last observation
         #     observations = observations[-1] 
+        
         cnn_output = self.cnn(observations)
         final_output = self.adjust_to_features_dim(cnn_output)
         return final_output

@@ -15,6 +15,7 @@ class FreewayEnv(gym.Env):
     def __init__(self, render_mode='human', observation_type='pixel', frame_stack=4):
         super(FreewayEnv, self).__init__()
         pygame.init()
+        self.last_time = pygame.time.get_ticks()
         self.render_mode = render_mode
         self.observation_type = observation_type
         self.window_width = 800
@@ -75,6 +76,7 @@ class FreewayEnv(gym.Env):
             return self.get_object_data(), {}
 
     def step(self, action):
+        reward = 0
         if action == 1:  # Up
             self.player_rect.y = max(0, self.player_rect.y - 5)
         elif action == 2:  # Down
@@ -89,15 +91,21 @@ class FreewayEnv(gym.Env):
         # Collision detection
         hit = any(self.player_rect.colliderect(pygame.Rect(car['x'], car['lane'], self.car_width, self.car_height)) for car in self.cars)
         if hit:
-            self.score = -1
+            #self.score = -1
             self.player_rect.y = self.window_height - self.player_height - 10
-
+        
         current_time = pygame.time.get_ticks()
+        # Deduct -0.1 from the score for each second
+        if current_time - self.last_time >= 1000:  # 1000 milliseconds = 1 second
+            reward -= 0.1
+            self.last_time = current_time
         if current_time - self.episode_start_time >= 60000:  # 60000 milliseconds = 1 minute
             self.done = True
             
         if self.player_rect.y <= 0:  # Reached top
-            self.score = 10
+            self.score +=1
+            reward += 100
+
             self.player_rect.y = self.window_height - self.player_height - 10
 
         if self.observation_type == "pixel":
@@ -106,7 +114,7 @@ class FreewayEnv(gym.Env):
         else:
             observation = self.get_object_data()
 
-        return observation, self.score, self.done, False, {}
+        return observation, reward, self.done, False, {}
 
     def update_frame_buffer(self):
         frame = self.render_to_array()

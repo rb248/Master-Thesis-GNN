@@ -1,5 +1,5 @@
-import gym
-from gym import spaces
+import gymnasium as gym
+from gymnasium import spaces
 import numpy as np
 import pygame
 from games.breakout.paddle import Paddle
@@ -11,17 +11,17 @@ import time
 import torch
 from torch_geometric.data import Data, HeteroData 
 import networkx as nx
-from games.encoder.GraphEncoder import GraphConverter
 
 class BreakoutEnv(gym.Env):
     metadata = {'render.modes': ['human', 'rgb_array']}
     
-    def __init__(self, render_mode='human', observation_type='pixel', num_frames=4):
+    def __init__(self, render_mode='human', observation_type='pixel', num_frames=4, training=True):
         super(BreakoutEnv, self).__init__()
 
         self.render_mode = render_mode
         self.observation_type = observation_type
         self.num_frames = num_frames
+        self.training = training
 
         # Action space (move left, stay, move right)
         self.action_space = spaces.Discrete(3)
@@ -36,10 +36,10 @@ class BreakoutEnv(gym.Env):
         else:
             brick_width = 60
             brick_spacing = 5
-            num_bricks_per_lane = (self.screen.get_width() - 2 * brick_spacing) // (brick_width + brick_spacing)
+            num_bricks_per_lane = (self.window_width - 2 * brick_spacing) // (brick_width + brick_spacing)
             self.total_bricks = 5 * num_bricks_per_lane
 
-            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(self.total_bricks+ 2, 7), dtype=np.float32)
+            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(self.total_bricks + 2, 7), dtype=np.float32)
 
         # Initialize the game
         pygame.init()
@@ -49,8 +49,17 @@ class BreakoutEnv(gym.Env):
         self.clock = pygame.time.Clock()
 
         self.reset()
+        
+    def seed(self, seed=None):
+        self.np_random, seed = gym.utils.seeding.np_random(seed)
+        random.seed(seed)
+        np.random.seed(seed)
+        return [seed]
 
-    def reset(self):
+    def reset(self, seed=None, options=None):
+        super().reset(seed=seed, options=options)
+        if seed is not None:
+            self.seed(seed)
         self.paddle = Paddle(self.screen)
         self.ball = Ball(self.screen)
         self.bricks = Bricks(self.screen)
@@ -61,18 +70,20 @@ class BreakoutEnv(gym.Env):
         self.bricks.draw()
         self.scoreboard.draw()
         self.ui.header()
-        initial_state = self.get_state()
-        for i in range(self.num_frames):
-            start_idx = i * 3
-            self.frame_buffer[:, :, start_idx:start_idx + 3] = initial_state
         if self.observation_type == 'pixel':
-            return self.frame_buffer
+            initial_state = self.get_state()
+            for i in range(self.num_frames):
+                start_idx = i * 3
+                self.frame_buffer[:, :, start_idx:start_idx + 3] = initial_state
+            
+                return self.frame_buffer, {}
         else:
-            return self.get_object_data()
+            return self.get_object_data(), {}
 
     def step(self, action):
         assert self.action_space.contains(action), f"{action} is an invalid action"
-        
+        start_time = time.time()  # Start timing before processing the action
+
         self.screen.fill((0, 0, 0))
         
         if action == 0:
@@ -99,14 +110,16 @@ class BreakoutEnv(gym.Env):
         
         done = self.scoreboard.lives == 0 or len(self.bricks.bricks) == 0
 
-        pygame.display.flip()
+        if self.render_mode in ['human', 'rgb_array'] and not self.training:
+            pygame.display.flip()
 
         if self.observation_type == 'pixel':
             observation = self.frame_buffer
         else:
             observation = self.get_object_data()
-
-        return observation, reward, done, {}
+        observation_end_time = time.time() 
+        truncated = False
+        return observation, reward, done, truncated, {}
 
     def check_collision_with_walls(self, ball, score, ui):
         reward = 0
@@ -202,14 +215,13 @@ class BreakoutEnv(gym.Env):
         pygame.quit()
 
 if __name__ == "__main__":
-    env = BreakoutEnv()
+    env = BreakoutEnv(render_mode='human', observation_type='pixel', training=False)
     obs = env.reset()
     done = False
 
     while not done:
         action = env.action_space.sample()
-        obs, reward, done, info = env.step(action)
-        env.render()
+        obs, reward, done, _, info = env.step(action)
         if reward < 0:
             print("Ball lost")
         if done:

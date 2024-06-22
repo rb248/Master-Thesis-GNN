@@ -160,8 +160,11 @@ class PongEnvNew(gym.Env):
             # Reflect the ball's horizontal speed
             self.ball_speed_x *= -1
             
-            # Adjust the ball's vertical speed based on the difference
-            self.ball_speed_y += normalized_difference * 5  # Adjust the multiplier as needed
+            # Adjust the ball's vertical speed based on the difference, ensuring the speed remains constant
+            angle = normalized_difference * np.pi / 4  # Adjust the angle as needed
+            speed = np.sqrt(self.ball_speed_x**2 + self.ball_speed_y**2)
+            self.ball_speed_y = speed * np.sin(angle)
+            self.ball_speed_x = np.sign(self.ball_speed_x) * speed * np.cos(angle)
             
             # Ensure the ball's speed is within a reasonable range
             max_speed = 10
@@ -186,6 +189,7 @@ class PongEnvNew(gym.Env):
 
         return collision, score
 
+
     def ball_reset(self):
         self.ball.x, self.ball.y = self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2
         self.ball_speed_x, self.ball_speed_y = 2 * random.choice((1, -1)), 2 * random.choice((1, -1))
@@ -199,26 +203,33 @@ class PongEnvNew(gym.Env):
                 pygame.display.quit()
                 pygame.quit()
                 raise SystemExit("Pygame QUIT event received.")
+        
         self._apply_action(action)
         collision, score = self._update_game_state()
         observation = self._get_observation()
+
+        # Initialize reward
         reward = 0
+
+        # Handle collision reward
         if collision:
-            reward += 0.1  # Reward for hitting the ball
-        reward += score  # Reward for scoring
-    
-        # Additional shaping rewards (optional)
-        if not collision and self.ball_speed_x > 0:  # Encourages the agent to stay in advantageous positions
-            reward += 0.01  # Small reward for keeping the ball in play
+            reward = 0.5  # Reward for hitting the ball
+        
+        # Handle scoring reward
+        if score != 0:
+            reward = score*2  # Reward for scoring (1 or -1)
+        
+        # Check if the game is done
         done = self._check_done()
         if done:
             if self.left_player_score >= 20:
-                reward = 1
+                reward = 10  # Positive reward for winning
             elif self.right_player_score >= 20:
-                reward = -1
-        
+                reward = -10  # Negative reward for losing
+
         info = {}
         truncated = False
+
         return observation, reward, done, truncated, info
 
     def get_graph_data(self):
@@ -267,23 +278,32 @@ class PongEnvNew(gym.Env):
 from stable_baselines3 import PPO
 
 if __name__ == "__main__":
-    #env = PongEnvNew(render_mode='human', observation_type='pixel')
-    env = PongEnvNew(render_mode='human', observation_type='graph')
-    #model = PPO.load("ppo_pong_custom_cnn")
-    model = PPO.load("ppo_custom_heterognn")
-    num_episodes = 100
+    # #env = PongEnvNew(render_mode='human', observation_type='pixel')
+    # env = PongEnvNew(render_mode='human', observation_type='pixel')
+    # #model = PPO.load("ppo_pong_custom_cnn")
+    # model = PPO.load("ppo_custom_env")
+    # num_episodes = 100
 
-    for i_episode in range(num_episodes):
-        done = False
-        obs, _ = env.reset()  # Reset the environment at the start of each episode
-        try:
-            while not done:
-                action, _ = model.predict(obs)
-                obs, _, done, _, _ = env.step(action)
-                env.render()
-                pygame.time.wait(10)
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            break
-        finally:
-            env.close()
+    # for i_episode in range(num_episodes):
+    #     done = False
+    #     obs, _ = env.reset()  # Reset the environment at the start of each episode
+    #     try:
+    #         while not done:
+    #             action, _ = model.predict(obs)
+    #             obs, _, done, _, _ = env.step(action)
+    #             env.render()
+    #             pygame.time.wait(10)
+    #     except Exception as e:
+    #         print(f"An error occurred: {e}")
+    #         break
+    #     finally:
+    #         env.close()
+    # Create a single instance of the environment for evaluation
+    eval_env = PongEnvNew(render_mode='human', observation_type='pixel')
+    model = PPO.load("ppo_custom_env")
+    # Evaluate the policy
+    from stable_baselines3.common.evaluation import evaluate_policy
+    mean_reward, std_reward = evaluate_policy(model, eval_env, n_eval_episodes=10)
+
+    print(f"Mean reward: {mean_reward} ± {std_reward}")
+

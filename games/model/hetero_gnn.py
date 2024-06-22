@@ -11,7 +11,6 @@ from torch_geometric.typing import Adj
 
 from games.model.hetero_message_passing import FanInMP, FanOutMP
 
-
 class HeteroGNN(torch.nn.Module):
     def __init__(
         self,
@@ -66,12 +65,11 @@ class HeteroGNN(torch.nn.Module):
             aggr=aggr,
         )
 
-    def encoding_layers(self, x_dict: Dict[str, Tensor]) -> Dict[str, Tensor]:
+    def encoding_layers(self, x_dict: Dict[str, Tensor], device: torch.device) -> Dict[str, Tensor]:
         # Resize everything by the hidden_size
-        
         for k, v in x_dict.items():
             assert v.dim() == 2
-            x_dict[k] = self.encoding_mlps[k](v)
+            x_dict[k] = self.encoding_mlps[k](v.to(device))
         return x_dict
 
     def layer(self, x_dict, edge_index_dict):
@@ -91,25 +89,29 @@ class HeteroGNN(torch.nn.Module):
         x_dict: Dict[str, Tensor],
         edge_index_dict: Dict[str, Adj],
         batch_dict: Optional[Dict[str, Tensor]] = None,
-    ):
-        # Filter out dummies
-        x_dict = {k: v for k, v in x_dict.items() if v.numel() != 0}
-
-        edge_index_dict = {k: v for k, v in edge_index_dict.items() if v.numel() != 0}
+    ):  
+        #device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")  
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")      
+        # Filter out dummies and move to device
+        x_dict = {k: v.to(device) for k, v in x_dict.items() if v.numel() != 0}
+        edge_index_dict = {k: v.to(device) for k, v in edge_index_dict.items() if v.numel() != 0}
+        
         # Resize everything by the hidden_size
-        x_dict = self.encoding_layers(x_dict)
+        x_dict = self.encoding_layers(x_dict, device)
 
         for _ in range(self.num_layer):
             self.layer(x_dict, edge_index_dict)
 
-        obj_emb = x_dict[self.obj_type_id]
+        obj_emb = x_dict[self.obj_type_id].to(device)
         batch = (
-            batch_dict[self.obj_type_id]
+            batch_dict[self.obj_type_id].to(device)
             if batch_dict is not None
-            else torch.zeros(obj_emb.shape[0], dtype=torch.long, device=obj_emb.device)
+            else torch.zeros(obj_emb.shape[0], dtype=torch.long, device=device)
         )
+        
         # Aggregate all object embeddings into one aggregated embedding
         aggr = pyg.nn.global_add_pool(obj_emb, batch)  # shape [hidden, 1]
+        
         # Produce final single scalar of shape [1]
         return aggr
 

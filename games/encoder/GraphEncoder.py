@@ -4,13 +4,14 @@ from torch_geometric.data import HeteroData, Batch
 from collections import defaultdict
 from itertools import combinations
 import os
+import matplotlib.pyplot as plt
 
 class HeteroGNNEncoderPong:
     def __init__(self, obj_type_id: str = "obj", atom_type_id: str = "atom"):
         self.obj_type_id = obj_type_id
         self.atom_type_id = atom_type_id
 
-    def encode(self, batch_node_features: torch.Tensor, proximity_threshold: float = 200) -> Batch:
+    def encode(self, batch_node_features: torch.Tensor, proximity_threshold: float = 1000) -> Batch:
         batch_data = []
         batch_size = batch_node_features.size(0)
 
@@ -35,7 +36,8 @@ class HeteroGNNEncoderPong:
                     graph.add_edge(i, atom_index, position=0)
                     graph.add_edge(j, atom_index, position=1)
                     atom_index += 1
-
+            pos = nx.spring_layout(graph)  # positions for all nodes
+            
             batch_data.append(graph)
 
         return Batch.from_data_list(self.to_pyg_data(batch_data))
@@ -392,21 +394,17 @@ class GraphEncoderPacman:
 
         return data_list 
     
-import networkx as nx
-import torch
-from torch_geometric.data import Data, HeteroData
-import numpy as np
 
-class BreakoutGraphEncoder:
+
+class GraphEncoderBreakout:
     def __init__(self, proximity_threshold=100, adjacency_threshold=5):
         self.proximity_threshold = proximity_threshold
         self.adjacency_threshold = adjacency_threshold
-
-    
+        self.obj_type_id = "obj"
+        self.atom_type_id = "atom"
 
     def encode(self, batch_object_features: torch.Tensor) -> Batch:
         batch_data = []
-        self.obj_type_id = "obj"
         batch_size = batch_object_features.size(0)
         cell_feature_dim = batch_object_features.size(2)
 
@@ -424,11 +422,10 @@ class BreakoutGraphEncoder:
 
             atom_index = 0  # Atom index counter
 
-            
-
             # Create an atom node for the "proximity" relation between all objects
             atom_index = num_nodes
-            object_feature_length = object_features[i].size(1)
+            object_feature_length = object_features.size(1)  # Corrected to get the length of the feature vector
+
             for i, j in combinations(range(num_nodes), 2):
                 dist = torch.norm(object_features[i, :2] - object_features[j, :2]).item()
                 if dist < self.proximity_threshold:
@@ -443,8 +440,6 @@ class BreakoutGraphEncoder:
 
         return Batch.from_data_list(self.to_pyg_data(batch_data))
 
-
-
     def check_proximity(self, obj1, obj2, threshold):
         center1 = obj1[:2]
         center2 = obj2[:2]
@@ -454,42 +449,59 @@ class BreakoutGraphEncoder:
     def check_adjacent(self, obj1, obj2, threshold):
         return self.check_proximity(obj1, obj2, threshold)
 
-    def check_proximity(self, obj1, obj2, threshold):
-        center1 = obj1.rect.center
-        center2 = obj2.rect.center
-        distance = np.sqrt((center1[0] - center2[0]) ** 2 + (center1[1] - center2[1]) ** 2)
-        return distance < threshold
+    def to_pyg_data(self, batch_graphs):
+        data_list = []
 
-    def check_adjacent(self, obj1, obj2, threshold):
-        return self.check_proximity(obj1, obj2, threshold)
+        for graph in batch_graphs:
+            data = HeteroData()
+            node_index_mapping = defaultdict(dict)
+            obj_features = []
+            atom_features_dict = defaultdict(list)
+            edge_dict = defaultdict(list)
 
-    def to_pyg_data(self, graph):
-        # Initialize a HeteroData object
-        data = HeteroData()
+            current_obj_features = []
+            current_atom_features_dict = defaultdict(list)
 
-        # Add nodes and their features
-        for node, attrs in graph.nodes(data=True):
-            node_type = attrs['type']
-            features = torch.tensor(attrs['features'], dtype=torch.float32)
-            if node_type not in data:
-                data[node_type].x = [features]
-            else:
-                data[node_type].x.append(features)
+            for node, attrs in graph.nodes(data=True):
+                node_type = attrs['type']
+                features = torch.tensor(attrs['features'])
+                if node_type == self.obj_type_id:
+                    node_index_mapping[node_type][node] = len(current_obj_features)
+                    current_obj_features.append(features)
+                else:
+                    node_index_mapping[node_type][node] = len(current_atom_features_dict[node_type])
+                    current_atom_features_dict[node_type].append(features)
 
-        # Convert lists of features to tensors
-        for node_type in data.node_types:
-            data[node_type].x = torch.stack(data[node_type].x, dim=0)
+            if current_obj_features:
+                obj_features.append(torch.stack(current_obj_features))
+            for node_type, features_list in current_atom_features_dict.items():
+                if features_list:
+                    flattened_features = [f.view(-1) for f in features_list]
+                    atom_features_dict[node_type].append(torch.stack(flattened_features))
 
-        # Add edges
-        for src, dst, attrs in graph.edges(data=True):
-            edge_type = (graph.nodes[src]['type'], attrs['position'], graph.nodes[dst]['type'])
-            if edge_type not in data.edge_types:
-                data[edge_type].edge_index = [[], []]
-            data[edge_type].edge_index[0].append(src)
-            data[edge_type].edge_index[1].append(dst)
+            if obj_features:
+                data[self.obj_type_id].x = torch.cat(obj_features)
+            for node_type, features_list in atom_features_dict.items():
+                if features_list:
+                    data[node_type].x = torch.cat(features_list)
 
-        # Convert lists of edges to tensors
-        for edge_type in data.edge_types:
-            data[edge_type].edge_index = torch.tensor(data[edge_type].edge_index, dtype=torch.long)
+            for src, dst, attr in graph.edges(data=True):
+                src_type = graph.nodes[src]['type']
+                dst_type = graph.nodes[dst]['type']
+                pos = str(attr['position'])
+                edge_type = (src_type, pos, dst_type)
 
-        return data
+                src_idx = node_index_mapping[src_type][src]
+                dst_idx = node_index_mapping[dst_type][dst]
+                edge_dict[edge_type].append((src_idx, dst_idx))
+                # Add reverse edges for bidirectionality
+                reverse_edge_type = (dst_type, pos, src_type)
+                edge_dict[reverse_edge_type].append((dst_idx, src_idx))
+
+            for edge_type, edges in edge_dict.items():
+                edge_tensor = torch.tensor(edges, dtype=torch.long).t().contiguous()
+                data[edge_type].edge_index = edge_tensor
+
+            data_list.append(data)
+
+        return data_list
