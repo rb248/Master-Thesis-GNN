@@ -5,6 +5,7 @@ from collections import defaultdict
 from itertools import combinations
 import os
 import matplotlib.pyplot as plt
+from typing import List
 
 class HeteroGNNEncoderPong:
     def __init__(self, obj_type_id: str = "obj", atom_type_id: str = "atom"):
@@ -98,8 +99,6 @@ class HeteroGNNEncoderPong:
         return data_list
   
 
-
-
 class GraphEncoderFreeway:
     def __init__(self, obj_type_id: str = "obj"):
         self.obj_type_id = obj_type_id
@@ -113,52 +112,52 @@ class GraphEncoderFreeway:
             num_nodes = node_features.size(0)
             graph = nx.Graph()
 
-            # Adding object nodes
+            object_feature_length = node_features.size(1)
+
+            # Add object nodes
             for i in range(num_nodes):
                 graph.add_node(i, type=self.obj_type_id, features=node_features[i].tolist())
 
-            # Adding atom nodes based on proximity and specific predicates
             atom_index = num_nodes
-            object_feature_length = node_features.size(1)
 
             # Add ChickenOnLane atoms and edges
-            for i in range(num_nodes):
-                if node_features[i, -3] == 1:  # Assuming the 5th feature is a flag for the chicken
-                    for j in range(num_nodes):
-                        if node_features[j, -2] == 1:  # Assuming the 6th feature is a flag for lanes
-                            if abs(node_features[i, 1] - node_features[j, 1]) <= 50:
-                                atom_features = torch.zeros((2, object_feature_length)).tolist()
-                                graph.add_node(atom_index, type="ChickenOnLane", features=atom_features)
-                                graph.add_edge(i, atom_index, position=0)
-                                graph.add_edge(j, atom_index, position=1)
-                                atom_index += 1
+            chicken_indices = [i for i in range(num_nodes) if node_features[i, -3] == 1]
+            lane_indices = [i for i in range(num_nodes) if node_features[i, -2] == 1]
+
+            for i in chicken_indices:
+                for j in lane_indices:
+                    if abs(node_features[i, 1] - node_features[j, 1]) <= proximity_threshold:
+                        atom_features = torch.zeros((2, object_feature_length)).tolist()
+                        graph.add_node(atom_index, type="ChickenOnLane", features=atom_features)
+                        graph.add_edge(i, atom_index, position=0)
+                        graph.add_edge(j, atom_index, position=1)
+                        atom_index += 1
 
             # Add CarOnLane atoms and edges
-            for i in range(num_nodes):
-                if node_features[i, -1] == 1:  # Assuming the last feature is a flag for cars
-                    for j in range(num_nodes):
-                        if node_features[j, -2] == 1:  # Assuming the 6th feature is a flag for lanes
-                            if abs(node_features[i, 1] - node_features[j, 1]) <= 50:
-                                atom_features = torch.zeros((2, object_feature_length)).tolist()
-                                graph.add_node(atom_index, type="CarOnLane", features=atom_features)
-                                graph.add_edge(i, atom_index, position=0)
-                                graph.add_edge(j, atom_index, position=1)
-                                atom_index += 1
+            car_indices = [i for i in range(num_nodes) if node_features[i, -1] == 1]
+
+            for i in car_indices:
+                for j in lane_indices:
+                    if abs(node_features[i, 1] - node_features[j, 1]) <= proximity_threshold:
+                        atom_features = torch.zeros((2, object_feature_length)).tolist()
+                        graph.add_node(atom_index, type="CarOnLane", features=atom_features)
+                        graph.add_edge(i, atom_index, position=0)
+                        graph.add_edge(j, atom_index, position=1)
+                        atom_index += 1
 
             # Add LaneNextToLane atoms and edges
-            lanes = [i for i in range(num_nodes) if node_features[i, -2] == 1]  # Collect lane nodes
-            for i in range(len(lanes) - 1):
+            for i in range(len(lane_indices) - 1):
                 atom_features = torch.zeros((2, object_feature_length)).tolist()
                 graph.add_node(atom_index, type="LaneNextToLane", features=atom_features)
-                graph.add_edge(lanes[i], atom_index, position=0)
-                graph.add_edge(lanes[i + 1], atom_index, position=1)
+                graph.add_edge(lane_indices[i], atom_index, position=0)
+                graph.add_edge(lane_indices[i + 1], atom_index, position=1)
                 atom_index += 1
 
             batch_data.append(graph)
 
         return Batch.from_data_list(self.to_pyg_data(batch_data))
 
-    def to_pyg_data(self, batch_graphs):
+    def to_pyg_data(self, batch_graphs: List[nx.Graph]) -> List[HeteroData]:
         data_list = []
 
         for graph in batch_graphs:
@@ -213,7 +212,122 @@ class GraphEncoderFreeway:
 
             data_list.append(data)
 
-        return data_list 
+        return data_list
+
+# class GraphEncoderFreeway:
+#     def __init__(self, obj_type_id: str = "obj"):
+#         self.obj_type_id = obj_type_id
+
+#     def encode(self, batch_node_features: torch.Tensor, proximity_threshold: float = 50) -> Batch:
+#         batch_data = []
+#         batch_size = batch_node_features.size(0)
+
+#         for b in range(batch_size):
+#             node_features = batch_node_features[b]
+#             num_nodes = node_features.size(0)
+#             graph = nx.Graph()
+
+#             # Adding object nodes
+#             for i in range(num_nodes):
+#                 graph.add_node(i, type=self.obj_type_id, features=node_features[i].tolist())
+
+#             # Adding atom nodes based on proximity and specific predicates
+#             atom_index = num_nodes
+#             object_feature_length = node_features.size(1)
+
+#             # Add ChickenOnLane atoms and edges
+#             for i in range(num_nodes):
+#                 if node_features[i, -3] == 1:  # Assuming the 5th feature is a flag for the chicken
+#                     for j in range(num_nodes):
+#                         if node_features[j, -2] == 1:  # Assuming the 6th feature is a flag for lanes
+#                             if abs(node_features[i, 1] - node_features[j, 1]) <= 50:
+#                                 atom_features = torch.zeros((2, object_feature_length)).tolist()
+#                                 graph.add_node(atom_index, type="ChickenOnLane", features=atom_features)
+#                                 graph.add_edge(i, atom_index, position=0)
+#                                 graph.add_edge(j, atom_index, position=1)
+#                                 atom_index += 1
+
+#             # Add CarOnLane atoms and edges
+#             for i in range(num_nodes):
+#                 if node_features[i, -1] == 1:  # Assuming the last feature is a flag for cars
+#                     for j in range(num_nodes):
+#                         if node_features[j, -2] == 1:  # Assuming the 6th feature is a flag for lanes
+#                             if abs(node_features[i, 1] - node_features[j, 1]) <= 50:
+#                                 atom_features = torch.zeros((2, object_feature_length)).tolist()
+#                                 graph.add_node(atom_index, type="CarOnLane", features=atom_features)
+#                                 graph.add_edge(i, atom_index, position=0)
+#                                 graph.add_edge(j, atom_index, position=1)
+#                                 atom_index += 1
+
+#             # Add LaneNextToLane atoms and edges
+#             lanes = [i for i in range(num_nodes) if node_features[i, -2] == 1]  # Collect lane nodes
+#             for i in range(len(lanes) - 1):
+#                 atom_features = torch.zeros((2, object_feature_length)).tolist()
+#                 graph.add_node(atom_index, type="LaneNextToLane", features=atom_features)
+#                 graph.add_edge(lanes[i], atom_index, position=0)
+#                 graph.add_edge(lanes[i + 1], atom_index, position=1)
+#                 atom_index += 1
+
+#             batch_data.append(graph)
+
+#         return Batch.from_data_list(self.to_pyg_data(batch_data))
+
+#     def to_pyg_data(self, batch_graphs):
+#         data_list = []
+
+#         for graph in batch_graphs:
+#             data = HeteroData()
+#             node_index_mapping = defaultdict(dict)
+#             obj_features = []
+#             atom_features_dict = defaultdict(list)
+#             edge_dict = defaultdict(list)
+
+#             current_obj_features = []
+#             current_atom_features_dict = defaultdict(list)
+
+#             for node, attrs in graph.nodes(data=True):
+#                 node_type = attrs['type']
+#                 features = torch.tensor(attrs['features'])
+#                 if node_type == self.obj_type_id:
+#                     node_index_mapping[node_type][node] = len(current_obj_features)
+#                     current_obj_features.append(features)
+#                 else:
+#                     node_index_mapping[node_type][node] = len(current_atom_features_dict[node_type])
+#                     current_atom_features_dict[node_type].append(features)
+
+#             if current_obj_features:
+#                 obj_features.append(torch.stack(current_obj_features))
+#             for node_type, features_list in current_atom_features_dict.items():
+#                 if features_list:
+#                     flattened_features = [f.view(-1) for f in features_list]
+#                     atom_features_dict[node_type].append(torch.stack(flattened_features))
+
+#             if obj_features:
+#                 data[self.obj_type_id].x = torch.cat(obj_features)
+#             for node_type, features_list in atom_features_dict.items():
+#                 if features_list:
+#                     data[node_type].x = torch.cat(features_list)
+
+#             for src, dst, attr in graph.edges(data=True):
+#                 src_type = graph.nodes[src]['type']
+#                 dst_type = graph.nodes[dst]['type']
+#                 pos = str(attr['position'])
+#                 edge_type = (src_type, pos, dst_type)
+
+#                 src_idx = node_index_mapping[src_type][src]
+#                 dst_idx = node_index_mapping[dst_type][dst]
+#                 edge_dict[edge_type].append((src_idx, dst_idx))
+#                 # Add reverse edges for bidirectionality
+#                 reverse_edge_type = (dst_type, pos, src_type)
+#                 edge_dict[reverse_edge_type].append((dst_idx, src_idx))
+
+#             for edge_type, edges in edge_dict.items():
+#                 edge_tensor = torch.tensor(edges, dtype=torch.long).t().contiguous()
+#                 data[edge_type].edge_index = edge_tensor
+
+#             data_list.append(data)
+
+#         return data_list 
 
 class GraphEncoderPacman:
     def __init__(self, obj_type_id: str = "obj", atom_type_id: str = "atom"):

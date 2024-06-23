@@ -38,7 +38,9 @@ class CustomHeteroGNN(BaseFeaturesExtractor):
         # Encode observations to a graph using the encoder
         start = time.time()
         pyg_data = self.encoder.encode(observations)
-        print(f"Time to encode: {time.time() - start}")
+        if observations.shape[0] >1:
+            print(f"Time to encode: {time.time() - start}")
+            
         pyg_data = pyg_data.to(self.device) 
         obj_emb = self.model(pyg_data.x_dict, pyg_data.edge_index_dict, pyg_data.batch_dict)
         # Flatten or pool the embeddings if necessary to match the expected features_dim
