@@ -77,11 +77,12 @@ class FreewayEnv(gym.Env):
 
     def step(self, action):
         reward = 0
-        if action == 1:  # Up
+        if action == 1:  # Move Up
             self.player_rect.y = max(0, self.player_rect.y - 5)
-        elif action == 2:  # Down
+        elif action == 2:  # Move Down
             self.player_rect.y = min(self.window_height - self.player_height, self.player_rect.y + 5)
 
+        # Update car positions
         for car in self.cars:
             car['x'] += car['speed']
             if car['x'] > self.window_width:
@@ -91,23 +92,25 @@ class FreewayEnv(gym.Env):
         # Collision detection
         hit = any(self.player_rect.colliderect(pygame.Rect(car['x'], car['lane'], self.car_width, self.car_height)) for car in self.cars)
         if hit:
-            #self.score = -1
             self.player_rect.y = self.window_height - self.player_height - 10
-        
+
         current_time = pygame.time.get_ticks()
-        # Deduct -0.1 from the score for each second
-        if current_time - self.last_time >= 1000:  # 1000 milliseconds = 1 second
-            reward -= 0.1
+        
+        # Apply a more frequent small negative reward
+        if current_time - self.last_time >= 50:  # 50 milliseconds
+            reward -= 0.01  # Smaller penalty but applied more frequently
             self.last_time = current_time
-        if current_time - self.episode_start_time >= 60000:  # 60000 milliseconds = 1 minute
+        
+        # End the episode after 1 minute or if the player has reached the top
+        if current_time - self.episode_start_time >= 60000:
             self.done = True
-            
+        
         if self.player_rect.y <= 0:  # Reached top
-            self.score +=1
             reward += 100
-
+            self.score += 1
             self.player_rect.y = self.window_height - self.player_height - 10
 
+        # Get observation based on type
         if self.observation_type == "pixel":
             self.update_frame_buffer()
             observation = self.get_observation()
@@ -115,6 +118,7 @@ class FreewayEnv(gym.Env):
             observation = self.get_object_data()
 
         return observation, reward, self.done, False, {}
+
 
     def update_frame_buffer(self):
         frame = self.render_to_array()
