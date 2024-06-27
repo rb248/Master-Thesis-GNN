@@ -8,6 +8,8 @@ import networkx as nx
 from torch_geometric.data import HeteroData, Batch
 from collections import defaultdict
 from itertools import combinations
+from stable_baselines3 import PPO
+from stable_baselines3.common.evaluation import evaluate_policy
 
 class FreewayEnv(gym.Env):
     metadata = {'render_modes': ['human', 'rgb_array']}
@@ -18,16 +20,19 @@ class FreewayEnv(gym.Env):
         self.last_time = pygame.time.get_ticks()
         self.render_mode = render_mode
         self.observation_type = observation_type
-        self.window_width = 800
-        self.window_height = 600
-        self.player_width = 30
-        self.player_height = 30
-        self.car_width = 50
-        self.car_height = 50
+        #self.window_width = 800
+        self.window_width = 210
+        #self.window_height = 600
+        self.window_height = 160
+        self.player_width = 5
+        self.player_height = 5
+        self.car_width = 20
+        self.car_height = 20
         self.frame_stack = frame_stack
 
         self.lanes = [100, 200, 300, 400, 500, 600, 700]
-        self.max_cars = 20
+        self.lanes = [50,100]
+        self.max_cars = 5
         # Define action and observation space
         # Actions: 0 - Stay, 1 - Move Up, 2 - Move Down
         self.action_space = spaces.Discrete(3)
@@ -35,7 +40,7 @@ class FreewayEnv(gym.Env):
         if observation_type == "pixel":
             self.observation_space = spaces.Box(low=0, high=255, shape=(self.frame_stack, 84, 84), dtype=np.uint8)
         else:
-            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(20 + 3, 7), dtype=np.float32)
+            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(self.max_cars+ len(self.lanes)+1, 7), dtype=np.float32)
 
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         self.background_image = pygame.image.load("games/images/Atari - background.png")
@@ -64,7 +69,7 @@ class FreewayEnv(gym.Env):
         self.score = 0
         self.cars = [{'x': random.randint(0, self.window_width - self.car_width),
                       'lane': random.choice(self.lanes),
-                      'speed': random.randint(2, 5)} for _ in range(20)]
+                      'speed': random.randint(1, 2)} for _ in range(self.max_cars)]
         self.done = False
         self.episode_start_time = pygame.time.get_ticks()
         self.frame_buffer = np.zeros((self.frame_stack, 84, 84), dtype=np.uint8)
@@ -77,40 +82,35 @@ class FreewayEnv(gym.Env):
 
     def step(self, action):
         reward = 0
-        if action == 1:  # Move Up
+        reward = -0.5
+        current_time = pygame.time.get_ticks()
+        if action == 1:  # Up
             self.player_rect.y = max(0, self.player_rect.y - 5)
-        elif action == 2:  # Move Down
+        elif action == 2:  # Down
             self.player_rect.y = min(self.window_height - self.player_height, self.player_rect.y + 5)
 
-        # Update car positions
         for car in self.cars:
             car['x'] += car['speed']
             if car['x'] > self.window_width:
                 car['x'] = -random.randint(100, 300)
-                car['speed'] = random.randint(2, 5)
+                car['speed'] = random.randint(1,2)
 
         # Collision detection
         hit = any(self.player_rect.colliderect(pygame.Rect(car['x'], car['lane'], self.car_width, self.car_height)) for car in self.cars)
         if hit:
+            #self.score = -1
             self.player_rect.y = self.window_height - self.player_height - 10
-
-        current_time = pygame.time.get_ticks()
         
-        # Apply a more frequent small negative reward
-        if current_time - self.last_time >= 50:  # 50 milliseconds
-            reward -= 0.01  # Smaller penalty but applied more frequently
             self.last_time = current_time
-        
-        # End the episode after 1 minute or if the player has reached the top
-        if current_time - self.episode_start_time >= 60000:
+        if current_time - self.episode_start_time >= 60000:  # 60000 milliseconds = 1 minute
             self.done = True
-        
+            
         if self.player_rect.y <= 0:  # Reached top
-            reward += 100
-            self.score += 1
+            self.score +=1
+            reward += 10*(len(self.lanes))
+
             self.player_rect.y = self.window_height - self.player_height - 10
 
-        # Get observation based on type
         if self.observation_type == "pixel":
             self.update_frame_buffer()
             observation = self.get_observation()
@@ -118,7 +118,6 @@ class FreewayEnv(gym.Env):
             observation = self.get_object_data()
 
         return observation, reward, self.done, False, {}
-
 
     def update_frame_buffer(self):
         frame = self.render_to_array()
@@ -142,15 +141,17 @@ class FreewayEnv(gym.Env):
     def get_object_data(self):
         objects = [
             [self.player_rect.x, self.player_rect.y, 0, 0, 1, 0, 0],  # Player
-            [self.window_width/2, 0, 0, 0, 0, 1, 0],  # Top wall
-            [self.window_width/2, self.window_height, 0, 0, 0, 1, 0]  # Bottom wall
-        ]
+            
+        ] 
+        # add lanes
+        for lane in self.lanes:
+            objects.append([self.window_width//2, lane, 0, 0, 0, 1, 0])
 
         for i, car in enumerate(self.cars):
             objects.append([car['x'], car['lane'], car['speed'], 0, 0, 0, 1])
 
-        while len(objects) < self.max_cars + 3:  # Ensure the list has a constant length
-            objects.append([0, 0, 0, 0, 0, 0, 0])
+        # while len(objects) < self.max_cars + 10:  # Ensure the list has a constant length
+        #     objects.append([0, 0, 0, 0, 0, 0, 0])
 
         return torch.tensor(objects, dtype=torch.float32)
 
@@ -164,16 +165,26 @@ class FreewayEnv(gym.Env):
     def close(self):
         pygame.quit()
 
-if __name__ == "__main__":
-    env = FreewayEnv(render_mode='human', observation_type='pixel')
-    env.reset()
 
+if __name__=="__main__":
+    env = FreewayEnv(render_mode='human', observation_type='pixel')
+
+    model = PPO.load("ppo_freeway_pixel")
+    #model = PPO.load("ppo_custom_heterognn")
+
+    # # Evaluate the agent
+    # mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=1, render=True)
+    # print(f"Mean reward: {mean_reward} ± {std_reward}")
+
+    obs,_ = env.reset()
     done = False
-    try:
-        while not done:
-            action = env.action_space.sample()
-            _, _, done, _,_ = env.step(action)
-            env.render()
-            pygame.time.wait(10)
-    finally:
-        env.close()
+    total_reward = 0
+    while not done:
+        action, _ = model.predict(obs)
+        #action = env.action_space.sample()
+        obs, reward, done, _,_ = env.step(action)
+        total_reward += reward
+        pygame.time.delay(50)
+        env.render()
+
+    print(f"Total reward: {total_reward}")

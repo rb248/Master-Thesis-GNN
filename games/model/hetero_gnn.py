@@ -10,6 +10,7 @@ from torch.nn.modules.loss import L1Loss, MSELoss, _Loss
 from torch_geometric.typing import Adj
 
 from games.model.hetero_message_passing import FanInMP, FanOutMP
+from torch_geometric.nn import GCNConv, GATConv
 
 class HeteroGNN(torch.nn.Module):
     def __init__(
@@ -118,3 +119,38 @@ class HeteroGNN(torch.nn.Module):
     @staticmethod
     def mlp(in_size: int, hidden_size: int, out_size: int):
         return pyg.nn.MLP([in_size, hidden_size, out_size], norm=None, dropout=0.0)
+
+
+class HeteroGCN(torch.nn.Module):
+    def __init__(self, in_channels_dict, out_channels):
+        super(HeteroGCN, self).__init__()
+        self.convs = torch.nn.ModuleDict()
+        for obj_type, in_channels in in_channels_dict.items():
+            self.convs[obj_type] = GCNConv(in_channels, out_channels)
+
+    def forward(self, data):
+        for obj_type in data.node_types:
+            x = data[obj_type].x
+            edge_index = data[obj_type, 'to', obj_type].edge_index
+            x = self.convs[obj_type](x, edge_index)
+            x = F.relu(x)
+            data[obj_type].x = x
+
+        return data
+
+class HeteroGAT(torch.nn.Module):
+    def __init__(self, in_channels_dict, out_channels):
+        super(HeteroGAT, self).__init__()
+        self.convs = torch.nn.ModuleDict()
+        for obj_type, in_channels in in_channels_dict.items():
+            self.convs[obj_type] = GATConv(in_channels, out_channels)
+
+    def forward(self, data):
+        for obj_type in data.node_types:
+            x = data[obj_type].x
+            edge_index = data[obj_type, 'to', obj_type].edge_index
+            x = self.convs[obj_type](x, edge_index)
+            x = F.relu(x)
+            data[obj_type].x = x
+
+        return data

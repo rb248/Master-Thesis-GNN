@@ -8,6 +8,22 @@ import torch_geometric as pyg
 from stable_baselines3.common.policies import ActorCriticPolicy
 from games.freeway.freeway_envs.freeway_env import FreewayEnv
 import pygame
+from stable_baselines3.common.vec_env import VecFrameStack
+from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.evaluation import evaluate_policy
+
+
+
+
+import torch as th
+import torch.nn as nn
+from gymnasium import spaces
+from stable_baselines3 import PPO
+from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
+import torch_geometric as pyg
+from stable_baselines3.common.policies import ActorCriticPolicy
+from games.freeway.freeway_envs.freeway_env import FreewayEnv
+import pygame
 
 class CustomCNN(BaseFeaturesExtractor):
     """
@@ -49,15 +65,25 @@ class CustomCNN(BaseFeaturesExtractor):
         output = self.linear(features)
         return output
 
+if __name__ == "__main__":
 
-#env = PongEnvNew(render_mode='human', observation_type='pixel')
-env = FreewayEnv(render_mode='human', observation_type='pixel')
+   
+    num_envs = 4  # Number of parallel environments
 
-policy_kwargs = dict(
-    features_extractor_class=CustomCNN,
-    features_extractor_kwargs=dict(features_dim=128)
-)
+    # Create a vectorized environment with DummyVecEnv
+    # def make_env(rank, seed=0):
+    #     def _init():
+    #         env = FreewayEnv(render_mode='rgb_array', observation_type='pixel')
+    #         env.seed(seed + rank)
+    #         return env
+    #     return _init
 
-model = PPO("CnnPolicy", env, policy_kwargs=policy_kwargs, verbose=1 , device='mps')
-model.learn(total_timesteps=1000000)
-model.save("ppo_pong_custom_cnn")   
+    # env = DummyVecEnv([make_env(i) for i in range(num_envs)])
+    env = FreewayEnv(render_mode='human', observation_type='pixel')
+    # env = DummyVecEnv([lambda: env])    
+    # env = VecFrameStack(env, n_stack=4)
+    
+    device = "cuda" if th.cuda.is_available() else "cpu"
+    model = PPO("CnnPolicy", env, verbose=2, device=device)
+    model.learn(total_timesteps=100000)
+    model.save("ppo_freeway_pixel")   

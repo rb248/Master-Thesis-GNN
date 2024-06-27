@@ -6,7 +6,7 @@ from wandb.integration.sb3 import WandbCallback
 from games.freeway.freeway_envs.freeway_env import FreewayEnv
 from games.model.policy import CustomCNN, CustomHeteroGNN
 import pygame
-#Initialize wandb
+# #Initialize wandb
 wandb.init(
     project="gnn_atari_freeway",  # Replace with your project name
     sync_tensorboard=True,        # Automatically sync SB3 logs with wandb
@@ -42,9 +42,9 @@ policy_kwargs = dict(
 )
 
 # # Create the PPO model with the custom feature extractor
-model = PPO('MlpPolicy', env, policy_kwargs=policy_kwargs, verbose=1)
+model = PPO('MlpPolicy', env, policy_kwargs=policy_kwargs, verbose=2)
 # # Train the model with WandbCallback
-model.learn(total_timesteps=1000000, callback=WandbCallback())
+model.learn(total_timesteps=1000000, callback=WandbCallback() )
 # # Save the model
 model.save("ppo_custom_heterognn")
 

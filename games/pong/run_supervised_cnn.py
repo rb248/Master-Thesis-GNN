@@ -6,6 +6,7 @@ from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from stable_baselines3.common.vec_env import DummyVecEnv
 from games.pong.pong_envs.pong_env import PongEnvNew
 from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines3.common.vec_env import VecFrameStack
 
 class CustomCNN(BaseFeaturesExtractor):
     """
@@ -55,6 +56,7 @@ if __name__ == '__main__':
 
     # Create a vectorized environment with DummyVecEnv
     env = DummyVecEnv([make_env(i) for i in range(num_envs)])
+    env = VecFrameStack(env, n_stack=4)
 
     model = PPO("CnnPolicy", env, verbose=1)
     model.learn(total_timesteps=10000)
