@@ -30,9 +30,9 @@ class FreewayEnv(gym.Env):
         self.car_height = 20
         self.frame_stack = frame_stack
 
-        self.lanes = [100, 200, 300, 400, 500, 600, 700]
-        self.lanes = [50,100]
-        self.max_cars = 5
+        #self.lanes = [100, 200, 300, 400, 500, 600, 700]
+        self.lanes = [50,100,150]
+        self.max_cars = 10
         # Define action and observation space
         # Actions: 0 - Stay, 1 - Move Up, 2 - Move Down
         self.action_space = spaces.Discrete(3)
@@ -92,7 +92,7 @@ class FreewayEnv(gym.Env):
         for car in self.cars:
             car['x'] += car['speed']
             if car['x'] > self.window_width:
-                car['x'] = -random.randint(100, 300)
+                car['x'] = 0
                 car['speed'] = random.randint(1,2)
 
         # Collision detection
@@ -167,10 +167,10 @@ class FreewayEnv(gym.Env):
 
 
 if __name__=="__main__":
-    env = FreewayEnv(render_mode='human', observation_type='pixel')
+    env = FreewayEnv(render_mode='human', observation_type='graph')
 
-    model = PPO.load("ppo_freeway_pixel")
-    #model = PPO.load("ppo_custom_heterognn")
+    #model = PPO.load("ppo_freeway_pixel")
+    model = PPO.load("ppo_custom_heterognn")
 
     # # Evaluate the agent
     # mean_reward, std_reward = evaluate_policy(model, env, n_eval_episodes=1, render=True)

@@ -70,15 +70,15 @@ if __name__ == "__main__":
    
     num_envs = 4  # Number of parallel environments
 
-    # Create a vectorized environment with DummyVecEnv
-    # def make_env(rank, seed=0):
-    #     def _init():
-    #         env = FreewayEnv(render_mode='rgb_array', observation_type='pixel')
-    #         env.seed(seed + rank)
-    #         return env
-    #     return _init
+    #Create a vectorized environment with DummyVecEnv
+    def make_env(rank, seed=0):
+        def _init():
+            env = FreewayEnv(render_mode='rgb_array', observation_type='pixel')
+            env.seed(seed + rank)
+            return env
+        return _init
 
-    # env = DummyVecEnv([make_env(i) for i in range(num_envs)])
+    env = DummyVecEnv([make_env(i) for i in range(num_envs)])
     env = FreewayEnv(render_mode='human', observation_type='pixel')
     # env = DummyVecEnv([lambda: env])    
     # env = VecFrameStack(env, n_stack=4)
