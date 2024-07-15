@@ -1,0 +1,128 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8045127
+Job name: freeway_supervised_cnn
+Host: cn-407
+Date: Mon Jul 15 00:25:09 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8036552 rleap_gpu barman-d till.hof  R 2-09:51:27      1 cn-407
+8045127 rleap_gpu freeway_ rishabh.  R       0:00      1 cn-407
+8044555 rleap_gpu train.sl samuel.s  R    7:57:49      1 cn-407
+8044554 rleap_gpu train.sl samuel.s  R    7:58:02      1 cn-407
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+Using cuda device
+Wrapping the env with a `Monitor` wrapper
+Wrapping the env in a DummyVecEnv.
+time to encode step size is: 0.011716365814208984
+-----------------------------
+| time/              |      |
+|    fps             | 76   |
+|    iterations      | 1    |
+|    time_elapsed    | 26   |
+|    total_timesteps | 2048 |
+-----------------------------
+time to encode step size is: 0.010901212692260742
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 3e+03       |
+|    ep_rew_mean          | -1.47e+03   |
+| time/                   |             |
+|    fps                  | 21          |
+|    iterations           | 2           |
+|    time_elapsed         | 190         |
+|    total_timesteps      | 4096        |
+| train/                  |             |
+|    approx_kl            | 0.009936238 |
+|    clip_fraction        | 0.0393      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.09       |
+|    explained_variance   | -0.0875     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.285       |
+|    n_updates            | 10          |
+|    policy_gradient_loss | -0.000985   |
+|    value_loss           | 5.51        |
+-----------------------------------------
+time to encode step size is: 0.01090860366821289
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 3e+03       |
+|    ep_rew_mean          | -1.48e+03   |
+| time/                   |             |
+|    fps                  | 17          |
+|    iterations           | 3           |
+|    time_elapsed         | 342         |
+|    total_timesteps      | 6144        |
+| train/                  |             |
+|    approx_kl            | 0.013121119 |
+|    clip_fraction        | 0.0281      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.08       |
+|    explained_variance   | 0           |
+|    learning_rate        | 0.0003      |
+|    loss                 | 5.73        |
+|    n_updates            | 20          |
+|    policy_gradient_loss | -0.00178    |
+|    value_loss           | 17          |
+-----------------------------------------
+time to encode step size is: 0.009717702865600586
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 3e+03       |
+|    ep_rew_mean          | -1.48e+03   |
+| time/                   |             |
+|    fps                  | 17          |
+|    iterations           | 4           |
+|    time_elapsed         | 481         |
+|    total_timesteps      | 8192        |
+| train/                  |             |
+|    approx_kl            | 0.013899634 |
+|    clip_fraction        | 0.00474     |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.07       |
+|    explained_variance   | 6.26e-06    |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.102       |
+|    n_updates            | 30          |
+|    policy_gradient_loss | -0.000367   |
+|    value_loss           | 11.6        |
+-----------------------------------------
+time to encode step size is: 0.009499073028564453
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 3e+03        |
+|    ep_rew_mean          | -1.49e+03    |
+| time/                   |              |
+|    fps                  | 17           |
+|    iterations           | 5            |
+|    time_elapsed         | 591          |
+|    total_timesteps      | 10240        |
+| train/                  |              |
+|    approx_kl            | 0.0017285183 |
+|    clip_fraction        | 0.00562      |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.08        |
+|    explained_variance   | 2.56e-06     |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.000366     |
+|    n_updates            | 40           |
+|    policy_gradient_loss | 0.000199     |
+|    value_loss           | 6.41         |
+------------------------------------------
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8045127
+Time: Mon Jul 15 00:36:45 CEST 2024
+Elapsed Time: 00:11:36
+Billing per second for TRES: billing=704,cpu=32,gres/gpu=1,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8045127 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

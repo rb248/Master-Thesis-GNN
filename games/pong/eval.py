@@ -32,33 +32,32 @@ def evaluate_model_on_configs(model_path, env_configs, n_eval_episodes=10):
     return results
 
 if __name__ == "__main__":
-    num_envs = 4  # Number of parallel environments
+    # num_envs = 4  # Number of parallel environments
 
-    # Create a vectorized environment with DummyVecEnv
-    def make_env(rank, seed=0):
-        def _init():
-            env = PongEnvNew(render_mode='rgb_array', observation_type='pixel')
-            env.seed(seed + rank)
-            return env
-        return _init
+    # # Create a vectorized environment with DummyVecEnv
+    # def make_env(rank, seed=0):
+    #     def _init():
+    #         env = PongEnvNew(render_mode='rgb_array', observation_type='pixel')
+    #         env.seed(seed + rank)
+    #         return env
+    #     return _init
 
-    env = DummyVecEnv([make_env(i) for i in range(num_envs)])
+    # env = DummyVecEnv([make_env(i) for i in range(num_envs)])
 
     
 
     # Save the model
-    model.save("ppo_custom_env")
 
     # Define environment configurations for evaluation
     env_configs = [
-        {"render_mode": "rgb_array", "observation_type": "pixel", "paddle_width": 10, "ball_speed_x": 8, "ball_speed_y": 8},
-        {"render_mode": "rgb_array", "observation_type": "pixel", "paddle_width": 15, "ball_speed_x": 10, "ball_speed_y": 10},
-        {"render_mode": "rgb_array", "observation_type": "pixel", "paddle_width": 20, "ball_speed_x": 12, "ball_speed_y": 12},
-        {"render_mode": "rgb_array", "observation_type": "pixel", "paddle_width": 25, "ball_speed_x": 15, "ball_speed_y": 15}
+        {"render_mode": "human", "observation_type": "pixel", "paddle_width": 5, "ball_speed": 4},
+        {"render_mode": "human", "observation_type": "pixel", "paddle_width": 5, "ball_speed": 3},
+        {"render_mode": "human", "observation_type": "pixel", "paddle_width": 5, "ball_speed": 2},
+        {"render_mode": "human", "observation_type": "pixel", "paddle_width": 5, "ball_speed": 1}
     ]
 
     # Evaluate the model on different configurations
-    results = evaluate_model_on_configs("ppo_custom_env", env_configs)
+    results = evaluate_model_on_configs("ppo_pong_pixel", env_configs)
 
     for result in results:
         config = result["config"]

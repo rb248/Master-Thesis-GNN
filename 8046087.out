@@ -1,0 +1,39 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8046087
+Job name: pong_supervised_gnn
+Host: cn-406
+Date: Mon Jul 15 09:50:12 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8044499 rleap_gpu exp7_log markus.f  R   19:45:36      1 cn-406
+8044498 rleap_gpu exp6_mic markus.f  R   19:45:40      1 cn-406
+8046087 rleap_gpu pong_sup rishabh.  R       0:00      1 cn-406
+8045911 rleap_gpu   tunnel rishabh.  R      49:55      1 cn-406
+8044553 rleap_gpu train.sl samuel.s  R   17:23:18      1 cn-406
+8044552 rleap_gpu train.sl samuel.s  R   17:23:30      1 cn-406
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+Traceback (most recent call last):
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/pong/run_supervised_gnn.py", line 16, in <module>
+    from games.pong.pong_envs.pong_env import PongEnvNew
+ImportError: cannot import name 'PongEnvNew' from 'games.pong.pong_envs.pong_env' (/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/pong/pong_envs/pong_env.py)
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8046087
+Time: Mon Jul 15 09:50:17 CEST 2024
+Elapsed Time: 00:00:05
+Billing per second for TRES: billing=640,cpu=32,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8046087 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

@@ -1,0 +1,60 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 7996562
+Job name: pong_supervised_gnn
+Host: cn-401
+Date: Tue Jul  9 02:16:18 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+7939113 rleap_gpu exp4_log markus.f  R   12:26:32      1 cn-401
+7996562 rleap_gpu pong_sup rishabh.  R       0:00      1 cn-401
+7978973 rleap_gpu   tunnel rishabh.  R    7:20:50      1 cn-401
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+Traceback (most recent call last):
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/pong/run_supervised_gnn.py", line 54, in <module>
+    model = PPO.load("ppo_custom_heterognn")
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/base_class.py", line 680, in load
+    data, params, pytorch_variables = load_from_zip_file(
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/save_util.py", line 403, in load_from_zip_file
+    file = open_path(load_path, "r", verbose=verbose, suffix="zip")
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/functools.py", line 889, in wrapper
+    return dispatch(args[0].__class__)(*args, **kw)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/save_util.py", line 240, in open_path_str
+    return open_path_pathlib(pathlib.Path(path), mode, verbose, suffix)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/save_util.py", line 291, in open_path_pathlib
+    return open_path_pathlib(path, mode, verbose, suffix)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/save_util.py", line 272, in open_path_pathlib
+    raise error
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/save_util.py", line 264, in open_path_pathlib
+    return open_path(path.open("rb"), mode, verbose, suffix)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: 'ppo_custom_heterognn.zip'
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 7996562
+Time: Tue Jul  9 02:16:33 CEST 2024
+Elapsed Time: 00:00:15
+Billing per second for TRES: billing=704,cpu=32,gres/gpu=1,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 7996562 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

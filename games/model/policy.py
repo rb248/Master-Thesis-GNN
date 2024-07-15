@@ -1,3 +1,5 @@
+import pstats
+import time
 import torch as th
 import torch.nn as nn
 import gymnasium as gym
@@ -5,48 +7,51 @@ from stable_baselines3.common.policies import ActorCriticPolicy
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from games.model.hetero_gnn import HeteroGNN
 from typing import Dict
-from games.encoder.GraphEncoder import HeteroGNNEncoderPong
-from gymnasium import spaces
-import torch
-import torch.nn as nn
-from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from games.encoder.GraphEncoder import HeteroGNNEncoderPong, GraphEncoderFreeway, GraphEncoderPacman, GraphEncoderBreakout
-from games.model.hetero_gnn import HeteroGNN
+from gymnasium import spaces
 import torch_geometric as pyg
 from games.model.cnn_model import CNNgame
-import time
+
 class CustomHeteroGNN(BaseFeaturesExtractor):
     def __init__(self, observation_space, features_dim=64, hidden_size=64, num_layer=2, obj_type_id='obj', arity_dict={'atom': 2}, game = 'pong'):
         super().__init__(observation_space, features_dim=hidden_size)
         if game == 'pong':
             self.encoder = HeteroGNNEncoderPong()
         elif game == 'freeway':
-            self.encoder = GraphEncoderFreeway() 
+            self.encoder = GraphEncoderFreeway()
         elif game == 'pacman':
             self.encoder = GraphEncoderPacman()
             self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=8)
         elif game == 'breakout':
             self.encoder = GraphEncoderBreakout()
         
+        self.counter = 0
+
         # set device to mps if available
         #self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=7).to(self.device)
 
-
     def forward(self, observations):
         # Encode observations to a graph using the encoder
+        self.counter+=1
+        
         start = time.time()
-        pyg_data = self.encoder.encode(observations)
-        # if observations.shape[0] >1:
-        #     print(f"Time to encode: {time.time() - start}")
 
-        pyg_data = pyg_data.to(self.device) 
+        pyg_data = self.encoder.encode(observations)
+
+        #pyg_data = pyg_data.to(self.device)
         obj_emb = self.model(pyg_data.x_dict, pyg_data.edge_index_dict, pyg_data.batch_dict)
         # Flatten or pool the embeddings if necessary to match the expected features_dim
+        #print(f"Time to encode: {time.time() - start}")
+        #total_time += 
+        if self.counter % 2048/64 == 0:
+            print(f"time to encode step size is: {time.time() - start}")
+
         return obj_emb
 
 
+# Additional classes for the rest of the code remain unchanged
 
 import torch
 import torch.nn as nn

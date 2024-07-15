@@ -1,0 +1,150 @@
+         8090 function calls in 0.015 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.003    0.003    0.015    0.015 /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py:175(encode)
+        1    0.000    0.000    0.005    0.005 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/batch.py:82(from_data_list)
+        1    0.000    0.000    0.005    0.005 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:37(collate)
+       16    0.000    0.000    0.003    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:149(_collate)
+        1    0.001    0.001    0.003    0.003 /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py:231(to_pyg_data)
+       16    0.000    0.000    0.002    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:319(get_incs)
+      185    0.001    0.000    0.001    0.000 {built-in method torch.tensor}
+       16    0.000    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:321(<listcomp>)
+       27    0.000    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:343(__inc__)
+       36    0.000    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/utils/functions.py:5(cumsum)
+       20    0.000    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:624(size)
+        2    0.001    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py:195(<listcomp>)
+        2    0.001    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py:196(<listcomp>)
+       67    0.000    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:173(__getitem__)
+        2    0.001    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py:208(<listcomp>)
+       47    0.000    0.000    0.001    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:418(num_nodes)
+      173    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:100(__setattr__)
+      146    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:899(add_edge)
+      121    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:517(add_node)
+       46    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:66(__init__)
+       72    0.000    0.000    0.000    0.000 {method 'narrow' of 'torch._C.TensorBase' objects}
+       74    0.000    0.000    0.000    0.000 {built-in method builtins.abs}
+       51    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:120(__setitem__)
+      573    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+       93    0.000    0.000    0.000    0.000 {method 'view' of 'torch._C.TensorBase' objects}
+       32    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:590(get_edge_store)
+       73    0.000    0.000    0.000    0.000 {built-in method torch.zeros}
+        5    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py:258(<listcomp>)
+       63    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:334(__cat_dim__)
+       51    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:82(_pop_cache)
+       67    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:475(_to_canonical)
+       27    0.000    0.000    0.000    0.000 {built-in method torch.cat}
+       79    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/utils/sparse.py:132(is_sparse)
+      949    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       36    0.000    0.000    0.000    0.000 {built-in method torch.cumsum}
+      121    0.000    0.000    0.000    0.000 {method 'tolist' of 'torch._C.TensorBase' objects}
+       19    0.000    0.000    0.000    0.000 {built-in method torch.stack}
+      148    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:847(__iter__)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/batch.py:20(__call__)
+       51    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:571(get_node_store)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:241(stores_as)
+       12    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:171(<listcomp>)
+       92    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+       92    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:548(_key)
+      267    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/utils/misc.py:595(_clear_cache)
+      292    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:188(__getitem__)
+      223    0.000    0.000    0.000    0.000 {method 'size' of 'torch._C.TensorBase' objects}
+       79    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/utils/sparse.py:114(is_torch_sparse_tensor)
+       12    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch/_tensor.py:1037(__iter__)
+        4    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:142(<listcomp>)
+       51    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:89(__getattr__)
+       36    0.000    0.000    0.000    0.000 {method 'new_empty' of 'torch._C.TensorBase' objects}
+       20    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:567(edge_index)
+       94    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/view.py:37(__iter__)
+       68    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/view.py:9(_keys)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:3252(signature)
+        4    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:311(repeat_interleave)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2998(from_callable)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2375(_signature_from_callable)
+      443    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+      269    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+       20    0.000    0.000    0.000    0.000 {method 'contiguous' of 'torch._C.TensorBase' objects}
+       41    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/view.py:26(__iter__)
+       12    0.000    0.000    0.000    0.000 {method 'unbind' of 'torch._C.TensorBase' objects}
+       47    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/_collections_abc.py:828(__contains__)
+       20    0.000    0.000    0.000    0.000 {method 't' of 'torch._C.TensorBase' objects}
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:116(__init__)
+      431    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2280(_signature_from_function)
+       71    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/abc.py:117(__instancecheck__)
+       51    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:254(node_types)
+       47    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:185(items)
+       36    0.000    0.000    0.000    0.000 {method 'zero_' of 'torch._C.TensorBase' objects}
+        4    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:315(<listcomp>)
+      125    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:117(__getitem__)
+      456    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+       67    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:206(get)
+        7    0.000    0.000    0.000    0.000 {built-in method torch.full}
+        4    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/functools.py:961(__get__)
+       21    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:179(keys)
+       16    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:166(<listcomp>)
+        4    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:404(can_infer_num_nodes)
+       68    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/view.py:5(__init__)
+       47    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:486(<listcomp>)
+       71    0.000    0.000    0.000    0.000 {built-in method _abc._abc_instancecheck}
+       16    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/collate.py:95(<listcomp>)
+      229    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.__build_class__}
+      146    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:776(<lambda>)
+       20    0.000    0.000    0.000    0.000 {method 'to' of 'torch._C.TensorBase' objects}
+      130    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2637(__init__)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:162(__setattr__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:332(__init__)
+       44    0.000    0.000    0.000    0.000 {method 'dim' of 'torch._C.TensorBase' objects}
+       12    0.000    0.000    0.000    0.000 {built-in method torch._C._get_tracing_state}
+       11    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:397(_key)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:248(stores)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/feature_store.py:276(__init__)
+       43    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:564(_check_type_name)
+       57    0.000    0.000    0.000    0.000 {method 'values' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2920(__init__)
+       11    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:264(edge_types)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:1093(__call__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:1361(edges)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:612(unwrap)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/enum.py:359(__call__)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/graph_store.py:109(__init__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:205(__call__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:738(nodes)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:1058(__init__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:331(__iter__)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:66(get_annotations)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:762(__init__)
+        4    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2969(<genexpr>)
+       16    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py:89(get_worker_info)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:259(node_stores)
+       14    0.000    0.000    0.000    0.000 {built-in method builtins.iter}
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:269(edge_stores)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:313(__init__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:59(__set__)
+        7    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/hetero_data.py:492(<listcomp>)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/reportviews.py:178(__init__)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/enum.py:678(__new__)
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:277(isfunction)
+        3    0.000    0.000    0.000    0.000 {method 'isidentifier' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/networkx/classes/graph.py:37(__set__)
+        1    0.000    0.000    0.000    0.000 {method 'items' of 'mappingproxy' objects}
+        4    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.RLock' objects}
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:632(_is_wrapper)
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2687(name)
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/batch.py:32(MetaResolver)
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        3    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch_geometric/data/storage.py:78(_key)
+        1    0.000    0.000    0.000    0.000 {built-in method sys.getrecursionlimit}
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:2691(default)
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.callable}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.globals}
+        1    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 /work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/inspect.py:3006(parameters)
+
+

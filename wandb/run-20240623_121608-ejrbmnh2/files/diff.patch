@@ -1,0 +1,213 @@
+diff --git a/games/__pycache__/__init__.cpython-310.pyc b/games/__pycache__/__init__.cpython-310.pyc
+index 347bbb7..1b00a1b 100644
+Binary files a/games/__pycache__/__init__.cpython-310.pyc and b/games/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/games/encoder/__pycache__/GraphEncoder.cpython-310.pyc b/games/encoder/__pycache__/GraphEncoder.cpython-310.pyc
+index ed8debb..77c13f2 100644
+Binary files a/games/encoder/__pycache__/GraphEncoder.cpython-310.pyc and b/games/encoder/__pycache__/GraphEncoder.cpython-310.pyc differ
+diff --git a/games/encoder/__pycache__/__init__.cpython-310.pyc b/games/encoder/__pycache__/__init__.cpython-310.pyc
+index 7335618..e4059e9 100644
+Binary files a/games/encoder/__pycache__/__init__.cpython-310.pyc and b/games/encoder/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/games/freeway/__pycache__/__init__.cpython-310.pyc b/games/freeway/__pycache__/__init__.cpython-310.pyc
+index ee44eda..8f6a241 100644
+Binary files a/games/freeway/__pycache__/__init__.cpython-310.pyc and b/games/freeway/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/games/freeway/__pycache__/run_supervised_gnn.cpython-310.pyc b/games/freeway/__pycache__/run_supervised_gnn.cpython-310.pyc
+index 5d5a053..7bd96b4 100644
+Binary files a/games/freeway/__pycache__/run_supervised_gnn.cpython-310.pyc and b/games/freeway/__pycache__/run_supervised_gnn.cpython-310.pyc differ
+diff --git a/games/freeway/freeway_envs/__pycache__/freeway_env.cpython-310.pyc b/games/freeway/freeway_envs/__pycache__/freeway_env.cpython-310.pyc
+index 6ed5441..1677285 100644
+Binary files a/games/freeway/freeway_envs/__pycache__/freeway_env.cpython-310.pyc and b/games/freeway/freeway_envs/__pycache__/freeway_env.cpython-310.pyc differ
+diff --git a/games/model/__pycache__/cnn_model.cpython-310.pyc b/games/model/__pycache__/cnn_model.cpython-310.pyc
+index 9e82db6..aaea007 100644
+Binary files a/games/model/__pycache__/cnn_model.cpython-310.pyc and b/games/model/__pycache__/cnn_model.cpython-310.pyc differ
+diff --git a/games/model/__pycache__/hetero_gnn.cpython-310.pyc b/games/model/__pycache__/hetero_gnn.cpython-310.pyc
+index 1a1deec..a62c985 100644
+Binary files a/games/model/__pycache__/hetero_gnn.cpython-310.pyc and b/games/model/__pycache__/hetero_gnn.cpython-310.pyc differ
+diff --git a/games/model/__pycache__/hetero_message_passing.cpython-310.pyc b/games/model/__pycache__/hetero_message_passing.cpython-310.pyc
+index 243e3b4..2d8f804 100644
+Binary files a/games/model/__pycache__/hetero_message_passing.cpython-310.pyc and b/games/model/__pycache__/hetero_message_passing.cpython-310.pyc differ
+diff --git a/games/model/__pycache__/policy.cpython-310.pyc b/games/model/__pycache__/policy.cpython-310.pyc
+index ff58220..714ffa7 100644
+Binary files a/games/model/__pycache__/policy.cpython-310.pyc and b/games/model/__pycache__/policy.cpython-310.pyc differ
+Submodule games/pacman contains modified content
+diff --git a/games/pacman/pacman_env.py b/games/pacman/pacman_env.py
+index e185f02..2556ba7 100644
+--- a/games/pacman/pacman_env.py
++++ b/games/pacman/pacman_env.py
+@@ -14,8 +14,7 @@ from games.pacman.level import level
+ from games.pacman.game import game
+ from games.pacman.fruit import fruit
+ from games.pacman.config import *
+-import networkx as nx
+-from games.encoder.GraphEncoder import GraphConverter
++import torch
+ 
+ class PacmanEnv(gym.Env):
+     metadata = {'render.modes': ['human', 'rgb_array']}
+@@ -211,117 +210,36 @@ class PacmanEnv(gym.Env):
+         return self.frame_buffer
+ 
+     
+-    def get_graph_data(self):
+-        # Initialize a NetworkX graph
+-        graph = nx.Graph()
++    def get_object_data(self):
++        max_ghosts = 6  # Maximum number of ghosts
++        max_pellets = 100  # Maximum number of pellets
++        max_power_pellets = 4  # Maximum number of power pellets
+ 
+-        # Define object features and add nodes
++        # Initialize fixed-size arrays for objects
+         pacman_features = [self.player.x, self.player.y, self.player.velX, self.player.velY, 1, 0, 0, 0]
+-        graph.add_node("pacman", type="object", features=pacman_features)
+-
+-        ghost_features = [[ghost.x, ghost.y, ghost.velX, ghost.velY,0,1,0,0] for ghost in self.ghosts.values()]
+-        for i, features in enumerate(ghost_features):
+-            graph.add_node(f"ghost_{i}", type="object", features=features)
+-
+-        pellet_features = [[pellet[0], pellet[1],0,0,0,0,1,0] for pellet in self.level.GetPelletLocations()]
+-        for i, features in enumerate(pellet_features):
+-            graph.add_node(f"pellet_{i}", type="object", features=features)
+-
+-        power_pellet_features = [[pellet[0], pellet[1],0,0,0,0,0,1] for pellet in self.level.GetPowerPelletLocations()]
+-        for i, features in enumerate(power_pellet_features):
+-            graph.add_node(f"power_pellet_{i}", type="object", features=features)
+-
+-        # Combine object positions
+-        object_positions = {
+-            "pacman": pacman_features[:2],
+-        }
++        
++        ghost_features = [[0, 0, 0, 0, 0, 0, 0, 0] for _ in range(max_ghosts)]
+         for i, ghost in enumerate(self.ghosts.values()):
+-            object_positions[f"ghost_{i}"] = ghost_features[i][:2]
+-        for i, pellet in enumerate(self.level.GetPelletLocations()):
+-            object_positions[f"pellet_{i}"] = pellet_features[i][:2]
+-        for i, power_pellet in enumerate(self.level.GetPowerPelletLocations()):
+-            object_positions[f"power_pellet_{i}"] = power_pellet_features[i][:2]
+-
+-        # Proximity threshold for creating atoms
+-        #proximity_threshold = self.proximity_threshold
++            if i < max_ghosts:
++                ghost_features[i] = [ghost.x, ghost.y, ghost.velX, ghost.velY, 0, 1, 0, 0]
+ 
+-        # Create atom nodes and edges based on proximity
+-        atom_index = len(object_positions)  # Start indexing atoms after all objects
++        pellet_features = [[0, 0, 0, 0, 0, 0, 1, 0] for _ in range(max_pellets)]
++        current_pellets = self.level.GetPelletLocations()
++        for i, pellet in enumerate(current_pellets):
++            if i < max_pellets:
++                pellet_features[i] = [pellet[0], pellet[1], 0, 0, 0, 0, 1, 0]
+ 
+-        # Determine wall proximity around Pac-Man
+-        walls = {
+-            'up': self.level.CheckIfHitWall(self.player.x, self.player.y - self.player.velY, self.player.y - 1, self.player.x),
+-            'down': self.level.CheckIfHitWall(self.player.x, self.player.y + self.player.velY, self.player.y + 1, self.player.x),
+-            'left': self.level.CheckIfHitWall(self.player.x - self.player.velX, self.player.y, self.player.y, self.player.x - 1),
+-            'right': self.level.CheckIfHitWall(self.player.x + self.player.velX, self.player.y, self.player.y, self.player.x + 1)
+-        }
+-
+-        standard_feature_vector_size = len(pacman_features)
+-        empty_feature_vector = [0] *(2* standard_feature_vector_size)
+-
+-        # Add wall direction atoms and edges for Pac-Man
+-        for direction, hit in walls.items():
+-            if hit:
+-                atom_node = f"Wall{direction.capitalize()}_{atom_index}"
+-                graph.add_node(atom_node, type="atom", features=empty_feature_vector, predicate=f"Wall{direction.capitalize()}")
+-                graph.add_edge("pacman", atom_node, position=0)
+-                atom_index += 1
+-
+-        # Add distance and direction atoms and edges for ghosts
+-        for i, ghost_pos in enumerate(ghost_features):
+-            distance = np.linalg.norm(np.array(pacman_features[:2]) - np.array(ghost_pos[:2]))
+-            direction = np.array(pacman_features[:2]) - np.array(ghost_pos[:2])
+-            
+-            atom_node_distance = f"Distance_Pacman_Ghost_{i}_{atom_index}"
+-            graph.add_node(atom_node_distance,features=empty_feature_vector, type="atom", predicate="Distance")
+-            graph.add_edge("pacman", atom_node_distance, position=0)
+-            graph.add_edge(f"ghost_{i}", atom_node_distance, position=1)
+-            
+-            atom_index += 1
++        power_pellet_features = [[0, 0, 0, 0, 0, 0, 0, 1] for _ in range(max_power_pellets)]
++        current_power_pellets = self.level.GetPowerPelletLocations()
++        for i, power_pellet in enumerate(current_power_pellets):
++            if i < max_power_pellets:
++                power_pellet_features[i] = [power_pellet[0], power_pellet[1], 0, 0, 0, 0, 0, 1]
+ 
+-            if pacman_features[0] == ghost_pos[0]:
+-                atom_node_same_row = f"SameRow_Pacman_Ghost_{i}_{atom_index}"
+-                graph.add_node(atom_node_same_row, features=empty_feature_vector,type="atom", predicate="SameRow")
+-                graph.add_edge("pacman", atom_node_same_row, position=0)
+-                graph.add_edge(f"ghost_{i}", atom_node_same_row, position=1)
+-                atom_index += 1
++        # Combine all features into a single tensor
++        features = [pacman_features] + ghost_features + pellet_features + power_pellet_features
+ 
+-            if pacman_features[1] == ghost_pos[1]:
+-                atom_node_same_column = f"SameColumn_Pacman_Ghost_{i}_{atom_index}"
+-                graph.add_node(atom_node_same_column, features=empty_feature_vector, type="atom", predicate="SameColumn")
+-                graph.add_edge("pacman", atom_node_same_column, position=0)
+-                graph.add_edge(f"ghost_{i}", atom_node_same_column, position=1)
+-                atom_index += 1
+-
+-        # Add distance and direction atoms and edges for pellets
+-        for i, pellet_pos in enumerate(pellet_features):
+-            distance = np.linalg.norm(np.array(pacman_features[:2]) - np.array(pellet_pos[:2]))
+-            
+-            atom_node_distance = f"Distance_Pacman_Pellet_{i}_{atom_index}"
+-            graph.add_node(atom_node_distance, features=empty_feature_vector,type="atom", predicate="Distance")
+-            graph.add_edge("pacman", atom_node_distance, position=0)
+-            graph.add_edge(f"pellet_{i}", atom_node_distance, position=1)
+-            
+-            atom_index += 1
+-
+-        # Add distance and direction atoms and edges for power pellets
+-        for i, power_pellet_pos in enumerate(power_pellet_features):
+-            distance = np.linalg.norm(np.array(pacman_features[:2]) - np.array(power_pellet_pos[:2]))
+-            
+-            atom_node_distance = f"Distance_Pacman_PowerPellet_{i}_{atom_index}"
+-            graph.add_node(atom_node_distance,features=empty_feature_vector, type="atom", predicate="Distance")
+-            graph.add_edge("pacman", atom_node_distance, position=0)
+-            graph.add_edge(f"power_pellet_{i}", atom_node_distance, position=1)
+-            
+-            atom_index += 1
+-
+-        # Create a GraphConverter object
+-        converter = GraphConverter()
+-
+-        # Convert the NetworkX graph to a PyG Data object
+-        data = converter.to_pyg_data(graph)
+-        return data
+-    
++        return torch.tensor(features, dtype=torch.float32)
++        
+ 
+     
+     def render(self, mode='human'):
+diff --git a/wandb/debug-internal.log b/wandb/debug-internal.log
+index 633896b..88b5405 120000
+--- a/wandb/debug-internal.log
++++ b/wandb/debug-internal.log
+@@ -1 +1 @@
+-run-20240623_115927-p9ilr97g/logs/debug-internal.log
+\ No newline at end of file
++run-20240623_121608-ejrbmnh2/logs/debug-internal.log
+\ No newline at end of file
+diff --git a/wandb/debug.log b/wandb/debug.log
+index d786bf5..28024d6 120000
+--- a/wandb/debug.log
++++ b/wandb/debug.log
+@@ -1 +1 @@
+-run-20240623_115927-p9ilr97g/logs/debug.log
+\ No newline at end of file
++run-20240623_121608-ejrbmnh2/logs/debug.log
+\ No newline at end of file
+diff --git a/wandb/latest-run b/wandb/latest-run
+index e732241..b358b20 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240623_115927-p9ilr97g
+\ No newline at end of file
++run-20240623_121608-ejrbmnh2
+\ No newline at end of file

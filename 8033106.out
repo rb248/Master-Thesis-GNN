@@ -1,0 +1,84 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8033106
+Job name: freeway_supervised_cnn
+Host: cn-407
+Date: Fri Jul 12 09:26:23 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8033106 rleap_gpu freeway_ rishabh.  R       0:00      1 cn-407
+8032924 rleap_gpu   tunnel rishabh.  R      14:54      1 cn-407
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240712_092651-gs7sb6xs
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run copper-pond-71
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_freeway
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_freeway/runs/gs7sb6xs
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/callbacks.py:414: UserWarning: Training and eval env are not of the same type<stable_baselines3.common.vec_env.subproc_vec_env.SubprocVecEnv object at 0x7f86e7b86ec0> != <stable_baselines3.common.vec_env.dummy_vec_env.DummyVecEnv object at 0x7f858479ad40>
+  warnings.warn("Training and eval env are not of the same type" f"{self.training_env} != {self.eval_env}")
+Using cuda device
+No data available for logging.
+No data available for logging.
+-----------------------------
+| time/              |      |
+|    fps             | 152  |
+|    iterations      | 1    |
+|    time_elapsed    | 53   |
+|    total_timesteps | 8192 |
+-----------------------------
+Num timesteps: 12000
+Best mean reward: -inf - Last mean reward per episode: -1485.00
+Saving new best model at 12000 timesteps
+Saving new best model to ./logs/Freeway-GNN-training/best_model.zip
+Num timesteps: 16000
+Best mean reward: -1485.00 - Last mean reward per episode: -1485.00
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 3e+03       |
+|    ep_rew_mean          | -1.48e+03   |
+| time/                   |             |
+|    fps                  | 35          |
+|    iterations           | 2           |
+|    time_elapsed         | 465         |
+|    total_timesteps      | 16384       |
+| train/                  |             |
+|    approx_kl            | 0.009483897 |
+|    clip_fraction        | 0.0284      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.09       |
+|    explained_variance   | 0.00223     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.174       |
+|    n_updates            | 10          |
+|    policy_gradient_loss | -0.000565   |
+|    value_loss           | 1.29        |
+-----------------------------------------
+slurmstepd-cn-407: error: *** JOB 8033106 ON cn-407 CANCELLED AT 2024-07-12T09:41:30 ***
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8033106
+Time: Fri Jul 12 09:41:30 CEST 2024
+Elapsed Time: 00:15:07
+Billing per second for TRES: billing=704,cpu=32,gres/gpu=1,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8033106 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

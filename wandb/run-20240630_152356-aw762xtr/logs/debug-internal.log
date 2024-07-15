@@ -1,0 +1,207 @@
+2024-06-30 15:23:56,775 INFO    StreamThr :2789940 [internal.py:wandb_internal():85] W&B internal server running at pid: 2789940, started at: 2024-06-30 15:23:56.774139
+2024-06-30 15:23:56,778 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: status
+2024-06-30 15:23:56,779 INFO    WriterThread:2789940 [datastore.py:open_for_write():87] open: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/run-aw762xtr.wandb
+2024-06-30 15:23:56,786 DEBUG   SenderThread:2789940 [sender.py:send():379] send: header
+2024-06-30 15:23:56,788 DEBUG   SenderThread:2789940 [sender.py:send():379] send: run
+2024-06-30 15:23:57,127 INFO    SenderThread:2789940 [dir_watcher.py:__init__():211] watching files in: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files
+2024-06-30 15:23:57,127 INFO    SenderThread:2789940 [sender.py:_start_run_threads():1188] run started: aw762xtr with start time 1719753836.775382
+2024-06-30 15:23:57,139 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: check_version
+2024-06-30 15:23:57,140 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: check_version
+2024-06-30 15:23:57,214 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: run_start
+2024-06-30 15:23:57,229 DEBUG   HandlerThread:2789940 [system_info.py:__init__():26] System info init
+2024-06-30 15:23:57,229 DEBUG   HandlerThread:2789940 [system_info.py:__init__():41] System info init done
+2024-06-30 15:23:57,229 INFO    HandlerThread:2789940 [system_monitor.py:start():194] Starting system monitor
+2024-06-30 15:23:57,230 INFO    SystemMonitor:2789940 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-30 15:23:57,230 INFO    HandlerThread:2789940 [system_monitor.py:probe():214] Collecting system info
+2024-06-30 15:23:57,231 INFO    SystemMonitor:2789940 [interfaces.py:start():188] Started cpu monitoring
+2024-06-30 15:23:57,232 INFO    SystemMonitor:2789940 [interfaces.py:start():188] Started disk monitoring
+2024-06-30 15:23:57,234 INFO    SystemMonitor:2789940 [interfaces.py:start():188] Started gpu monitoring
+2024-06-30 15:23:57,235 INFO    SystemMonitor:2789940 [interfaces.py:start():188] Started memory monitoring
+2024-06-30 15:23:57,236 INFO    SystemMonitor:2789940 [interfaces.py:start():188] Started network monitoring
+2024-06-30 15:23:57,260 DEBUG   HandlerThread:2789940 [system_info.py:probe():152] Probing system
+2024-06-30 15:23:57,264 DEBUG   HandlerThread:2789940 [system_info.py:_probe_git():137] Probing git
+2024-06-30 15:23:57,277 DEBUG   HandlerThread:2789940 [system_info.py:_probe_git():145] Probing git done
+2024-06-30 15:23:57,277 DEBUG   HandlerThread:2789940 [system_info.py:probe():200] Probing system done
+2024-06-30 15:23:57,277 DEBUG   HandlerThread:2789940 [system_monitor.py:probe():223] {'os': 'Linux-6.5.0-28-generic-x86_64-with-glibc2.35', 'python': '3.10.14', 'heartbeatAt': '2024-06-30T13:23:57.260979', 'startedAt': '2024-06-30T13:23:56.758978', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '-m games.freeway.run_supervised_gnn', 'codePathLocal': None, 'git': {'remote': 'https://github.com/rb248/Master-Thesis-GNN.git', 'commit': 'ba9e888a4c10c9f7483c08755454a7fb6d45cc20'}, 'email': None, 'root': '/work/rleap1/rishabh.bhatia/Master-Thesis-GNN', 'host': 'cn-401', 'username': 'rishabh.bhatia', 'executable': '/work/rleap1/rishabh.bhatia/miniconda3/envs/train/bin/python', 'cpu_count': 64, 'cpu_count_logical': 128, 'cpu_freq': {'current': 2208.1555859375003, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 3500.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.0, 'min': 0.0, 'max': 0.0}, {'current': 800.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 3500.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 3500.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 3500.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.913, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.483, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2285.926, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.146, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 1538.926, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 800.759, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 799.266, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}, {'current': 2300.0, 'min': 0.0, 'max': 0.0}], 'disk': {'/': {'total': 14.917346954345703, 'used': 7.503135681152344}}, 'memory': {'total': 503.3177680969238}}
+2024-06-30 15:23:57,278 INFO    HandlerThread:2789940 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-30 15:23:57,278 INFO    HandlerThread:2789940 [system_monitor.py:probe():227] Publishing system info
+2024-06-30 15:23:57,278 DEBUG   HandlerThread:2789940 [system_info.py:_save_conda():209] Saving list of conda packages installed into the current environment
+2024-06-30 15:23:58,131 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_created():271] file/dir created: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/conda-environment.yaml
+2024-06-30 15:24:00,130 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/conda-environment.yaml
+2024-06-30 15:24:00,253 DEBUG   HandlerThread:2789940 [system_info.py:_save_conda():224] Saving conda packages done
+2024-06-30 15:24:00,253 DEBUG   HandlerThread:2789940 [system_info.py:_save_code():44] Saving code
+2024-06-30 15:24:00,253 WARNING HandlerThread:2789940 [system_info.py:_save_code():46] unable to save code -- program entry not found
+2024-06-30 15:24:00,253 DEBUG   HandlerThread:2789940 [system_info.py:_save_patches():84] Saving git patches
+2024-06-30 15:24:00,782 DEBUG   HandlerThread:2789940 [system_info.py:_save_patches():126] Saving git patches done
+2024-06-30 15:24:00,787 INFO    HandlerThread:2789940 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-30 15:24:00,796 DEBUG   SenderThread:2789940 [sender.py:send():379] send: files
+2024-06-30 15:24:00,796 INFO    SenderThread:2789940 [sender.py:_save_file():1454] saving file wandb-metadata.json with policy now
+2024-06-30 15:24:00,797 INFO    SenderThread:2789940 [sender.py:_save_file():1454] saving file diff.patch with policy now
+2024-06-30 15:24:00,957 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-30 15:24:00,958 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: python_packages
+2024-06-30 15:24:00,958 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-30 15:24:00,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:00,961 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: stop_status
+2024-06-30 15:24:01,131 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_created():271] file/dir created: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/diff.patch
+2024-06-30 15:24:01,132 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_created():271] file/dir created: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/wandb-metadata.json
+2024-06-30 15:24:01,132 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_created():271] file/dir created: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/requirements.txt
+2024-06-30 15:24:01,207 DEBUG   SenderThread:2789940 [sender.py:send():379] send: telemetry
+2024-06-30 15:24:01,209 DEBUG   SenderThread:2789940 [sender.py:send():379] send: telemetry
+2024-06-30 15:24:01,209 DEBUG   SenderThread:2789940 [sender.py:send():379] send: config
+2024-06-30 15:24:01,323 INFO    wandb-upload_0:2789940 [upload_job.py:push():130] Uploaded file /var/tmp/tmp3r8fotjcwandb/v4ixq1ty-wandb-metadata.json
+2024-06-30 15:24:01,379 INFO    wandb-upload_1:2789940 [upload_job.py:push():130] Uploaded file /var/tmp/tmp3r8fotjcwandb/m2y6p2od-diff.patch
+2024-06-30 15:24:01,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:02,133 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_created():271] file/dir created: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/output.log
+2024-06-30 15:24:02,210 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: status_report
+2024-06-30 15:24:02,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:03,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:04,135 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/output.log
+2024-06-30 15:24:04,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:05,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:06,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:07,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: status_report
+2024-06-30 15:24:07,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:08,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:09,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:10,959 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:11,960 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:12,046 DEBUG   SenderThread:2789940 [sender.py:send():379] send: exit
+2024-06-30 15:24:12,047 INFO    SenderThread:2789940 [sender.py:send_exit():586] handling exit code: 1
+2024-06-30 15:24:12,047 INFO    SenderThread:2789940 [sender.py:send_exit():588] handling runtime: 14
+2024-06-30 15:24:12,050 INFO    SenderThread:2789940 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-06-30 15:24:12,051 INFO    SenderThread:2789940 [sender.py:send_exit():594] send defer
+2024-06-30 15:24:12,051 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,051 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-30 15:24:12,051 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,052 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 0
+2024-06-30 15:24:12,052 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 1
+2024-06-30 15:24:12,052 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,052 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-30 15:24:12,052 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,052 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 1
+2024-06-30 15:24:12,052 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 2
+2024-06-30 15:24:12,053 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,053 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-30 15:24:12,053 INFO    HandlerThread:2789940 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-30 15:24:12,054 INFO    HandlerThread:2789940 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-30 15:24:12,054 INFO    HandlerThread:2789940 [interfaces.py:finish():200] Joined disk monitor
+2024-06-30 15:24:12,055 DEBUG   SystemMonitor:2789940 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-30 15:24:12,055 DEBUG   SystemMonitor:2789940 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-30 15:24:12,055 DEBUG   SystemMonitor:2789940 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-30 15:24:12,059 INFO    HandlerThread:2789940 [interfaces.py:finish():200] Joined gpu monitor
+2024-06-30 15:24:12,060 INFO    HandlerThread:2789940 [interfaces.py:finish():200] Joined memory monitor
+2024-06-30 15:24:12,060 INFO    HandlerThread:2789940 [interfaces.py:finish():200] Joined network monitor
+2024-06-30 15:24:12,061 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,061 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 2
+2024-06-30 15:24:12,061 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 3
+2024-06-30 15:24:12,061 DEBUG   SenderThread:2789940 [sender.py:send():379] send: stats
+2024-06-30 15:24:12,063 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,063 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-30 15:24:12,063 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,063 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 3
+2024-06-30 15:24:12,063 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 4
+2024-06-30 15:24:12,064 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,064 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-30 15:24:12,064 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,064 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 4
+2024-06-30 15:24:12,064 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 5
+2024-06-30 15:24:12,064 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,064 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-30 15:24:12,065 DEBUG   SenderThread:2789940 [sender.py:send():379] send: summary
+2024-06-30 15:24:12,066 INFO    SenderThread:2789940 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-06-30 15:24:12,067 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,067 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 5
+2024-06-30 15:24:12,067 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 6
+2024-06-30 15:24:12,067 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,067 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-30 15:24:12,068 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,068 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 6
+2024-06-30 15:24:12,073 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: status_report
+2024-06-30 15:24:12,144 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_created():271] file/dir created: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/wandb-summary.json
+2024-06-30 15:24:12,268 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 7
+2024-06-30 15:24:12,269 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:12,269 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-30 15:24:12,269 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:12,269 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 7
+2024-06-30 15:24:13,047 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-30 15:24:13,145 INFO    Thread-12 :2789940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/config.yaml
+2024-06-30 15:24:14,014 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 8
+2024-06-30 15:24:14,014 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: poll_exit
+2024-06-30 15:24:14,014 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,015 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-30 15:24:14,015 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,015 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 8
+2024-06-30 15:24:14,015 INFO    SenderThread:2789940 [job_builder.py:build():440] Attempting to build job artifact
+2024-06-30 15:24:14,017 INFO    SenderThread:2789940 [job_builder.py:_get_source_type():569] is repo sourced job
+2024-06-30 15:24:14,017 WARNING SenderThread:2789940 [job_builder.py:_log_if_verbose():274] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-30 15:24:14,017 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 9
+2024-06-30 15:24:14,017 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,017 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-30 15:24:14,018 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,018 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 9
+2024-06-30 15:24:14,018 INFO    SenderThread:2789940 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-30 15:24:14,047 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-30 15:24:14,147 INFO    SenderThread:2789940 [dir_watcher.py:_on_file_modified():288] file/dir modified: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/output.log
+2024-06-30 15:24:14,148 INFO    SenderThread:2789940 [dir_watcher.py:finish():388] scan: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files
+2024-06-30 15:24:14,148 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/wandb-metadata.json wandb-metadata.json
+2024-06-30 15:24:14,148 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/output.log output.log
+2024-06-30 15:24:14,149 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/requirements.txt requirements.txt
+2024-06-30 15:24:14,149 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/diff.patch diff.patch
+2024-06-30 15:24:14,149 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/config.yaml config.yaml
+2024-06-30 15:24:14,158 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/wandb-summary.json wandb-summary.json
+2024-06-30 15:24:14,159 INFO    SenderThread:2789940 [dir_watcher.py:finish():402] scan save: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/conda-environment.yaml conda-environment.yaml
+2024-06-30 15:24:14,164 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 10
+2024-06-30 15:24:14,164 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: poll_exit
+2024-06-30 15:24:14,165 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,165 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-30 15:24:14,174 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,174 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 10
+2024-06-30 15:24:14,174 INFO    SenderThread:2789940 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-30 15:24:14,522 INFO    wandb-upload_0:2789940 [upload_job.py:push():130] Uploaded file /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/output.log
+2024-06-30 15:24:14,530 INFO    wandb-upload_2:2789940 [upload_job.py:push():130] Uploaded file /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/config.yaml
+2024-06-30 15:24:14,547 INFO    wandb-upload_1:2789940 [upload_job.py:push():130] Uploaded file /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/requirements.txt
+2024-06-30 15:24:14,564 INFO    wandb-upload_3:2789940 [upload_job.py:push():130] Uploaded file /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/wandb-summary.json
+2024-06-30 15:24:14,564 INFO    wandb-upload_4:2789940 [upload_job.py:push():130] Uploaded file /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/files/conda-environment.yaml
+2024-06-30 15:24:14,765 INFO    Thread-11 (_thread_body):2789940 [sender.py:transition_state():614] send defer: 11
+2024-06-30 15:24:14,765 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,766 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-30 15:24:14,766 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,767 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 11
+2024-06-30 15:24:14,767 INFO    SenderThread:2789940 [file_pusher.py:join():175] waiting for file pusher
+2024-06-30 15:24:14,767 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 12
+2024-06-30 15:24:14,767 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,767 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-30 15:24:14,768 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,768 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 12
+2024-06-30 15:24:14,768 INFO    SenderThread:2789940 [file_stream.py:finish():601] file stream finish called
+2024-06-30 15:24:14,945 INFO    SenderThread:2789940 [file_stream.py:finish():605] file stream finish is done
+2024-06-30 15:24:14,946 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 13
+2024-06-30 15:24:14,946 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,946 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-30 15:24:14,947 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,947 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 13
+2024-06-30 15:24:14,947 INFO    SenderThread:2789940 [sender.py:transition_state():614] send defer: 14
+2024-06-30 15:24:14,947 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: defer
+2024-06-30 15:24:14,947 INFO    HandlerThread:2789940 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-30 15:24:14,948 DEBUG   SenderThread:2789940 [sender.py:send():379] send: final
+2024-06-30 15:24:14,948 DEBUG   SenderThread:2789940 [sender.py:send():379] send: footer
+2024-06-30 15:24:14,948 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: defer
+2024-06-30 15:24:14,948 INFO    SenderThread:2789940 [sender.py:send_request_defer():610] handle sender defer: 14
+2024-06-30 15:24:14,949 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-30 15:24:14,950 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: poll_exit
+2024-06-30 15:24:14,950 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: server_info
+2024-06-30 15:24:14,951 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: server_info
+2024-06-30 15:24:14,955 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-30 15:24:14,955 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: get_summary
+2024-06-30 15:24:14,956 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: sampled_history
+2024-06-30 15:24:14,956 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-30 15:24:15,089 DEBUG   SenderThread:2789940 [sender.py:send_request():406] send_request: poll_exit
+2024-06-30 15:24:15,090 INFO    MainThread:2789940 [wandb_run.py:_footer_history_summary_info():4008] rendering history
+2024-06-30 15:24:15,090 INFO    MainThread:2789940 [wandb_run.py:_footer_history_summary_info():4040] rendering summary
+2024-06-30 15:24:15,090 INFO    MainThread:2789940 [wandb_run.py:_footer_sync_info():3967] logging synced files
+2024-06-30 15:24:15,091 DEBUG   HandlerThread:2789940 [handler.py:handle_request():158] handle_request: shutdown
+2024-06-30 15:24:15,091 INFO    HandlerThread:2789940 [handler.py:finish():882] shutting down handler
+2024-06-30 15:24:15,955 INFO    WriterThread:2789940 [datastore.py:close():296] close: /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240630_152356-aw762xtr/run-aw762xtr.wandb
+2024-06-30 15:24:16,090 INFO    SenderThread:2789940 [sender.py:finish():1608] shutting down sender
+2024-06-30 15:24:16,090 INFO    SenderThread:2789940 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-30 15:24:16,090 INFO    SenderThread:2789940 [file_pusher.py:join():175] waiting for file pusher

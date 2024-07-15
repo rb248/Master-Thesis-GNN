@@ -1,0 +1,96 @@
+Using cuda device
+Wrapping the env with a `Monitor` wrapper
+Wrapping the env in a DummyVecEnv.
+-----------------------------
+| time/              |      |
+|    fps             | 94   |
+|    iterations      | 1    |
+|    time_elapsed    | 21   |
+|    total_timesteps | 2048 |
+-----------------------------
+Time to encode: 0.2777526378631592
+Time to encode: 0.27556467056274414
+Time to encode: 0.4380006790161133
+Time to encode: 0.2711052894592285
+Time to encode: 0.27515506744384766
+Time to encode: 0.27211928367614746
+Time to encode: 0.2717280387878418
+Time to encode: 0.2740285396575928
+Time to encode: 0.27347254753112793
+Time to encode: 0.2681252956390381
+Time to encode: 0.27851247787475586
+Time to encode: 0.2715933322906494
+Time to encode: 0.27074742317199707
+Time to encode: 0.2727677822113037
+Time to encode: 0.27645158767700195
+Time to encode: 0.27405405044555664
+Time to encode: 0.27387356758117676
+Time to encode: 0.2739131450653076
+Time to encode: 0.268674373626709
+Time to encode: 0.27460408210754395
+Time to encode: 0.43160295486450195
+Time to encode: 0.2713809013366699
+Time to encode: 0.2780179977416992
+Time to encode: 0.26798105239868164
+Time to encode: 0.27811098098754883
+Time to encode: 0.2734091281890869
+Time to encode: 0.2764914035797119
+Time to encode: 0.2704732418060303
+Time to encode: 0.2704942226409912
+Time to encode: 0.2755610942840576
+Time to encode: 0.27113819122314453
+Time to encode: 0.2700808048248291
+Time to encode: 0.27739453315734863
+Time to encode: 0.26757073402404785
+Time to encode: 0.2668495178222656
+Time to encode: 0.27288174629211426
+Time to encode: 0.43200087547302246
+Time to encode: 0.271075963973999
+Time to encode: 0.2732374668121338
+Time to encode: 0.2725672721862793
+Time to encode: 0.26955628395080566
+Time to encode: 0.2694694995880127
+Time to encode: 0.269366979598999
+Time to encode: 0.27963829040527344
+Time to encode: 0.2714693546295166
+Time to encode: 0.2677767276763916
+Time to encode: 0.2732546329498291
+Time to encode: 0.2738945484161377
+Time to encode: 0.26671862602233887
+Time to encode: 0.2699763774871826
+Time to encode: 0.2771873474121094
+Time to encode: 0.26991868019104004
+Time to encode: 0.44264674186706543
+Time to encode: 0.2797520160675049
+Time to encode: 0.2685239315032959
+Time to encode: 0.2808055877685547
+Time to encode: 0.26944708824157715
+Time to encode: 0.2696645259857178
+Traceback (most recent call last):
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/freeway/run_supervised_gnn.py", line 47, in <module>
+    model.learn(total_timesteps=1000000, callback=WandbCallback())
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 315, in learn
+    return super().learn(
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 313, in learn
+    self.train()
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 217, in train
+    values, log_prob, entropy = self.policy.evaluate_actions(rollout_data.observations, actions)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/policies.py", line 730, in evaluate_actions
+    features = self.extract_features(obs)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/policies.py", line 672, in extract_features
+    return super().extract_features(obs, self.features_extractor if features_extractor is None else features_extractor)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/policies.py", line 131, in extract_features
+    return features_extractor(preprocessed_obs)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/model/policy.py", line 40, in forward
+    pyg_data = self.encoder.encode(observations)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/encoder/GraphEncoder.py", line 141, in encode
+    if abs(node_features[i, 1] - node_features[j, 1]) <= proximity_threshold:
+KeyboardInterrupt

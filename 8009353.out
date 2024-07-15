@@ -1,0 +1,50 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8009353
+Job name: pong_supervised_gnn
+Host: cn-401
+Date: Wed Jul 10 02:24:28 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8008195 rleap_gpu barman.s blai.bon  R    9:02:02      1 cn-401
+8009353 rleap_gpu pong_sup rishabh.  R       0:01      1 cn-401
+8008582 rleap_gpu   tunnel rishabh.  R    6:53:33      1 cn-401
+8003067 rleap_gpu train.sl samuel.s  R   13:55:43      1 cn-401
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_022438-z7wxw6sz
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run balmy-spaceship-134
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/z7wxw6sz
+Traceback (most recent call last):
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/pong/run_supervised_gnn.py", line 61, in <module>
+    params = OrderedDict([
+NameError: name 'OrderedDict' is not defined
+wandb: - 0.340 MB of 0.340 MB uploadedwandb: \ 0.340 MB of 0.345 MB uploadedwandb: 🚀 View run balmy-spaceship-134 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/z7wxw6sz
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_022438-z7wxw6sz/logs
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8009353
+Time: Wed Jul 10 02:24:48 CEST 2024
+Elapsed Time: 00:00:21
+Billing per second for TRES: billing=704,cpu=32,gres/gpu=1,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8009353 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------
