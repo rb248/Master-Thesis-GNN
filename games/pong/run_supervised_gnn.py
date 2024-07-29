@@ -4,10 +4,11 @@ from stable_baselines3.common.env_util import make_vec_env
 from wandb.integration.sb3 import WandbCallback
 from stable_baselines3.common.monitor import Monitor
 #from games.model.policy import CustomActorCriticPolicy
-from games.pong.pong_envs.pong_env_new import PongEnvNew
+from games.pong.pong_envs.pong_env import PongEnvNew
 from games.model.policy import CustomCNN, CustomHeteroGNN
 import pygame
 #Initialize wandb
+
 wandb.init(
     project="gnn_atari_pong",  # Replace with your project name
     sync_tensorboard=True,        # Automatically sync SB3 logs with wandb
@@ -17,7 +18,7 @@ wandb.init(
 
 
 
-env = PongEnvNew(render_mode='human', observation_type='graph', training=True)
+env = PongEnvNew(render_mode='human', observation_type='graph')
 # policy_kwargs = dict(
 #     features_extractor_class=CustomCNN,
 #     features_extractor_kwargs=dict(features_dim=128),

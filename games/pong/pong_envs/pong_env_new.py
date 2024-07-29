@@ -7,6 +7,7 @@ import torch
 from torch_geometric.data import Data
 import stable_baselines3.common.env_checker
 from skimage.transform import resize
+from collections import deque
 
 class PongEnvNew(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60, "observation_types": ["pixel", "graph"]}
@@ -39,7 +40,7 @@ class PongEnvNew(gym.Env):
         self.clock = pygame.time.Clock()
         self.ai_reaction_time = 10  # milliseconds
         self.np_random = None
-        self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
+        self.frame_buffer = deque(maxlen=self.frame_stack)
         self.proximity_threshold = 50
     
     def seed(self, seed=None):
@@ -60,17 +61,18 @@ class PongEnvNew(gym.Env):
         self.ball_speed_x, self.ball_speed_y = 2 * random.choice((1, -1)), 2 * random.choice((1, -1))
         self.left_player_score = 0
         self.right_player_score = 0
-        self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
-        
+            
+        self.frame_buffer.clear()
         # Fill the frame buffer with the initial frame
         if self.observation_type == "pixel":
+            obs = self._get_observation()
             for _ in range(self.frame_stack):
-                self._get_observation()
+                self.frame_buffer.append(obs)
+            return np.array(self.frame_buffer), {}
         else:
             return self.get_graph_data(), {}
-
-        return self._get_observation(), {}
-
+        
+        
     def render(self):
         if not self.render_mode in ['human', 'rgb_array']:
             # If not in a mode that requires rendering, skip the rendering.
@@ -93,25 +95,15 @@ class PongEnvNew(gym.Env):
             print("Pygame error:", e)
             return None
 
-    def _get_observation(self):
-        if self.observation_type == "pixel":
-            self.render()
-            frame = pygame.surfarray.array3d(pygame.display.get_surface())
-            frame = np.transpose(frame, (1, 0, 2))  # Transpose to match (height, width, channels)
-            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)  # Convert to grayscale
-            self.frame_buffer = np.roll(self.frame_buffer, shift=-1, axis=2)
-            self.frame_buffer[:, :, -1] = grayscale  # Update the last frame
-
-            # Resize the frame buffer to 84x84 pixels
-            resized_frame_buffer = np.zeros((84, 84, self.frame_stack), dtype=np.uint8)
-            for i in range(self.frame_stack):
-                resized_frame_buffer[:, :, i] = resize(self.frame_buffer[:, :, i], (84, 84), anti_aliasing=True, preserve_range=True).astype(np.uint8)
-
-            # Convert to (batch_size, 4, 84, 84)
-            return resized_frame_buffer.transpose(2, 0, 1)
-        else:
-            return self.get_graph_data()
-
+    def _get_obs(self):
+        if self.offscreen_surface is None:
+            self.offscreen_surface = pygame.Surface((self.width, self.height))
+        self._render_on_surface(self.offscreen_surface)
+        frame = pygame.surfarray.array3d(self.offscreen_surface)
+        frame = np.transpose(frame, (1, 0, 2))  # Transpose to match (height, width, channels)
+        grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)  # Convert to grayscale
+        resized_frame = resize(grayscale, (84, 84), anti_aliasing=True, preserve_range=True).astype(np.uint8)  # Resize and update the last frame
+        return resized_frame
     def _apply_action(self, action):
         if action == 1 and self.left_paddle.top > 0:
             self.left_paddle.y -= self.paddle_speed
@@ -133,7 +125,6 @@ class PongEnvNew(gym.Env):
         self.ball.x += self.ball_speed_x
         self.ball.y += self.ball_speed_y
 
-        # Debugging statements to track ball position and speed
 
         # Check for collisions with the top and bottom of the screen
         if self.ball.top <= 0:

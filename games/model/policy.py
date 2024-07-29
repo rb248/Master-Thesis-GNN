@@ -29,19 +29,20 @@ class CustomHeteroGNN(BaseFeaturesExtractor):
             self.encoder = GraphEncoderBreakout()
         
         # set device to mps if available
-        #self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        # self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict, input_size=7).to(self.device)
+        self.model = HeteroGNN(hidden_size, num_layer, obj_type_id, arity_dict).to(self.device)
 
 
     def forward(self, observations):
         # Encode observations to a graph using the encoder
         start = time.time()
         pyg_data = self.encoder.encode(observations)
+
         # if observations.shape[0] >1:
         #     print(f"Time to encode: {time.time() - start}")
 
-        pyg_data = pyg_data.to(self.device) 
+        #pyg_data = pyg_data.to(self.device) 
         obj_emb = self.model(pyg_data.x_dict, pyg_data.edge_index_dict, pyg_data.batch_dict)
         # Flatten or pool the embeddings if necessary to match the expected features_dim
         return obj_emb

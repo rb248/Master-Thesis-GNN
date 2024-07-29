@@ -1,18 +1,22 @@
 import gymnasium as gym
 from gymnasium import spaces
+from matplotlib import pyplot as plt
 import pygame
 import numpy as np
 import random
-import torch
-from torch_geometric.data import Data
-import stable_baselines3.common.env_checker
+from skimage.color import rgb2gray
 from skimage.transform import resize
+from collections import deque
+import torch
+from stable_baselines3 import PPO
+from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.monitor import Monitor
 
 class PongEnvNew(gym.Env):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60, "observation_types": ["pixel", "graph"]}
+    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
 
-    def __init__(self, render_mode='human', observation_type='pixel', paddle_width=5, paddle_height=20, ball_size=5, paddle_speed=5, frame_stack=4):
-        pygame.init()
+    def __init__(self, render_mode=None, observation_type='pixel', paddle_width=5, paddle_height=20, ball_size=5, paddle_speed=10, ai_paddle_speed=10, frame_stack=4, ai_reaction_delay=5, ball_speed = 7):
+        super(PongEnvNew, self).__init__()
         self.width = 210
         self.height = 160
         self.render_mode = render_mode
@@ -21,26 +25,22 @@ class PongEnvNew(gym.Env):
         self.paddle_height = paddle_height
         self.ball_size = ball_size
         self.paddle_speed = paddle_speed
-        self.frame_stack = frame_stack  # Number of frames to stack
+        self.ai_paddle_speed = ai_paddle_speed
+        self.frame_stack = frame_stack
+        self.ai_reaction_delay = ai_reaction_delay  # Number of frames to delay AI reaction
+        self.ai_delay_counter = 0  # Initialize delay counter
         self.action_space = spaces.Discrete(3)  # [Stay, Up, Down]
 
         if observation_type == "pixel":
-            self.observation_space = gym.spaces.Box(low=0, high=255, shape=(self.frame_stack, 84, 84), dtype=np.uint8)
+            self.observation_space = gym.spaces.Box(low=0, high=255, shape=(frame_stack, 84, 84), dtype=np.uint8)
         else:
-            # Define a generic observation space for graph data
-            self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(3, 7), dtype=np.float32)  # Number of objects and feature length
+            self.observation_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(3, 7), dtype=np.float32)
 
-        if self.render_mode == "human" or self.render_mode == "rgb_array":
-            self.screen = pygame.display.set_mode((self.width, self.height))
-            pygame.display.set_caption("Pong")
-        else:
-            self.screen = pygame.Surface((self.width, self.height))
-        
-        self.clock = pygame.time.Clock()
-        self.ai_reaction_time = 10  # milliseconds
-        self.np_random = None
-        self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
-        self.proximity_threshold = 50
+        self.screen = None
+        self.offscreen_surface = None
+        self.clock = None
+        self.frame_buffer = deque(maxlen=frame_stack)
+        self.ball_speed = ball_speed
     
     def seed(self, seed=None):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
@@ -48,69 +48,83 @@ class PongEnvNew(gym.Env):
     
     def reset(self, seed=None, options=None):
         super().reset(seed=seed, options=options)
-        if not pygame.display.get_init():
-            pygame.display.init()
-            self.screen = pygame.display.set_mode((self.width, self.height))
         if seed is not None:
-            self.seed(seed)  # Seed the RNG for the environment
+            self.seed(seed)
         self.ball = pygame.Rect(self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2, self.ball_size, self.ball_size)
         self.left_paddle = pygame.Rect(20, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
         self.right_paddle = pygame.Rect(self.width - 20 - self.paddle_width, self.height // 2 - self.paddle_height // 2, self.paddle_width, self.paddle_height)
-        self.ai_last_reaction_time = pygame.time.get_ticks()
-        self.ball_speed_x, self.ball_speed_y = 2 * random.choice((1, -1)), 2 * random.choice((1, -1))
+        
+        angle = random.uniform(-np.pi / 4, np.pi / 4)
+        
+        self.ball_speed_x = self.ball_speed * np.cos(angle) * random.choice([1, -1])
+        self.ball_speed_y = self.ball_speed * np.sin(angle) * random.choice([1, -1])
+        
         self.left_player_score = 0
         self.right_player_score = 0
-        self.frame_buffer = np.zeros((self.height, self.width, self.frame_stack), dtype=np.uint8)
-        
-        # Fill the frame buffer with the initial frame
+        self.frame_buffer.clear()
+        self.ai_delay_counter = 0  # Reset the AI delay counter
         if self.observation_type == "pixel":
+            obs = self._get_obs()
             for _ in range(self.frame_stack):
-                self._get_observation()
+                self.frame_buffer.append(obs)
+            return np.array(self.frame_buffer),{}
         else:
-            return self.get_graph_data(), {}
+            return self.get_graph_data(),{}
 
-        return self._get_observation(), {}
+    def step(self, action):
+        self.ai_move()
+        self._apply_action(action)
+        reward, done = self._update_game_state()
 
-    def render(self):
-        if not self.render_mode in ['human', 'rgb_array']:
-            # If not in a mode that requires rendering, skip the rendering.
-            return None
-        if not pygame.display.get_init():
-            # Reinitialize display if needed
-            pygame.display.init()
-            self.screen = pygame.display.set_mode((self.width, self.height))
-        try:
-            self.screen.fill((0, 0, 0))
-            pygame.draw.rect(self.screen, (255, 255, 255), self.left_paddle)
-            pygame.draw.rect(self.screen, (255, 255, 255), self.right_paddle)
-            pygame.draw.ellipse(self.screen, (255, 255, 255), self.ball)
-
-            if self.render_mode == "human":
-                pygame.display.flip()
-            elif self.render_mode == "rgb_array":
-                return np.array(pygame.surfarray.pixels3d(self.screen))
-        except pygame.error as e:
-            print("Pygame error:", e)
-            return None
-
-    def _get_observation(self):
+        
+        info = {}
+        truncated = False
         if self.observation_type == "pixel":
-            self.render()
-            frame = pygame.surfarray.array3d(pygame.display.get_surface())
-            frame = np.transpose(frame, (1, 0, 2))  # Transpose to match (height, width, channels)
-            grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)  # Convert to grayscale
-            self.frame_buffer = np.roll(self.frame_buffer, shift=-1, axis=2)
-            self.frame_buffer[:, :, -1] = grayscale  # Update the last frame
-
-            # Resize the frame buffer to 84x84 pixels
-            resized_frame_buffer = np.zeros((84, 84, self.frame_stack), dtype=np.uint8)
-            for i in range(self.frame_stack):
-                resized_frame_buffer[:, :, i] = resize(self.frame_buffer[:, :, i], (84, 84), anti_aliasing=True, preserve_range=True).astype(np.uint8)
-
-            # Convert to (batch_size, 4, 84, 84)
-            return resized_frame_buffer.transpose(2, 0, 1)
+            obs = self._get_obs()
+            self.frame_buffer.append(obs)
+            return np.array(self.frame_buffer), reward, done, truncated, info
         else:
-            return self.get_graph_data()
+            return self.get_graph_data(), reward, done, truncated, info
+
+    def render(self, mode="human"):
+        if mode == "human":
+            if self.screen is None:
+                pygame.init()
+                self.screen = pygame.display.set_mode((self.width, self.height))
+                pygame.display.set_caption("Pong")
+                self.clock = pygame.time.Clock()
+            self._render_on_surface(self.screen)
+            pygame.display.flip()
+            self.clock.tick(60)
+
+    def close(self):
+        pygame.quit()
+
+    def _get_obs(self):
+        if self.offscreen_surface is None:
+            self.offscreen_surface = pygame.Surface((self.width, self.height))
+        self._render_on_surface(self.offscreen_surface)
+        frame = pygame.surfarray.array3d(self.offscreen_surface)
+        frame = np.transpose(frame, (1, 0, 2))  # Transpose to match (height, width, channels)
+        grayscale = rgb2gray(frame)  # Convert to grayscale
+        # Plot the grayscale frame
+    
+        # Convert to grayscale
+        grayscale = rgb2gray(frame)
+        
+        # Normalize the grayscale image to enhance contrast
+        normalized_frame = (grayscale - grayscale.min()) / (grayscale.max() - grayscale.min())
+        
+        # Resize the frame
+        resized_frame = resize(normalized_frame, (84, 84), anti_aliasing=True, mode='reflect', preserve_range=True)
+        
+        return resized_frame
+    
+    def _render_on_surface(self, surface):
+        surface.fill((0, 0, 0))
+        pygame.draw.rect(surface, (255, 255, 255), self.left_paddle)
+        pygame.draw.rect(surface, (255, 255, 255), self.right_paddle)
+        pygame.draw.ellipse(surface, (255, 255, 255), self.ball)
 
     def _apply_action(self, action):
         if action == 1 and self.left_paddle.top > 0:
@@ -119,191 +133,108 @@ class PongEnvNew(gym.Env):
             self.left_paddle.y += self.paddle_speed
 
     def ai_move(self):
-        current_time = pygame.time.get_ticks()
-        # AI paddle movement
-        if current_time - self.ai_last_reaction_time > self.ai_reaction_time:
+        if self.ai_delay_counter % self.ai_reaction_delay == 0:
             if self.ball.y < self.right_paddle.y + self.paddle_height / 2 and self.right_paddle.top > 0:
-                self.right_paddle.y -= self.paddle_speed
+                self.right_paddle.y -= self.ai_paddle_speed
             if self.ball.y > self.right_paddle.y + self.paddle_height / 2 and self.right_paddle.bottom < self.height:
-                self.right_paddle.y += self.paddle_speed
-            self.ai_last_reaction_time = current_time
+                self.right_paddle.y += self.ai_paddle_speed
+        self.ai_delay_counter += 1
 
     def _update_game_state(self):
-        # Existing game state update logic
+        reward = 0  # Initialize reward
+
+        # Update ball position
         self.ball.x += self.ball_speed_x
         self.ball.y += self.ball_speed_y
-        
-        # Check for collisions with top and bottom of the screen
-        if self.ball.top <= 0:
-            self.ball.top = 1  # Prevent sticking to the top wall
-            self.ball_speed_y *= -1
-        elif self.ball.bottom >= self.height:
-            self.ball.bottom = self.height - 1  # Prevent sticking to the bottom wall
-            self.ball_speed_y *= -1
-        
-        # AI paddle move
-        self.ai_move()
-        
-        # Check for collisions with paddles
-        collision = False
-        if self.ball.colliderect(self.left_paddle) or self.ball.colliderect(self.right_paddle):
-            collision = True
-            paddle = self.left_paddle if self.ball.colliderect(self.left_paddle) else self.right_paddle
-            
-            # Calculate the difference between the center of the paddle and the ball's y position
-            paddle_center_y = paddle.y + paddle.height / 2
-            difference = self.ball.centery - paddle_center_y
-            
-            # Normalize the difference to a reasonable range, e.g., between -1 and 1
-            normalized_difference = difference / (paddle.height / 2)
-            
-            # Reflect the ball's horizontal speed
-            self.ball_speed_x *= -1
-            
-            # Adjust the ball's vertical speed based on the difference, ensuring the speed remains constant
-            angle = normalized_difference * np.pi / 4  # Adjust the angle as needed
-            speed = np.sqrt(self.ball_speed_x**2 + self.ball_speed_y**2)
-            self.ball_speed_y = speed * np.sin(angle)
-            self.ball_speed_x = np.sign(self.ball_speed_x) * speed * np.cos(angle)
-            
-            # Ensure the ball's speed is within a reasonable range
-            max_speed = 10
-            self.ball_speed_y = max(-max_speed, min(max_speed, self.ball_speed_y))
-            
-            # Adjust the ball's position to prevent sticking
-            if paddle == self.left_paddle:
-                self.ball.left = self.left_paddle.right  # Place the ball right outside the left paddle
-            else:
-                self.ball.right = self.right_paddle.left  # Place the ball right outside the right paddle
 
-        # Check for scoring
-        score = 0
+        # Ball collision with walls
+        if self.ball.y <= 0 or self.ball.y >= self.height - self.ball_size:
+            self.ball_speed_y *= -1
+
+        # Ball collision with paddles
+        if self.ball.colliderect(self.right_paddle):
+            if self.ball_speed_x > 0:  # Ensure collision only from left side of right paddle
+                self.ball_speed_x *= -1
+                hit_pos = (self.ball.centery - self.right_paddle.centery) / (self.paddle_height / 2)
+                self.ball_speed_y = hit_pos * abs(self.ball_speed_x)  # Simple deflection logic
+                reward = 0.5  # Reward for hitting the paddle
+                # Move the ball out of the paddle's collision box
+                self.ball.right = self.right_paddle.left - 1
+
+        if self.ball.colliderect(self.left_paddle):
+            if self.ball_speed_x < 0:  # Ensure collision only from right side of left paddle
+                self.ball_speed_x *= -1
+                hit_pos = (self.ball.centery - self.left_paddle.centery) / (self.paddle_height / 2)
+                self.ball_speed_y = hit_pos * abs(self.ball_speed_x)  # Simple deflection logic
+                reward = 0.5  # Reward for hitting the paddle
+                # Move the ball out of the paddle's collision box
+                self.ball.left = self.left_paddle.right + 1
+
+        # Check if the ball goes out of bounds
+        done = False
         if self.ball.left <= 0:
+            self.ball_reset()
             self.right_player_score += 1
-            score = -1  # Negative reward for the agent 
-            self.ball_reset()
+            reward = -10  # More significant negative reward for losing the ball
         elif self.ball.right >= self.width:
-            self.left_player_score += 1
-            score = 1  # Positive reward for the agent
             self.ball_reset()
+            self.left_player_score += 1
+            reward = 10  # More significant positive reward for scoring
+        done = self._check_done()
+        # Ensure the ball's speed remains constant
+        speed = np.sqrt(self.ball_speed_x**2 + self.ball_speed_y**2)
+        self.ball_speed_x = (self.ball_speed_x / speed) * self.ball_speed
+        self.ball_speed_y = (self.ball_speed_y / speed) * self.ball_speed
 
-        return collision, score
-
+        return reward, done
 
     def ball_reset(self):
-        self.ball.x, self.ball.y = self.width // 2 - self.ball_size // 2, self.height // 2 - self.ball_size // 2
-        self.ball_speed_x, self.ball_speed_y = 2 * random.choice((1, -1)), 2 * random.choice((1, -1))
-
-    def step(self, action):
-        if not pygame.display.get_init():
-            pygame.display.init()
-            self.screen = pygame.display.set_mode((self.width, self.height))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.display.quit()
-                pygame.quit()
-                raise SystemExit("Pygame QUIT event received.")
-        
-        self._apply_action(action)
-        collision, score = self._update_game_state()
-        observation = self._get_observation()
-
-        # Initialize reward
-        reward = 0
-
-        # Handle collision reward
-        if collision:
-            reward = 0.5  # Reward for hitting the ball
-        
-        # Handle scoring reward
-        if score != 0:
-            reward = score*2  # Reward for scoring (1 or -1)
-        
-        # Check if the game is done
-        done = self._check_done()
-        if done:
-            if self.left_player_score >= 20:
-                reward = 10  # Positive reward for winning
-            elif self.right_player_score >= 20:
-                reward = -10  # Negative reward for losing
-
-        info = {}
-        truncated = False
-
-        return observation, reward, done, truncated, info
+        self.ball.x = self.width // 2 - self.ball_size // 2
+        self.ball.y = self.height // 2 - self.ball_size // 2
+        # Ensure the angle is not too close to 0 or 90 degrees
+        angle = random.uniform(-np.pi / 4, np.pi / 4)  # Random angle between -45 and 45 degrees
+        self.ball_speed_x = self.ball_speed * np.cos(angle) * random.choice([1, -1])
+        self.ball_speed_y = self.ball_speed * np.sin(angle) * random.choice([1, -1])
 
     def get_graph_data(self):
-        # Define the features for each object in the environment
         objects = {
             "ball": [self.ball.x, self.ball.y, self.ball_speed_x, self.ball_speed_y, 1, 0, 0],
             "left_paddle": [self.left_paddle.x, self.left_paddle.y, 0, 0, 0, 1, 0],
             "right_paddle": [self.right_paddle.x, self.right_paddle.y, 0, 0, 0, 1, 0],
-            # "top_wall": [0, 0, 0, 0, 0, 0, 1],
-            # "bottom_wall": [0, self.height, 0, 0, 0, 0, 1]
         }
 
-        # Convert the object features to a tensor
         node_features = [features for features in objects.values()]
         x = torch.tensor(node_features, dtype=torch.float32)
 
         return x 
 
     def _check_done(self):
-        # Define the conditions under which the game is considered done
-        if self.left_player_score >= 20 or self.right_player_score >= 20:
+        if self.left_player_score >= 10 or self.right_player_score >= 10:
             return True
         return False
 
-    def close(self):
-        pygame.display.quit()
-        pygame.quit()
-
-# if __name__ == "__main__":
-#     env = PongEnvNew(render_mode='human', observation_type='pixel')
-    
-#     env.reset()
-
-#     num_episodes = 100
-#     for i_episode in range(num_episodes):
-#         done = False
-#         try:
-#             while not done:
-#                 action = env.action_space.sample()
-#                 _, _, done, _, _ = env.step(action)
-#                 env.render()
-#                 pygame.time.wait(10)
-#         finally:
-#             env.close()
-
-from stable_baselines3 import PPO
-
 if __name__ == "__main__":
-    # #env = PongEnvNew(render_mode='human', observation_type='pixel')
-    # env = PongEnvNew(render_mode='human', observation_type='pixel')
-    # #model = PPO.load("ppo_pong_custom_cnn")
-    # model = PPO.load("ppo_custom_env")
-    # num_episodes = 100
-
-    # for i_episode in range(num_episodes):
-    #     done = False
-    #     obs, _ = env.reset()  # Reset the environment at the start of each episode
-    #     try:
-    #         while not done:
-    #             action, _ = model.predict(obs)
-    #             obs, _, done, _, _ = env.step(action)
-    #             env.render()
-    #             pygame.time.wait(10)
-    #     except Exception as e:
-    #         print(f"An error occurred: {e}")
-    #         break
-    #     finally:
-    #         env.close()
-    # Create a single instance of the environment for evaluation
-    eval_env = PongEnvNew(render_mode='human', observation_type='pixel')
-    model = PPO.load("ppo_custom_env")
-    # Evaluate the policy
-    from stable_baselines3.common.evaluation import evaluate_policy
-    mean_reward, std_reward = evaluate_policy(model, eval_env, n_eval_episodes=10)
-
-    print(f"Mean reward: {mean_reward} ± {std_reward}")
-
+    # env_configs = [
+    #     {"render_mode": None , "observation_type": "pixel", "paddle_width": 5, "ball_speed": 4},
+    #     # Add other c
+    #     # igurations if needed
+    # ]
+    
+    env = Monitor(PongEnvNew(render_mode='human', observation_type='graph'))
+    obs, _ = env.reset()
+    print(f"Observation shape: {obs.shape}")
+    total_reward = 0
+    done = False
+    #model = PPO.load("ppo_pong_pixel")
+    model = PPO.load("freeway-CNN-eval.zip")
+    #result = evaluate_policy(model,env, n_eval_episodes=1)
+    #print(result)
+    total_reward = 0
+    obs, _ = env.reset()
+    while not done:
+        action,_ = model.predict(obs)
+        #action = env.action_space.sample()
+        obs, reward, done, _, _ = env.step(action)
+        total_reward += reward
+        env.render()
+    print(f"Total reward: {total_reward}")
