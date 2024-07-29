@@ -1,0 +1,292 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8009261
+Job name: pong_supervised_gnn
+Host: cn-401
+Date: Wed Jul 10 01:08:14 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8008195 rleap_gpu barman.s blai.bon  R    7:45:48      1 cn-401
+8009261 rleap_gpu pong_sup rishabh.  R       0:00      1 cn-401
+8008582 rleap_gpu   tunnel rishabh.  R    5:37:19      1 cn-401
+8003067 rleap_gpu train.sl samuel.s  R   12:39:29      1 cn-401
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010824-2047mcgf
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run denim-brook-125
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/2047mcgf
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010833-ts63fblk
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run whole-wood-126
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/ts63fblk
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010834-k453m6l6
+wandb: Run `wandb offline` to turn off syncing.
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010834-lxmv3m0j
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run easy-durian-131
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/k453m6l6
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Syncing run sunny-butterfly-129
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/lxmv3m0j
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010834-k27edq67
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run rural-blaze-132
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/k27edq67
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010833-z8soc2og
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run sweet-feather-127
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/z8soc2og
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010834-0ojmk3xz
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run cerulean-dew-132
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/0ojmk3xz
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010834-ebwmirek
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run wise-paper-128
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/ebwmirek
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_010834-yala7ub2
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run faithful-water-130
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/gnn_atari_pong/runs/yala7ub2
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+Using cuda device
+Logging to ./logs/Pong-GNN/PPO_7
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 756      |
+|    ep_rew_mean     | -63.4    |
+| time/              |          |
+|    fps             | 960      |
+|    iterations      | 1        |
+|    time_elapsed    | 17       |
+|    total_timesteps | 16384    |
+---------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 765         |
+|    ep_rew_mean          | -62.5       |
+| time/                   |             |
+|    fps                  | 228         |
+|    iterations           | 2           |
+|    time_elapsed         | 143         |
+|    total_timesteps      | 32768       |
+| train/                  |             |
+|    approx_kl            | 0.009110045 |
+|    clip_fraction        | 0.0196      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.09       |
+|    explained_variance   | -0.0107     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.015       |
+|    n_updates            | 10          |
+|    policy_gradient_loss | -0.00146    |
+|    value_loss           | 0.087       |
+-----------------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 784         |
+|    ep_rew_mean          | -63.6       |
+| time/                   |             |
+|    fps                  | 179         |
+|    iterations           | 3           |
+|    time_elapsed         | 273         |
+|    total_timesteps      | 49152       |
+| train/                  |             |
+|    approx_kl            | 0.008408057 |
+|    clip_fraction        | 0.0259      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.09       |
+|    explained_variance   | 0.747       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.00717     |
+|    n_updates            | 20          |
+|    policy_gradient_loss | -0.00229    |
+|    value_loss           | 0.053       |
+-----------------------------------------
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 874         |
+|    ep_rew_mean          | -60.3       |
+| time/                   |             |
+|    fps                  | 161         |
+|    iterations           | 4           |
+|    time_elapsed         | 405         |
+|    total_timesteps      | 65536       |
+| train/                  |             |
+|    approx_kl            | 0.010247756 |
+|    clip_fraction        | 0.148       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.07       |
+|    explained_variance   | 0.752       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.055       |
+|    n_updates            | 30          |
+|    policy_gradient_loss | -0.0116     |
+|    value_loss           | 0.0684      |
+-----------------------------------------
+Traceback (most recent call last):
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/pong/run_supervised_gnn.py", line 114, in <module>
+    model.learn(total_timesteps=1000000, callback=[callback, wandb_callback])
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 315, in learn
+    return super().learn(
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 300, in learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 201, in collect_rollouts
+    if not callback.on_step():
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/callbacks.py", line 114, in on_step
+    return self._on_step()
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/callbacks.py", line 219, in _on_step
+    continue_training = callback.on_step() and continue_training
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/callbacks.py", line 114, in on_step
+    return self._on_step()
+  File "/work/rleap1/rishabh.bhatia/Master-Thesis-GNN/games/pong/run_supervised_gnn.py", line 37, in _on_step
+    x, y = ts2xy(load_results(self.log_dir), "timesteps")
+  File "/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/monitor.py", line 239, in load_results
+    raise LoadMonitorResultsError(f"No monitor files of the form *{Monitor.EXT} found in {path}")
+stable_baselines3.common.monitor.LoadMonitorResultsError: No monitor files of the form *monitor.csv found in ./logs/Pong-GNN/
+wandb: - Processing 9 runs with 20 files (4.09 MB/4.09 MB)wandb: \ Processing 9 runs with 25 files (4.10 MB/4.10 MB)wandb: | Processing 9 runs with 30 files (4.10 MB/4.10 MB)wandb: / Processing 9 runs with 40 files (4.11 MB/4.11 MB)wandb: - Processing 9 runs with 60 files (4.11 MB/4.14 MB)wandb: \ Processing 9 runs with 60 files (4.12 MB/4.14 MB)wandb: | Processing 9 runs with 60 files (4.13 MB/4.14 MB)wandb: / Processing 9 runs with 60 files (4.14 MB/4.14 MB)wandb: - Processing 9 runs with 60 files (4.14 MB/4.14 MB)wandb: \ Processing 9 runs with 60 files (4.14 MB/4.14 MB)wandb: | Processing 9 runs with 60 files (4.14 MB/4.14 MB)wandb: / Processing 9 runs with 60 files (4.14 MB/4.14 MB)wandb: - Processing 9 runs with 60 files (4.14 MB/4.14 MB)wandb: \ Processing 9 runs with 65 files (4.14 MB/4.16 MB)wandb: | Processing 9 runs with 65 files (4.16 MB/4.16 MB)wandb: 
+wandb: Run history:
+wandb:                global_step ▁▃▆█
+wandb:        rollout/ep_len_mean ▁▂▃█
+wandb:        rollout/ep_rew_mean ▁▃▁█
+wandb:                   time/fps █▂▁▁
+wandb:            train/approx_kl ▄▁█
+wandb:        train/clip_fraction ▁▁█
+wandb:           train/clip_range ▁▁▁
+wandb:         train/entropy_loss ▁▁█
+wandb:   train/explained_variance ▁██
+wandb:        train/learning_rate ▁▁▁
+wandb:                 train/loss ▂▁█
+wandb: train/policy_gradient_loss █▇▁
+wandb:           train/value_loss █▁▄
+wandb: 
+wandb: Run summary:
+wandb:                global_step 65536
+wandb:        rollout/ep_len_mean 873.5224
+wandb:        rollout/ep_rew_mean -60.30597
+wandb:                   time/fps 161.0
+wandb:            train/approx_kl 0.01025
+wandb:        train/clip_fraction 0.14758
+wandb:           train/clip_range 0.2
+wandb:         train/entropy_loss -1.07011
+wandb:   train/explained_variance 0.75151
+wandb:        train/learning_rate 0.0003
+wandb:                 train/loss 0.05501
+wandb: train/policy_gradient_loss -0.01159
+wandb:           train/value_loss 0.06838
+wandb: 
+wandb: 🚀 View run denim-brook-125 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/2047mcgf
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 2 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010824-2047mcgf/logs
+wandb: 🚀 View run whole-wood-126 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/ts63fblk
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010833-ts63fblk/logs
+wandb: 🚀 View run sweet-feather-127 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/z8soc2og
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010833-z8soc2og/logs
+wandb: 🚀 View run wise-paper-128 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/ebwmirek
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010834-ebwmirek/logs
+wandb: 🚀 View run sunny-butterfly-129 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/lxmv3m0j
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010834-lxmv3m0j/logs
+wandb: 🚀 View run faithful-water-130 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/yala7ub2
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010834-yala7ub2/logs
+wandb: 🚀 View run easy-durian-131 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/k453m6l6
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010834-k453m6l6/logs
+wandb: 🚀 View run cerulean-dew-132 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/0ojmk3xz
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010834-0ojmk3xz/logs
+wandb: 🚀 View run rural-blaze-132 at: https://wandb.ai/rwth-ml/gnn_atari_pong/runs/k27edq67
+wandb: ⭐️ View project at: https://wandb.ai/rwth-ml/gnn_atari_pong
+wandb: Synced 7 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20240710_010834-k27edq67/logs
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8009261
+Time: Wed Jul 10 01:17:54 CEST 2024
+Elapsed Time: 00:09:40
+Billing per second for TRES: billing=704,cpu=32,gres/gpu=1,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8009261 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

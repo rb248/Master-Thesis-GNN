@@ -1,0 +1,89 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8012503
+Job name: pong_supervised_gnn
+Host: cn-402
+Date: Wed Jul 10 16:56:07 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8008578 rleap_gpu hiking.s blai.bon  R   21:29:48      1 cn-402
+8012503 rleap_gpu pong_sup rishabh.  R       0:01      1 cn-402
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/gymnasium/core.py:311: UserWarning: [33mWARN: env.seed to get variables from other wrappers is deprecated and will be removed in v1.0, to get this variable you can do `env.unwrapped.seed` for environment variables or `env.get_wrapper_attr('seed')` that will search the reminding wrappers.[0m
+  logger.warn(
+wandb: Currently logged in as: rishabh-bhatia (rwth-ml). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.17.4 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.1
+wandb: Run data is saved locally in /work/rleap1/rishabh.bhatia/Master-Thesis-GNN/wandb/run-20240710_165616-t8e1ogu5
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run royal-totem-23
+wandb: ⭐️ View project at https://wandb.ai/rwth-ml/cnn_atari_pong
+wandb: 🚀 View run at https://wandb.ai/rwth-ml/cnn_atari_pong/runs/t8e1ogu5
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/callbacks.py:414: UserWarning: Training and eval env are not of the same type<stable_baselines3.common.vec_env.subproc_vec_env.SubprocVecEnv object at 0x7f69b1bb0100> != <stable_baselines3.common.vec_env.dummy_vec_env.DummyVecEnv object at 0x7f695f8f8580>
+  warnings.warn("Training and eval env are not of the same type" f"{self.training_env} != {self.eval_env}")
+Using cuda device
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 730      |
+|    ep_rew_mean     | -63      |
+| time/              |          |
+|    fps             | 1237     |
+|    iterations      | 1        |
+|    time_elapsed    | 13       |
+|    total_timesteps | 16384    |
+---------------------------------
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 727          |
+|    ep_rew_mean          | -64          |
+| time/                   |              |
+|    fps                  | 748          |
+|    iterations           | 2            |
+|    time_elapsed         | 43           |
+|    total_timesteps      | 32768        |
+| train/                  |              |
+|    approx_kl            | 0.0038744097 |
+|    clip_fraction        | 0.0193       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.09        |
+|    explained_variance   | -5.84e-06    |
+|    learning_rate        | 0.0003       |
+|    loss                 | 5.86         |
+|    n_updates            | 10           |
+|    policy_gradient_loss | -0.000183    |
+|    value_loss           | 11.3         |
+------------------------------------------
+/work/rleap1/rishabh.bhatia/miniconda3/envs/train/lib/python3.10/site-packages/stable_baselines3/common/evaluation.py:67: UserWarning: Evaluation environment is not wrapped with a ``Monitor`` wrapper. This may result in reporting modified episode lengths and rewards, if other wrappers happen to modify these. Consider wrapping environment first with ``Monitor`` wrapper.
+  warnings.warn(
+slurmstepd-cn-402: error: *** JOB 8012503 ON cn-402 CANCELLED AT 2024-07-10T16:59:27 ***
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8012503
+Time: Wed Jul 10 16:59:33 CEST 2024
+Elapsed Time: 00:03:21
+Billing per second for TRES: billing=704,cpu=32,gres/gpu=1,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8012503 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

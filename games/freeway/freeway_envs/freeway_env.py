@@ -195,12 +195,9 @@ import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
 import torch
-import networkx as nx
-from torch_geometric.data import HeteroData, Batch
-from collections import defaultdict
-from itertools import combinations
-from stable_baselines3 import PPO
-from stable_baselines3.common.evaluation import evaluate_policy
+from collections import deque
+from skimage.color import rgb2gray
+from skimage.transform import resize
 
 class FreewayEnv(gym.Env):
     metadata = {'render_modes': ['human', 'rgb_array']}
@@ -211,15 +208,16 @@ class FreewayEnv(gym.Env):
         self.last_time = pygame.time.get_ticks()
         self.render_mode = render_mode
         self.observation_type = observation_type
-        #self.window_width = 800
         self.window_width = 210
-        #self.window_height = 600
         self.window_height = 160
         self.player_width = 5
         self.player_height = 5
         self.car_width = 20
         self.car_height = 20
         self.frame_stack = frame_stack
+        self.lanes = lanes
+        self.max_cars_init = max_cars
+        self.car_speed = car_speed
 
         self.lanes = lanes
         self.max_cars = max_cars
@@ -735,7 +733,8 @@ class FreewayEnvConstant(gym.Env):
         if observation_type == "pixel":
             self.observation_space = spaces.Box(low=0, high=255, shape=(self.frame_stack, 84, 84), dtype=np.uint8)
         else:
-            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(self.max_cars+ len(self.lanes)+1, 7), dtype=np.float32)
+            self.max_objects = self.max_cars_init + 4
+            self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(self.max_objects, 7), dtype=np.float32)
 
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         self.background_image = pygame.image.load("games/images/Atari - background.png")
@@ -748,6 +747,7 @@ class FreewayEnvConstant(gym.Env):
         self.player_speed = 0
         self.clock = pygame.time.Clock()
         self.reset()
+
     def seed(self, seed=None):
         self.np_random, seed = gym.utils.seeding.np_random(seed)
         random.seed(seed)
@@ -762,22 +762,27 @@ class FreewayEnvConstant(gym.Env):
                                        self.window_height - self.player_height - 10,
                                        self.player_width, self.player_height)
         self.score = 0
+        lane_combinations = [[50,80,120],[50,80],[50,120],[80,120]]
+        number_cars = [10,15,20]
+        car_speeds = [1,2,3]
+        self.lanes = random.choice(lane_combinations)
+        self.max_cars = random.choice(number_cars)
+        self.car_speed = random.choice(car_speeds)
         self.cars = [{'x': random.randint(0, self.window_width - self.car_width),
                       'lane': random.choice(self.lanes),
-                      'speed': random.randint(1, 2)} for _ in range(self.max_cars)]
+                      'speed': self.car_speed} for car in range(self.max_cars)]
         self.done = False
         self.episode_start_time = pygame.time.get_ticks()
         self.frame_buffer = np.zeros((self.frame_stack, 84, 84), dtype=np.uint8)
         self.player_speed = 0
         if self.observation_type == "pixel":
             for _ in range(self.frame_stack):
-                self.update_frame_buffer()
-            return self.get_observation(), {}
+                self.frame_buffer.append(self._get_obs())
+            return np.array(self.frame_buffer), {}
         else:
             return self.get_object_data(), {}
 
     def step(self, action):
-        reward = 0
         reward = -0.5
         current_time = pygame.time.get_ticks()
         previous_y = self.player_rect.y
@@ -794,38 +799,40 @@ class FreewayEnvConstant(gym.Env):
                 car['x'] = -random.randint(100, 300)
                 car['speed'] = random.randint(1,2)
 
-        # Collision detection
         hit = any(self.player_rect.colliderect(pygame.Rect(car['x'], car['lane'], self.car_width, self.car_height)) for car in self.cars)
         if hit:
-            #self.score = -1
             self.player_rect.y = self.window_height - self.player_height - 10
-        
             self.last_time = current_time
-        if current_time - self.episode_start_time >= 60000:  # 60000 milliseconds = 1 minute
-            self.done = True
-            
+        done = False
+       
+
         if self.player_rect.y <= 0:  # Reached top
-            self.score +=1
-            reward += 10*(len(self.lanes))
-
+            self.score += 1
+            reward += 10 * (len(self.lanes))
             self.player_rect.y = self.window_height - self.player_height - 10
-
+        truncated = False
+        info = {}  
         if self.observation_type == "pixel":
-            self.update_frame_buffer()
             observation = self.get_observation()
+            return np.array(self.frame_buffer), reward, done, truncated, info
         else:
-            observation = self.get_object_data()
+            return self.get_object_data(), reward, done, truncated, info
 
-        return observation, reward, self.done, False, {}
 
-    def update_frame_buffer(self):
+
+    def _get_obs(self):
         frame = self.render_to_array()
-        grayscale = np.dot(frame[..., :3], [0.2989, 0.5870, 0.1140]).astype(np.uint8)  # Convert to grayscale
-        resized_frame = pygame.transform.scale(pygame.surfarray.make_surface(grayscale), (84, 84))
-        frame_array = pygame.surfarray.array3d(resized_frame).transpose(1, 0, 2)[:, :, 0]
-
-        self.frame_buffer = np.roll(self.frame_buffer, shift=-1, axis=0)
-        self.frame_buffer[-1] = frame_array
+    
+        # Convert to grayscale
+        grayscale = rgb2gray(frame)
+        
+        # Normalize the grayscale image to enhance contrast
+        normalized_frame = (grayscale - grayscale.min()) / (grayscale.max() - grayscale.min())
+        
+        # Resize the frame
+        resized_frame = resize(normalized_frame, (84, 84), anti_aliasing=True, mode='reflect', preserve_range=True)
+        
+        return resized_frame
 
     def render_to_array(self):
         self.window.blit(self.background_image, (0, 0))
@@ -844,13 +851,13 @@ class FreewayEnvConstant(gym.Env):
         ] 
         # add lanes
         for lane in self.lanes:
-            objects.append([self.window_width//2, lane, 0, 0, 0, 1, 0])
+            objects.append([self.window_width // 2, lane, 0, 0, 0, 1, 0])
 
-        for i, car in enumerate(self.cars):
+        for car in self.cars:
             objects.append([car['x'], car['lane'], car['speed'], 0, 0, 0, 1])
 
-        # while len(objects) < self.max_cars + 10:  # Ensure the list has a constant length
-        #     objects.append([0, 0, 0, 0, 0, 0, 0])
+        while len(objects) < self.max_objects:
+            objects.append([0, 0, 0, 0, 0, 0, 0])
 
         return torch.tensor(objects, dtype=torch.float32)
 
@@ -860,6 +867,7 @@ class FreewayEnvConstant(gym.Env):
             self.window.blit(self.car_image, (car['x'], car['lane']))
         self.window.blit(self.player_image, (self.player_rect.x, self.player_rect.y))
         pygame.display.update()
+        self.clock.tick(60)
 
     def close(self):
         pygame.quit()
@@ -868,6 +876,7 @@ class FreewayEnvConstant(gym.Env):
 if __name__=="__main__":
     env = FreewayEnvConstant(render_mode='human', observation_type='graph')
 
+    #model = PPO.load("best_model")
     #model = PPO.load("ppo_freeway_pixel")
     #model = PPO.load("logs/Freeway-GNN-training/best_model.zip")
     model = PPO.load("ppo_custom_heterognn")

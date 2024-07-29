@@ -1,93 +1,78 @@
-
-import torch as th
-import torch.nn as nn
-from gymnasium import spaces
-from stable_baselines3 import PPO
-from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
-import torch_geometric as pyg
-from stable_baselines3.common.policies import ActorCriticPolicy
-from games.freeway.freeway_envs.freeway_env import FreewayEnv
-import pygame
-from stable_baselines3.common.vec_env import VecFrameStack
-from stable_baselines3.common.vec_env import DummyVecEnv
-from stable_baselines3.common.evaluation import evaluate_policy
 import wandb
-import torch as th
-import torch.nn as nn
-from gymnasium import spaces
 from stable_baselines3 import PPO
-from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
-import torch_geometric as pyg
-from stable_baselines3.common.policies import ActorCriticPolicy
-from games.freeway.freeway_envs.freeway_env import FreewayEnv
-import pygame
+from stable_baselines3.common.env_util import make_vec_env
+from wandb.integration.sb3 import WandbCallback
+from games.shoot.shoot_env import ShootingEnv
+from games.model.policy import CustomHeteroGNN
+import os
+import numpy as np
+from stable_baselines3.common.callbacks import BaseCallback
 
-class CustomCNN(BaseFeaturesExtractor):
-    """
-    :param observation_space: (gym.Space)
-    :param features_dim: (int) Number of features extracted.
-    This corresponds to the number of units for the last layer.
-    """
+class SaveOnBestTrainingRewardCallback(BaseCallback):
+    def __init__(self, check_freq: int, log_dir: str, verbose: int = 1):
+        super(SaveOnBestTrainingRewardCallback, self).__init__(verbose)
+        self.check_freq = check_freq
+        self.log_dir = log_dir
+        self.save_path = os.path.join(log_dir, 'best_model')
+        self.best_mean_reward = -float('inf')
 
-    def __init__(self, observation_space: spaces.Box, features_dim: int = 128):
-        super().__init__(observation_space, features_dim)
-        # We assume CxHxW images (channels first)
-        n_input_channels = observation_space.shape[0]
-        print(f"n_input_channels: {n_input_channels}")
-        self.cnn = nn.Sequential(
-            nn.Conv2d(n_input_channels, 32, kernel_size=8, stride=4, padding=0),
-            nn.ReLU(),
-            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=0),
-            nn.ReLU(),
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=0),
-            nn.ReLU(),
-            nn.Flatten(),
-        )
+    def _init_callback(self) -> None:
+        if self.save_path is not None:
+            os.makedirs(self.save_path, exist_ok=True)
 
-        # Compute shape by doing one forward pass
-        with th.no_grad():
-            sample_input = th.as_tensor(observation_space.sample()[None]).float() 
+    def _on_step(self) -> bool:
+        if self.n_calls % self.check_freq == 0:
+            rewards = []
+            for idx in range(self.training_env.num_envs):
+                env_rewards = self.training_env.get_attr('get_rewards', indices=idx)[0]()
+                rewards.extend(env_rewards)
+            mean_reward = np.mean(rewards)
+            if self.verbose > 0:
+                print(f"Num timesteps: {self.num_timesteps}")
+                print(f"Best mean reward: {self.best_mean_reward:.2f} - Last mean reward: {mean_reward:.2f}")
 
-            n_flatten = self.cnn(sample_input).view(-1).shape[0]
+            if mean_reward > self.best_mean_reward:
+                self.best_mean_reward = mean_reward
+                if self.verbose > 0:
+                    print(f"Saving new best model to {self.save_path}")
+                self.model.save(self.save_path)
 
-        self.linear = nn.Sequential(
-            nn.Linear(n_flatten, features_dim),
-            nn.ReLU()
-        )
+        return True
 
-    def forward(self, observations: th.Tensor) -> th.Tensor:
-        # (n_batch, n_channel, height, width)
+# Initialize wandb
+wandb.init(
+    project="gnn_atari_freeway",  # Replace with your project name
+    sync_tensorboard=True,        # Automatically sync SB3 logs with wandb
+    monitor_gym=True,             # Automatically log gym environments
+    save_code=True                # Save the code used for this run
+)
 
-        features = self.cnn(observations)
-        output = self.linear(features)
-        return output
+# Wrap the environment
+env = make_vec_env(lambda: ShootingEnv(observation_type='graph'), n_envs=4)
 
-if __name__ == "__main__":
+policy_kwargs = dict(
+    features_extractor_class=CustomHeteroGNN,
+    features_extractor_kwargs=dict(
+        features_dim=64,
+        hidden_size=64,
+        num_layer=2,
+        obj_type_id='obj',
+        arity_dict={'atom': 2},
+        game='freeway'
+    ),
+)
 
-   
-    num_envs = 4  # Number of parallel environments
+# Create the PPO model with the custom feature extractor
+model = PPO('MlpPolicy', env, policy_kwargs=policy_kwargs, verbose=2)
 
-    #Create a vectorized environment with DummyVecEnv
-    def make_env(rank, seed=0):
-        def _init():
-            env = FreewayEnv(render_mode='rgb_array', observation_type='pixel')
-            env.seed(seed + rank)
-            return env
-        return _init
+# Set up log directory
+log_dir = "./logs/"
+os.makedirs(log_dir, exist_ok=True)
 
-    #env = DummyVecEnv([make_env(i) for i in range(num_envs)])
-    #model = PPO.load("ppo_freeway_pixel")
-    env = FreewayEnv(render_mode='human', observation_type='pixel')
-    # env = DummyVecEnv([lambda: env])    
-    # env = VecFrameStack(env, n_stack=4)
-    # wandb.init(
-    #     project="cnn_shoot",  # Replace with your project name
-    #     sync_tensorboard=True,        # Automatically sync SB3 logs with wandb
-    #     monitor_gym=True,             # Automatically log gym environments
-    #     save_code=True                # Save the code used for this run
-    #)
-    
-    device = "cuda" if th.cuda.is_available() else "cpu"
-    model = PPO("CnnPolicy", env, verbose=2, device=device, )
-    model.learn(total_timesteps=1000000)
-    model.save("ppo_freeway_pixel")   
+# Create and configure the custom callback
+save_best_callback = SaveOnBestTrainingRewardCallback(check_freq=1000, log_dir=log_dir)
+
+# Train the model with WandbCallback and the custom callback
+model.learn(total_timesteps=100000, callback=[WandbCallback(), save_best_callback])
+
+model.save("ppo_custom_heterognn_freeway")

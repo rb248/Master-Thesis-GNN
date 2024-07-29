@@ -1,0 +1,148 @@
+--------------------- Slurm Task Prolog ------------------------
+Job ID: 8044573
+Job name: freeway_supervised_cnn
+Host: cn-407
+Date: Sun Jul 14 17:59:11 CEST 2024
+User: rishabh.bhatia
+Slurm account: rleap
+Slurm partition: rleap_gpu_24gb
+Work dir: 
+------------------
+Node usage:
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+8036552 rleap_gpu barman-d till.hof  R 2-03:25:29      1 cn-407
+8044573 rleap_gpu freeway_ rishabh.  R       0:00      1 cn-407
+8044555 rleap_gpu train.sl samuel.s  R    1:31:51      1 cn-407
+8044554 rleap_gpu train.sl samuel.s  R    1:32:04      1 cn-407
+------------------
+Show launch script with:
+sacct -B -j 
+------------------
+--------------------- Slurm Task Prolog ------------------------
+libEGL warning: failed to open /dev/dri/renderD131: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD131: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD130: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD130: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD129: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD129: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD128: Permission denied
+
+libEGL warning: failed to open /dev/dri/renderD128: Permission denied
+
+libEGL warning: MESA-LOADER: failed to open swrast: /usr/lib/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri:\$${ORIGIN}/dri:/usr/lib/dri, suffix _dri)
+
+libEGL warning: MESA-LOADER: failed to open swrast: /usr/lib/dri/swrast_dri.so: cannot open shared object file: No such file or directory (search paths /usr/lib/x86_64-linux-gnu/dri:\$${ORIGIN}/dri:/usr/lib/dri, suffix _dri)
+
+Using cpu device
+Wrapping the env with a `Monitor` wrapper
+Wrapping the env in a DummyVecEnv.
+time to encode step size is: 0.011077165603637695
+-----------------------------
+| time/              |      |
+|    fps             | 83   |
+|    iterations      | 1    |
+|    time_elapsed    | 24   |
+|    total_timesteps | 2048 |
+-----------------------------
+time to encode step size is: 0.013239860534667969
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 3e+03       |
+|    ep_rew_mean          | -1.5e+03    |
+| time/                   |             |
+|    fps                  | 37          |
+|    iterations           | 2           |
+|    time_elapsed         | 109         |
+|    total_timesteps      | 4096        |
+| train/                  |             |
+|    approx_kl            | 0.009730068 |
+|    clip_fraction        | 0.081       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -1.09       |
+|    explained_variance   | 0.00111     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.118       |
+|    n_updates            | 10          |
+|    policy_gradient_loss | -0.00356    |
+|    value_loss           | 4.51        |
+-----------------------------------------
+time to encode step size is: 0.012993097305297852
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 3e+03        |
+|    ep_rew_mean          | -1.5e+03     |
+| time/                   |              |
+|    fps                  | 31           |
+|    iterations           | 3            |
+|    time_elapsed         | 192          |
+|    total_timesteps      | 6144         |
+| train/                  |              |
+|    approx_kl            | 0.0036052987 |
+|    clip_fraction        | 0.00747      |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.09        |
+|    explained_variance   | -0.00641     |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.0343       |
+|    n_updates            | 20           |
+|    policy_gradient_loss | -0.0007      |
+|    value_loss           | 13.2         |
+------------------------------------------
+time to encode step size is: 0.013230323791503906
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 3e+03      |
+|    ep_rew_mean          | -1.5e+03   |
+| time/                   |            |
+|    fps                  | 29         |
+|    iterations           | 4          |
+|    time_elapsed         | 277        |
+|    total_timesteps      | 8192       |
+| train/                  |            |
+|    approx_kl            | 0.01393213 |
+|    clip_fraction        | 0.0198     |
+|    clip_range           | 0.2        |
+|    entropy_loss         | -1.09      |
+|    explained_variance   | -0.00196   |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.207      |
+|    n_updates            | 30         |
+|    policy_gradient_loss | -0.00178   |
+|    value_loss           | 11.2       |
+----------------------------------------
+time to encode step size is: 0.011224746704101562
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 3e+03        |
+|    ep_rew_mean          | -1.47e+03    |
+| time/                   |              |
+|    fps                  | 28           |
+|    iterations           | 5            |
+|    time_elapsed         | 364          |
+|    total_timesteps      | 10240        |
+| train/                  |              |
+|    approx_kl            | 0.0075697284 |
+|    clip_fraction        | 0.0269       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -1.09        |
+|    explained_variance   | -1.19e-07    |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.0171       |
+|    n_updates            | 40           |
+|    policy_gradient_loss | -0.000956    |
+|    value_loss           | 7.81         |
+------------------------------------------
+--------------------- Slurm Task Epilog ------------------------
+Job ID: 8044573
+Time: Sun Jul 14 18:06:21 CEST 2024
+Elapsed Time: 00:07:10
+Billing per second for TRES: billing=640,cpu=32,mem=32G,node=1
+Show resource usage with e.g.:
+sacct -j 8044573 -o Elapsed,TotalCPU,UserCPU,SystemCPU,MaxRSS,ReqTRES%60,MaxDiskRead,MaxDiskWrite
+--------------------- Slurm Task Epilog ------------------------

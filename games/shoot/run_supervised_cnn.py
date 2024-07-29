@@ -6,11 +6,10 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 import torch_geometric as pyg
 from stable_baselines3.common.policies import ActorCriticPolicy
-from games.freeway.freeway_envs.freeway_env import FreewayEnv
+from games.shoot.shoot_env import ShootingEnv
 import pygame
 from stable_baselines3.common.vec_env import VecFrameStack
-from stable_baselines3.common.vec_env import DummyVecEnv
-from stable_baselines3.common.evaluation import evaluate_policy
+from stable_baselines3.common.env_util import make_vec_env
 import wandb
 import torch as th
 import torch.nn as nn
@@ -77,11 +76,13 @@ if __name__ == "__main__":
 
     #env = DummyVecEnv([make_env(i) for i in range(num_envs)])
     #model = PPO.load("ppo_freeway_pixel")
-    env = FreewayEnv(render_mode='human', observation_type='pixel')
+    env = ShootingEnv(observation_type='pixel', max_steps=1000)
+    env = make_vec_env(lambda: env, n_envs=4, vec_env_cls=SubprocVecEnv)
+
     # env = DummyVecEnv([lambda: env])    
     # env = VecFrameStack(env, n_stack=4)
     wandb.init(
-        project="cnn_atari_freeway",  # Replace with your project name
+        project="cnn_shooting",  # Replace with your project name
         sync_tensorboard=True,        # Automatically sync SB3 logs with wandb
         monitor_gym=True,             # Automatically log gym environments
         save_code=True                # Save the code used for this run
@@ -89,5 +90,5 @@ if __name__ == "__main__":
     
     device = "cuda" if th.cuda.is_available() else "cpu"
     model = PPO("CnnPolicy", env, verbose=2, device=device, )
-    model.learn(total_timesteps=1000000)
-    model.save("ppo_freeway_pixel")   
+    model.learn(total_timesteps=100000, callback=[WandbCallback()])
+    model.save("ppo_shooting_pixel")   
