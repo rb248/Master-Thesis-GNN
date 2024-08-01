@@ -1,6 +1,6 @@
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
-from games.pong.pong_envs.pong_env import PongEnvNew
+from games.pong.pong_envs.pong_env import PongEnvTest
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.env_util import make_vec_env
 import numpy as np
@@ -48,7 +48,7 @@ def evaluate_model_on_configs(model_path, env_configs, n_eval_episodes=10):
         print(f"Evaluating with config: {config}")
 
         # Create a single instance of the environment for evaluation with the given config
-        eval_env = PongEnvNew(**config)
+        eval_env = PongEnvTest(**config)
 
         # Evaluate the policy
         mean_reward, std_reward, _ = custom_evaluate_policy(model, eval_env, n_eval_episodes=n_eval_episodes)
@@ -96,31 +96,58 @@ if __name__ == "__main__":
     #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 2, "ball_speed": 4}
 
     # ]
-    env_configs = [
-
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 10},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 9},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 8},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 7},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 6},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 5},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 4},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed":3},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 2},
-        {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 1}
-    ]
+    # 
     # env_configs = [
 
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 10},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 9},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 8},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 7},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 6},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 5},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 1, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 2, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 3, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 4, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 5, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 6, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 7, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 8, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 9, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "pixel", "paddle_width": 10, "ball_speed": 4}
+    # ] 
+    # env_configs = [
+
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 1, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 2, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 3, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 4, "ball_speed": 4},
     #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 4},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed":3},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 2},
-    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 1}
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 6, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 7, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 8, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 9, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type": "graph", "paddle_width": 10, "ball_speed": 4}
+    # ]
+
+    env_configs = [
+
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 10},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 9},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 8},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 7},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 6},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 5},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 4},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed":3},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 2},
+        {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 1}
+    ]
+    # env_configs = [
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 1},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 2},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 3},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 4},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 5},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 6},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 7},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 8},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 9},
+    #     {"render_mode": None, "observation_type":"pixel", "paddle_width": 5, "ball_speed": 10}
     # ]
     # env_configs = [
     #     {"render_mode": None, "observation_type": "graph", "paddle_width": 5, "ball_speed": 6},
@@ -132,8 +159,10 @@ if __name__ == "__main__":
     # ]
     #Evaluate the model on different configurations
     #results = evaluate_model_on_configs("ppo_custom_heterognn_1", env_configs)
+    #results = evaluate_model_on_configs("PONG-GNN-training-random.zip", env_configs)
     #results = evaluate_model_on_configs("pong-CNN-trainig.zip", env_configs)
-    results = evaluate_model_on_configs("ppo_pong_pixel.zip", env_configs)
+    #results = evaluate_model_on_configs("ppo_pong_pixel.zip", env_configs)
+    results = evaluate_model_on_configs("pong_gnn_training.zip", env_configs)
     for result in results:
         config = result["config"]
         mean_reward = result["mean_reward"]

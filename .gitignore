@@ -1,0 +1,11 @@
+# don't include out files and directories
+# don't include .DS_Store files
+# don't include .idea files
+# don't include .gradle files
+# dont include .pyc files
+*.out
+*.DS_Store
+.idea/
+.gradle/
+*.pyc
+*.zip 

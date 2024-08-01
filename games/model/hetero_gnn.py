@@ -11,14 +11,6 @@ from torch_geometric.typing import Adj
 
 from games.model.hetero_message_passing import FanInMP, FanOutMP
 from torch_geometric.nn import GCNConv, GATConv
-import torch
-import torch_geometric as pyg
-from torch import Tensor
-from torch.nn import ModuleDict
-from typing import Dict, Optional, List, Tuple, Union
-from collections import defaultdict
-from torch_geometric.data import Batch, HeteroData
-from torch_geometric.nn import global_add_pool
 
 class HeteroGNN(torch.nn.Module):
     def __init__(
@@ -129,122 +121,22 @@ class HeteroGNN(torch.nn.Module):
         return pyg.nn.MLP([in_size, hidden_size, out_size], norm=None, dropout=0.0)
 
 
+class HeteroGCN(torch.nn.Module):
+    def __init__(self, in_channels_dict, out_channels):
+        super(HeteroGCN, self).__init__()
+        self.convs = torch.nn.ModuleDict()
+        for obj_type, in_channels in in_channels_dict.items():
+            self.convs[obj_type] = GCNConv(in_channels, out_channels)
 
+    def forward(self, data):
+        for obj_type in data.node_types:
+            x = data[obj_type].x
+            edge_index = data[obj_type, 'to', obj_type].edge_index
+            x = self.convs[obj_type](x, edge_index)
+            x = F.relu(x)
+            data[obj_type].x = x
 
-# class HeteroGNN(torch.nn.Module):
-#     def __init__(
-#         self,
-#         hidden_size: int,
-#         num_layer: int,
-#         obj_type_id: str,
-#         arity_dict: Dict[str, int],
-#         input_size: int = 7,  # Assuming initial input size is 7 for obj nodes
-#         aggr: Optional[Union[str, pyg.nn.aggr.Aggregation]] = "sum",
-#     ):
-#         """
-#         :param hidden_size: The size of object embeddings.
-#         :param num_layer: Total number of message exchange iterations.
-#         :param aggr: Aggregation function to be used for message passing.
-#         :param obj_type_id: The type identifier of objects in the x_dict.
-#         :param arity_dict: A dictionary mapping predicate names to their arity.
-#         Creates one MLP for each predicate.
-#         Note that predicates as well as goal-predicates are meant.
-#         """
-#         super().__init__()
-
-#         self.hidden_size: int = hidden_size
-#         self.num_layer: int = num_layer
-#         self.obj_type_id: str = obj_type_id
-
-#         # Initialize Linear layers for each node type based on arity
-#         self.linear_layers = torch.nn.ModuleDict()
-#         self.linear_layers[obj_type_id] = torch.nn.Linear(input_size, hidden_size)
-#         for pred, arity in arity_dict.items():
-#             if arity > 0:
-#                 self.linear_layers[pred] = torch.nn.Linear(input_size * arity, hidden_size * arity)
-
-#         # Initialize MLPs for each predicate
-#         mlp_dict = {
-#             pred: HeteroGNN.mlp(hidden_size * arity, hidden_size * arity, hidden_size * arity)
-#             for pred, arity in arity_dict.items()
-#             if arity > 0
-#         }
-
-#         self.obj_to_atom = FanOutMP(mlp_dict, src_name=obj_type_id)
-
-#         self.obj_update = HeteroGNN.mlp(
-#             in_size=(hidden_size + hidden_size), hidden_size=(hidden_size + hidden_size) * 2, out_size=hidden_size
-#         )
-
-#         self.atom_to_obj = FanInMP(
-#             hidden_size=hidden_size,
-#             dst_name=obj_type_id,
-#             aggr=aggr,
-#         )
-
-#         #self.readout = HeteroGNN.mlp(hidden_size, 2 * hidden_size, 1)
-
-#     def encode(self, x_dict: Dict[str, Tensor], device: torch.device) -> Dict[str, Tensor]:
-#         # Apply linear transformation to all node types based on their arity
-#         for k, v in x_dict.items():
-#             arity = 1 if k == self.obj_type_id else v.size(1) // self.hidden_size
-#             x_dict[k] = self.linear_layers[k](v.view(v.size(0), -1)).to(device)
-#         return x_dict
-
-#     def layer(self, x_dict, edge_index_dict):
-#         out = self.obj_to_atom(x_dict, edge_index_dict)
-#         x_dict.update(out)
-#         out = self.atom_to_obj(x_dict, edge_index_dict)
-#         obj_emb = torch.cat([x_dict[self.obj_type_id], out[self.obj_type_id]], dim=1)
-#         obj_emb = self.obj_update(obj_emb)
-#         x_dict[self.obj_type_id] = obj_emb
-        
-
-#     def forward(
-#         self,
-#         x_dict: Dict[str, Tensor],
-#         edge_index_dict: Dict[str, Adj],
-#         batch_dict: Optional[Dict[str, Tensor]] = None,
-#     ):
-#         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#         x_dict = {k: v.to(device) for k, v in x_dict.items() if v.numel() != 0}
-#         edge_index_dict = {k: v.to(device) for k, v in edge_index_dict.items() if v.numel() != 0}
-
-#         x_dict = self.encode(x_dict, device)  # Encode to hidden size
-
-#         for _ in range(self.num_layer):
-#             self.layer(x_dict, edge_index_dict)
-
-#         obj_emb = x_dict[self.obj_type_id]
-#         batch = (
-#             batch_dict[self.obj_type_id].to(device)
-#             if batch_dict is not None
-#             else torch.zeros(obj_emb.shape[0], dtype=torch.long, device=obj_emb.device)
-#         )
-#         aggr = pyg.nn.global_add_pool(obj_emb, batch)
-#         return aggr
-
-#     @staticmethod
-#     def mlp(in_size: int, hidden_size: int, out_size: int):
-#         return pyg.nn.MLP([in_size, hidden_size, out_size], norm=None, dropout=0.0)
-
-
-# class HeteroGCN(torch.nn.Module):
-#     def __init__(self, in_channels_dict, out_channels):
-#         super(HeteroGCN, self).__init__()
-#         self.convs = torch.nn.ModuleDict()
-#         for obj_type, in_channels in in_channels_dict.items():
-#             self.convs[obj_type] = GCNConv(in_channels, out_channels)
-
-#     def forward(self, data):
-#         for obj_type in data.node_types:
-#             x = data[obj_type].x
-#             edge_index = data[obj_type, 'to', obj_type].edge_index
-#             x = self.convs[obj_type](x, edge_index)
-#             x = F.relu(x)
-#             data[obj_type].x = x
-
-#         return data
+        return data
 
 class HeteroGAT(torch.nn.Module):
     def __init__(self, in_channels_dict, out_channels):
